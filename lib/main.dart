@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:lostandfound/screens/addpublication.dart';
+import 'package:lostandfound/custimizedwidgets/map.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp( MyApp());
 }
 
 class MyApp extends StatelessWidget {

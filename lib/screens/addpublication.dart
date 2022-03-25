@@ -1,5 +1,9 @@
-import 'package:flutter/material.dart';
 
+import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:lostandfound/custimizedwidgets/map.dart';
+import 'package:lostandfound/services/image_picker.dart';
 
 class AddPublicationForm extends StatefulWidget {
   const AddPublicationForm({Key? key}) : super(key: key);
@@ -10,12 +14,32 @@ class AddPublicationForm extends StatefulWidget {
 
 class _AddPublicationFormState extends State<AddPublicationForm> {
 
-  DateTime? _date;
+  var _dateFormat = DateFormat("dd-MM-yyyy");
+  late String _dateString;
+  DateTime _date = DateTime.now();
+  ImagePickerService _imagePickerService = ImagePickerService();
+  List<File>? _photos = [];
+  TextEditingController _locationControler = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
+    _show() async {
+      var loc = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return MapScreen();
+          }
+      );
+      setState(() {
+        _locationControler.text = loc[0];
+      });
+    }
+
+    _dateString = _dateFormat.format(_date);
+    TextEditingController _dateController = TextEditingController(text: _dateString);
+
     double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -78,57 +102,125 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
 
                   SizedBox(height: 20,),
 
-                  InputDatePickerFormField(
-                    firstDate: DateTime(DateTime.now().year - 120),
-                    lastDate: DateTime.now(),
+                  TextFormField(
+                    controller: _dateController,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))
+                      ),
+                      label: Text("Date"),
+                      fillColor: Color(0xfffafafa),
+                      filled: true,
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.date_range_outlined),
+                        onPressed: () async {
+                          _date = await showDatePicker(
+                            context: context,
+                            initialDate: _date,
+                            firstDate: DateTime(2012),
+                            lastDate: DateTime.now(),
+                            cancelText: "Annuler",
+                            confirmText: "Confirmer",
+                            helpText: "Choisir la date",
+                            errorFormatText: "Format invalide",
+                            errorInvalidText: "Texte invalide",
+                            fieldLabelText: "Entrer la date",
+                          ) ?? DateTime.now();
+                          setState(() {
+                            _dateString = _dateFormat.format(_date);
+                            _dateController.text = _dateString;
+                          });
+                        },
+                      ),
+                    ),
+
                   ),
 
-                  SizedBox(height: 20,),
+                  SizedBox(height: 30,),
 
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 150,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xffd4d8dc), width: 2),
-                          ),
-                          child: IconButton(
-                            onPressed: (){},
-                            icon: Icon(Icons.add_a_photo_rounded,size: 50,color: Color(0xffd4d8dc),),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                          ),
-                        ),
+                  SizedBox(
+                    height: _photos == null || _photos!.length == 0 ? 0 :(((_photos!.length-1)/2).toInt()+1)*160,
+                    child: _photos==null ? Text("") : GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: _photos!.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1.2,
                       ),
-                      SizedBox(width: 20,),
-                      Expanded(
-                        flex: 1,
-                        child: Container(
-                          height: 150,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xffd4d8dc), width: 2),
-                          ),
-                          child: IconButton(
-                            onPressed: (){},
-                            icon: Icon(Icons.add_a_photo_rounded,size: 50,color: Color(0xffd4d8dc),),
-                            splashColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                      itemBuilder: (BuildContext context, int index){
+                        return Stack(
+                          alignment: Alignment.topRight,
+                          children: [
+                            Container(
+                              height: 150,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xffd4d8dc), width: 2),
+                              ),
+                              child: Image.file(_photos![index], fit: BoxFit.cover,),
+                            ),
+                            IconButton(
+                                onPressed: (){
+                                  setState(() {
+                                    _photos!.removeAt(index);
+                                  });
+                                },
+                                icon: Icon(Icons.close_rounded, color: Colors.red,),
 
-                  TextButton.icon(
-                    onPressed: (){},
-                    icon: Icon(Icons.add,color: Color(0xff707070),),
-                    label: Text("add photos",style: TextStyle(color: Color(0xff707070)),),
-                    style: ButtonStyle(
-                      overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
+                            ),
+                          ]
+                        );
+                      },
                     ),
                   ),
+
+                  Container(
+                    child: (_photos != null && _photos!.length >= 4) ? null : TextButton.icon(
+                      onPressed: () async{
+                        var _images = await _imagePickerService.getPhotosFromGallery();
+                        if(_images!=null){
+                          setState(() {
+                            if(_photos!=null){
+                              _images.forEach((e) {
+                                _photos!.add(e);
+                              });
+                            }else{
+                              _photos = _images;
+                            }
+                          });
+                        }
+                      },
+                      icon: Icon(Icons.add,color: Color(0xff707070),),
+                      label: Text("ajouter des photos",style: TextStyle(color: Color(0xff707070)),),
+                      style: ButtonStyle(
+                        overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 30,),
+
+                    TextFormField(
+                      controller: _locationControler,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(20))
+                        ),
+                        label: Text("Localisation"),
+                        fillColor: Color(0xfffafafa),
+                        filled: true,
+                        suffixIcon: IconButton(
+                          icon: Icon(Icons.location_on),
+                          onPressed: () {
+                            _show();
+                          },
+                        ),
+                      ),
+                    ),
 
                   SizedBox(height: 30,),
 
@@ -139,12 +231,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                       fixedSize: MaterialStateProperty.all(Size(width*0.9,50)),
                     ),
-                    onPressed: () async {
-                      var i = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2010), lastDate: DateTime.now());
-                      setState(() {
-                       _date = i;
-                      });
-                    },
+                    onPressed: (){},
                   ),
                 ],
               ),

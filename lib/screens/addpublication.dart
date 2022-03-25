@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lostandfound/custimizedwidgets/map.dart';
+import 'package:lostandfound/models/categories.dart';
+import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/image_picker.dart';
 
 class AddPublicationForm extends StatefulWidget {
@@ -19,7 +21,10 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
   DateTime _date = DateTime.now();
   ImagePickerService _imagePickerService = ImagePickerService();
   List<File>? _photos = [];
-  TextEditingController _locationControler = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _descriptionController = TextEditingController();
+  BackendManager _backendManager = BackendManager();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +37,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
           }
       );
       setState(() {
-        _locationControler.text = loc[0];
+        _locationController.text = loc[0];
       });
     }
 
@@ -76,6 +81,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   SizedBox(height: 20,),
 
                   TextFormField(
+                    controller: _titleController,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -89,6 +95,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   SizedBox(height: 20,),
 
                   TextFormField(
+                    controller: _descriptionController,
                     maxLines: 6,
                     decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -204,7 +211,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   SizedBox(height: 30,),
 
                     TextFormField(
-                      controller: _locationControler,
+                      controller: _locationController,
                       readOnly: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
@@ -231,7 +238,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                       fixedSize: MaterialStateProperty.all(Size(width*0.9,50)),
                     ),
-                    onPressed: (){},
+                    onPressed: (){
+                      _backendManager.addPublication(Publication(title: _titleController.text, description: _descriptionController.text, user: "test"));
+                    },
                   ),
                 ],
               ),

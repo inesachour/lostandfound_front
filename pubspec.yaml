@@ -41,6 +41,7 @@ dependencies:
   latlong2: ^0.8.1
   geocode: ^1.0.1
   positioned_tap_detector_2: ^1.0.4
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:

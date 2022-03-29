@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lostandfound/custimizedwidgets/map.dart';
-import 'package:lostandfound/models/categories.dart';
+import 'package:lostandfound/models/publications.dart';
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/image_picker.dart';
 
@@ -167,7 +167,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                               decoration: BoxDecoration(
                                 border: Border.all(color: Color(0xffd4d8dc), width: 2),
                               ),
-                              child: Image.file(_photos![index], fit: BoxFit.cover,),
+                              child: Image.file(_photos![index], fit: BoxFit.contain,),
                             ),
                             IconButton(
                                 onPressed: (){
@@ -210,7 +210,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
 
                   SizedBox(height: 30,),
 
-                    TextFormField(
+                  TextFormField(
                       controller: _locationController,
                       readOnly: true,
                       decoration: InputDecoration(
@@ -239,8 +239,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                       fixedSize: MaterialStateProperty.all(Size(width*0.9,50)),
                     ),
                     onPressed: (){
-                      _backendManager.addPublication(Publication(title: _titleController.text, description: _descriptionController.text, user: "test"));
-                    },
+                      _backendManager.addPublication(Publication(title: _titleController.text, description: _descriptionController.text,user: "test"));
+
+                      },
                   ),
                 ],
               ),

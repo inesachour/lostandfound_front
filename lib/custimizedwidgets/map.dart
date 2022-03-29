@@ -29,8 +29,8 @@ class _MapScreenState extends State<MapScreen> {
         FlutterMap(
           options: MapOptions(
               interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-              nePanBoundary: center,
-              swPanBoundary: center,
+              nePanBoundary: LatLng(35, 10),
+              swPanBoundary: LatLng(34, 9),
               onTap: (p,latlng) async {
                 try{
                   location = await geoCode.reverseGeocoding(latitude: latlng.latitude, longitude: latlng.longitude);
@@ -41,7 +41,7 @@ class _MapScreenState extends State<MapScreen> {
                   });
                 }
                 catch(Exception){
-                  //////////////////////////////DO IT MALKE ERROR MSG
+                  showDialog(context: context, builder: (context){return AlertDialog(title: Text("Une erreur s'est produite. Réessayez encore."),alignment: Alignment.bottomCenter,);});
                 }
 
               },
@@ -68,44 +68,31 @@ class _MapScreenState extends State<MapScreen> {
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 30,horizontal: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              /* Card(
-                child: TextField(
-                  controller: _locationController,
-                  decoration: InputDecoration(
-                    prefixIcon: IconButton(
-                        icon: Icon(Icons.location_on_outlined),
-                        onPressed: () async{
-                          coordinates = await geoCode.forwardGeocoding(address: _locationController.text );
-                          print(coordinates);
-                        },
+          child: SizedBox.expand(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Text(
+                      locationString != "" ? locationString: "Choisissez la localisation",
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    hintText: "Chercher une localisation",
-                    contentPadding: EdgeInsets.all(16)
                   ),
                 ),
-              ),*/
-              Card(
-                child: Padding(
-                  padding: EdgeInsets.all(16),
-                  child: Text(
-                    locationString,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
+                Card(
+                    child: TextButton.icon(
+                      onPressed: (){
+                        Navigator.pop(context,[locationString,location]);
+                      },
+                      icon: Icon(Icons.location_on),
+                      label: Text("Confirmer"),
+                    )
                 ),
-              ),
-              Card(
-                  child: TextButton.icon(
-                    onPressed: (){
-                      Navigator.pop(context,[locationString]);
-                    },
-                    icon: Icon(Icons.location_on),
-                    label: Text("Confirmer"),
-                  )
-              ),
-            ],
+              ],
+            ),
           ),
         )
       ],

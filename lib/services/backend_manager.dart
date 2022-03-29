@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:lostandfound/models/categories.dart';
+import 'package:lostandfound/models/publications.dart';
 
 
 class BackendManager{
@@ -9,9 +9,8 @@ class BackendManager{
 
     try{
       String url = 'http://192.168.0.103:3000/publications';
-      print("ok");
-      var response = await client.post(Uri.parse(url),body: publication.toJson());
-      print(response.body);
+      await client.post(Uri.parse(url),body: publication.toJson());
+
     }
     catch(e){
       print(e.toString());

@@ -29,8 +29,8 @@ class _MapScreenState extends State<MapScreen> {
         FlutterMap(
           options: MapOptions(
               interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-              nePanBoundary: LatLng(35, 10),
-              swPanBoundary: LatLng(34, 9),
+              //nePanBoundary: LatLng(35, 10),
+              //swPanBoundary: LatLng(34, 9),
               onTap: (p,latlng) async {
                 try{
                   location = await geoCode.reverseGeocoding(latitude: latlng.latitude, longitude: latlng.longitude);

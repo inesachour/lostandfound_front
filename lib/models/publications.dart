@@ -1,5 +1,7 @@
 
 import 'dart:convert';
+import 'dart:io';
+
 
 Publication publicationFromJson(String str) => Publication.fromJson(json.decode(str));
 
@@ -33,7 +35,27 @@ class Publication {
     "description": description,
     "user": user,
     "date": date,
-    "category" : category
+    "category" : category,
   };
 }
+
+
+/*List<Image> imageFromJson(String str) => List<Image>.from(json.decode(str).map((x) => Image.fromJson(x)));
+
+class Image {
+  Image({
+    required this.imagename,
+    required this.image64,
+  });
+
+  String imagename;
+  String image64;
+
+  factory Image.fromJson(Map<String, dynamic> json) => Image(
+    imagename: json["imagename"],
+    image64: json["image64"],
+  );
+
+}*/
+
 

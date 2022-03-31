@@ -1,9 +1,10 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lostandfound/custimizedwidgets/form_widgets.dart';
 import 'package:lostandfound/custimizedwidgets/map.dart';
-import 'package:lostandfound/models/publications.dart';
+import 'package:lostandfound/models/publications.dart' as publicationModel;
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/image_picker.dart';
 
@@ -34,7 +35,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
 
   //Images variables
   ImagePickerService _imagePickerService = ImagePickerService();
-  List<File>? _photos = [];
+  List<File> _photos = [];
 
   //Controllers
   TextEditingController _locationController = TextEditingController();
@@ -95,7 +96,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
 
                   SizedBox(height: 20,),
 
-                  TextInputField(controller: _titleController,validator: validator, maxLines: 6,label: "Description"),
+                  TextInputField(controller: _descriptionController,validator: validator, maxLines: 6,label: "Description"),
 
                   SizedBox(height: 20,),
 
@@ -137,10 +138,10 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   SizedBox(height: 30,),
 
                   SizedBox(
-                    height: _photos == null || _photos!.length == 0 ? 0 :(((_photos!.length-1)/2).toInt()+1)*160,
+                    height:  _photos.length == 0 ? 0 :(((_photos.length-1)/2).toInt()+1)*160,
                     child: _photos==null ? Text("") : GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: _photos!.length,
+                      itemCount: _photos.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 10,
@@ -157,12 +158,12 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                               decoration: BoxDecoration(
                                 border: Border.all(color: Color(0xffd4d8dc), width: 2),
                               ),
-                              child: Image.file(_photos![index], fit: BoxFit.contain,),
+                              child: Image.file(_photos[index], fit: BoxFit.contain,),
                             ),
                             IconButton(
                                 onPressed: (){
                                   setState(() {
-                                    _photos!.removeAt(index);
+                                    _photos.removeAt(index);
                                   });
                                 },
                                 icon: Icon(Icons.close_rounded, color: Colors.red,),
@@ -175,14 +176,14 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   ),
 
                   Container(
-                    child: (_photos != null && _photos!.length >= 4) ? null : TextButton.icon(
+                    child: ( _photos.length >= 4) ? null : TextButton.icon(
                       onPressed: () async{
                         var _images = await _imagePickerService.getPhotosFromGallery();
                         if(_images!=null){
                           setState(() {
-                            if(_photos!=null){
+                            if(_photos.length >0){
                               _images.forEach((e) {
-                                _photos!.add(e);
+                                _photos.add(e);
                               });
                             }else{
                               _photos = _images;
@@ -213,12 +214,14 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                     ),
                     onPressed: (){
                       if (_formKey.currentState!.validate()){
-                        _backendManager.addPublication(Publication(title: _titleController.text, description: _descriptionController.text,user: "test", date: _dateController.text,category: _category));
+                        _backendManager.addPublication(publicationModel.Publication(title: _titleController.text, description: _descriptionController.text,user: "test", date: _dateController.text,category: _category));
                       }
 
                       },
                   ),
                 ],
+
+
               ),
             ),
           ),

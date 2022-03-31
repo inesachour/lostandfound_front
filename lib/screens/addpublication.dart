@@ -1,7 +1,7 @@
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lostandfound/custimizedwidgets/form_widgets.dart';
 import 'package:lostandfound/custimizedwidgets/map.dart';
 import 'package:lostandfound/models/publications.dart';
 import 'package:lostandfound/services/backend_manager.dart';
@@ -16,15 +16,37 @@ class AddPublicationForm extends StatefulWidget {
 
 class _AddPublicationFormState extends State<AddPublicationForm> {
 
+  //Form Validation varaibles
+  final _formKey = GlobalKey<FormState>();
+
+  var validator = (value) {
+    if (value == null || value.isEmpty) {
+      return 'Ce champs est obligatoire';
+    }
+    return null;
+  };
+
+  //Date variables
   var _dateFormat = DateFormat("dd-MM-yyyy");
   late String _dateString;
   DateTime _date = DateTime.now();
+
+
+  //Images variables
   ImagePickerService _imagePickerService = ImagePickerService();
   List<File>? _photos = [];
+
+  //Controllers
   TextEditingController _locationController = TextEditingController();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+
+  //Backend Manager
   BackendManager _backendManager = BackendManager();
+
+  //Category varaibles
+  String _category = "";
+
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +62,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
         _locationController.text = loc[0];
       });
     }
+
 
     _dateString = _dateFormat.format(_date);
     TextEditingController _dateController = TextEditingController(text: _dateString);
@@ -59,53 +82,20 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
           padding: EdgeInsets.symmetric(horizontal: 20,vertical: 30),
           child: SingleChildScrollView(
             child: Form(
+              key: _formKey,
               child: Column(
                 children: [
-                  DropdownButtonFormField<String>(
-                    value: "ok",
-                    items: [
-                      DropdownMenuItem(child: Text("Test1"),value: "ok",),
-                      DropdownMenuItem(child: Text("Test1111"), value: "ok2"),
-                    ],
-                    onChanged: (item){},
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(20))
-                      ),
-                      fillColor: Color(0xfffafafa),
-                      filled: true,
-                    ) ,
-                    icon: Icon(Icons.keyboard_arrow_down_rounded),
-                  ),
+
+                  DropDown(validator: validator, onchanged: (item){ setState(() { _category = item.toString(); });} ),
 
                   SizedBox(height: 20,),
 
-                  TextFormField(
-                    controller: _titleController,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                        ),
-                        fillColor: Color(0xfffafafa),
-                        filled: true,
-                        label: Text("Titre")
-                    ),
-                  ),
+
+                  TextInputField(controller: _titleController,validator: validator, maxLines: 1,label: "Titre"),
 
                   SizedBox(height: 20,),
 
-                  TextFormField(
-                    controller: _descriptionController,
-                    maxLines: 6,
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20))
-                        ),
-                        label: Text("Description"),
-                      fillColor: Color(0xfffafafa),
-                      filled: true,
-                    ),
-                  ),
+                  TextInputField(controller: _titleController,validator: validator, maxLines: 6,label: "Description"),
 
                   SizedBox(height: 20,),
 
@@ -210,24 +200,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
 
                   SizedBox(height: 30,),
 
-                  TextFormField(
-                      controller: _locationController,
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(20))
-                        ),
-                        label: Text("Localisation"),
-                        fillColor: Color(0xfffafafa),
-                        filled: true,
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.location_on),
-                          onPressed: () {
-                            _show();
-                          },
-                        ),
-                      ),
-                    ),
+                  LocationFormField(validator: validator, show: _show, controller: _locationController),
 
                   SizedBox(height: 30,),
 
@@ -239,7 +212,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                       fixedSize: MaterialStateProperty.all(Size(width*0.9,50)),
                     ),
                     onPressed: (){
-                      _backendManager.addPublication(Publication(title: _titleController.text, description: _descriptionController.text,user: "test"));
+                      if (_formKey.currentState!.validate()){
+                        _backendManager.addPublication(Publication(title: _titleController.text, description: _descriptionController.text,user: "test", date: _dateController.text,category: _category));
+                      }
 
                       },
                   ),

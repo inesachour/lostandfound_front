@@ -13,6 +13,7 @@ class Publication {
     required this.owner,
     required this.location,
     required this.images,
+    required this.type,
   });
 
   String title;
@@ -22,6 +23,7 @@ class Publication {
   String owner;
   Location location;
   List<Image> images;
+  String type;
 
   factory Publication.fromJson(Map<String, dynamic> json) => Publication(
     title: json["title"],
@@ -31,6 +33,7 @@ class Publication {
     owner: json["owner"],
     location: Location.fromJson(json["location"]),
     images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+    type: json["type"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -41,6 +44,7 @@ class Publication {
     "owner": owner,
     "location": location.toJson().toString(),
     "images": List<dynamic>.from(images.map((x) => x.toJson())).toString(),
+    "type": type,
   };
 }
 

@@ -2,13 +2,15 @@ import 'package:flutter/material.dart';
 
 
 
-Widget DropDown({onchanged, validator}){
+Widget DropDown({required onchanged, validator,required List<String> items}){
   return DropdownButtonFormField<String>(
     hint: Text("Categorie"),
-    items: [
-      DropdownMenuItem(child: Text("CIN"),value: "Category1",),
-      DropdownMenuItem(child: Text("Telephone"), value: "Category2"),
-    ],
+    items: items.map((String value) {
+      return DropdownMenuItem<String>(
+        value: value,
+        child: Text(value),
+      );
+    }).toList(),
     onChanged: onchanged,
     decoration: InputDecoration(
       border: OutlineInputBorder(
@@ -21,7 +23,6 @@ Widget DropDown({onchanged, validator}){
     validator: validator,
   );
 }
-
 
 
 //------------------------------------------------------//

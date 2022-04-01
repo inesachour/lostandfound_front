@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:lostandfound/custimizedwidgets/form_widgets.dart';
-import 'package:lostandfound/custimizedwidgets/map.dart';
+import 'package:lostandfound/constants/categories.dart';
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/image_picker.dart';
+import 'package:lostandfound/widgets/form_widgets.dart';
+import 'package:lostandfound/widgets/map.dart';
 
 class AddPublicationForm extends StatefulWidget {
   const AddPublicationForm({Key? key}) : super(key: key);
@@ -26,8 +28,6 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
   };
 
   //Date variables
-  //var _dateFormat = DateFormat("dd-MM-yyyy");
-  late String _dateString;
   DateTime _date = DateTime.now();
 
 
@@ -45,6 +45,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
 
   //Category varaibles
   String _category = "";
+
+  //type variables
+  String _type = "perdu";
 
   late LatLng _location;
 
@@ -65,8 +68,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
     }
 
 
-    //_dateString = _dateFormat.format(_date);
-    TextEditingController _dateController = TextEditingController(text: _dateString);
+    TextEditingController _dateController = TextEditingController(text: DateFormat('dd/MM/yyyy').format(_date));
 
     double width = MediaQuery.of(context).size.width;
 
@@ -76,7 +78,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
         appBar: AppBar(
           backgroundColor: Color(0xff52aee5),
           leading: Icon(Icons.arrow_back),
-          title: Text("Objet ??"),
+          title: Text("Publication d'objet"),
           centerTitle: true,
         ),
         body: Padding(
@@ -87,10 +89,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
               child: Column(
                 children: [
 
-                  DropDown(validator: validator, onchanged: (item){ setState(() { _category = item.toString(); });} ),
+                  DropDown(validator: validator, items : categories,onchanged: (item){ setState(() { _category = item.toString(); });} ),
 
                   SizedBox(height: 20,),
-
 
                   TextInputField(controller: _titleController,validator: validator, maxLines: 1,label: "Titre"),
 
@@ -126,8 +127,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                             fieldLabelText: "Entrer la date",
                           ) ?? DateTime.now();
                           setState(() {
-                            _dateString = _date.toString() ;//_dateFormat.format(_date);
-                            _dateController.text = _dateString;
+                            _dateController.text = DateFormat('dd/MM/yyyy').format(_date);//_date .toString();
                           });
                         },
                       ),
@@ -229,8 +229,15 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                     ),
                     onPressed: (){
                       if (_formKey.currentState!.validate()){
-                        //_backendManager.addPublication(publicationModel.Publication(title: _titleController.text, description: _descriptionController.text,owner: "test", date: DateTime.now(),category: _category,location: publicationModel.Location(type: "point",coordinates: [11,11]),images: []));
-                        _backendManager.addPublication(title: _titleController.text, description: _descriptionController.text, date: _dateString, category: _category, latlng: _location, images: _photos, owner: "test");
+                        _backendManager.addPublication(
+                            title: _titleController.text,
+                            description: _descriptionController.text,
+                            date: _date.toString(), category: _category,
+                            latlng: _location,
+                            images: _photos,
+                            owner: "test",
+                            type: _type,
+                        );
                       }
 
                       },

@@ -12,8 +12,12 @@ class ImagePickerService{
         return [];
       else{
         final List<File> photosFiles = [];
+        int i =0;
         photos.forEach((element) {
-          photosFiles.add(File(element.path));
+          if(i<4) {
+            photosFiles.add(File(element.path));
+            i++;
+          }
         });
         return photosFiles;
       }

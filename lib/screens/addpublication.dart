@@ -166,7 +166,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   SizedBox(height: 30,),
 
                   SizedBox(
-                    height:  _photos.length == 0 ? 0 :(((_photos.length-1)/2).toInt()+1)*160,
+                    height: _photos.length == 0 ? 0 :(((_photos.length-1)/2).toInt()+1)*160,
                     child: _photos==null ? Text("") : GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: _photos.length,
@@ -220,7 +220,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                         }
                       },
                       icon: Icon(Icons.add,color: Color(0xff707070),),
-                      label: Text("ajouter des photos",style: TextStyle(color: Color(0xff707070)),),
+                      label: Text("ajouter des photos (maximum : 4)",style: TextStyle(color: Color(0xff707070)),),
                       style: ButtonStyle(
                         overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
                       ),

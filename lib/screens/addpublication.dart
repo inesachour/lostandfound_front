@@ -88,6 +88,34 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
               key: _formKey,
               child: Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("L'objet déclaré est : "),
+                      SizedBox(width: 20,),
+                      Text("Perdu"),
+                      Radio<String>(
+                        value: "perdu",
+                        groupValue: _type,
+                        onChanged: (item){
+                          setState(() {
+                            _type= item!;
+                          });
+                        },
+                      ),
+                      Text("Trouvé"),
+                      Radio<String>(
+                        value: "trouvé",
+                        groupValue: _type,
+                        onChanged: (item){
+                          setState(() {
+                            _type= item!;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20,),
 
                   DropDown(validator: validator, items : categories,onchanged: (item){ setState(() { _category = item.toString(); });} ),
 
@@ -200,6 +228,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   ),
 
                   SizedBox(height: 30,),
+
                   TextFormField(
                     controller: _locationController,
                     readOnly: true,
@@ -219,6 +248,8 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   ),
 
                   SizedBox(height: 30,),
+
+
 
                   ElevatedButton(
                     child: Text("Ajouter la publication"),

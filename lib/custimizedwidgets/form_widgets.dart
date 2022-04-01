@@ -41,28 +41,3 @@ Widget TextInputField({controller, validator, maxLines, label}){
     maxLines: maxLines,
   );
 }
-
-
-//----------------------------------------------------//
-
-Widget LocationFormField({controller, show, validator}){
-  return TextFormField(
-    controller: controller,
-    readOnly: true,
-    decoration: InputDecoration(
-      border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(20))
-      ),
-      label: Text("Localisation"),
-      fillColor: Color(0xfffafafa),
-      filled: true,
-      suffixIcon: IconButton(
-        icon: Icon(Icons.location_on),
-        onPressed: () {
-          show();
-        },
-      ),
-    ),
-    validator: validator,
-  );
-}

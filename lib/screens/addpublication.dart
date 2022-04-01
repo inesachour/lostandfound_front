@@ -1,10 +1,8 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:lostandfound/custimizedwidgets/form_widgets.dart';
 import 'package:lostandfound/custimizedwidgets/map.dart';
-import 'package:lostandfound/models/publications.dart' as publicationModel;
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/image_picker.dart';
 
@@ -28,7 +26,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
   };
 
   //Date variables
-  var _dateFormat = DateFormat("dd-MM-yyyy");
+  //var _dateFormat = DateFormat("dd-MM-yyyy");
   late String _dateString;
   DateTime _date = DateTime.now();
 
@@ -48,6 +46,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
   //Category varaibles
   String _category = "";
 
+  late LatLng _location;
 
   @override
   Widget build(BuildContext context) {
@@ -61,11 +60,12 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
       );
       setState(() {
         _locationController.text = loc[0];
+        _location = loc[1];
       });
     }
 
 
-    _dateString = _dateFormat.format(_date);
+    //_dateString = _dateFormat.format(_date);
     TextEditingController _dateController = TextEditingController(text: _dateString);
 
     double width = MediaQuery.of(context).size.width;
@@ -126,7 +126,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                             fieldLabelText: "Entrer la date",
                           ) ?? DateTime.now();
                           setState(() {
-                            _dateString = _dateFormat.format(_date);
+                            _dateString = _date.toString() ;//_dateFormat.format(_date);
                             _dateController.text = _dateString;
                           });
                         },
@@ -200,8 +200,23 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   ),
 
                   SizedBox(height: 30,),
-
-                  LocationFormField(validator: validator, show: _show, controller: _locationController),
+                  TextFormField(
+                    controller: _locationController,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+                      label: Text("Localisation"),
+                      fillColor: Color(0xfffafafa),
+                      filled: true,
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.location_on),
+                        onPressed: () {
+                          _show();
+                          },
+                      ),
+                    ),
+                    validator: validator,
+                  ),
 
                   SizedBox(height: 30,),
 
@@ -214,7 +229,8 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                     ),
                     onPressed: (){
                       if (_formKey.currentState!.validate()){
-                        _backendManager.addPublication(publicationModel.Publication(title: _titleController.text, description: _descriptionController.text,user: "test", date: _dateController.text,category: _category));
+                        //_backendManager.addPublication(publicationModel.Publication(title: _titleController.text, description: _descriptionController.text,owner: "test", date: DateTime.now(),category: _category,location: publicationModel.Location(type: "point",coordinates: [11,11]),images: []));
+                        _backendManager.addPublication(title: _titleController.text, description: _descriptionController.text, date: _dateString, category: _category, latlng: _location, images: _photos, owner: "test");
                       }
 
                       },

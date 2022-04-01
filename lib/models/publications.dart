@@ -1,7 +1,4 @@
-
 import 'dart:convert';
-import 'dart:io';
-
 
 Publication publicationFromJson(String str) => Publication.fromJson(json.decode(str));
 
@@ -11,51 +8,78 @@ class Publication {
   Publication({
     required this.title,
     required this.description,
-    required this.user,
     required this.date,
     required this.category,
+    required this.owner,
+    required this.location,
+    required this.images,
   });
 
   String title;
   String description;
-  String user;
-  String date;
+  DateTime date;
   String category;
+  String owner;
+  Location location;
+  List<Image> images;
 
   factory Publication.fromJson(Map<String, dynamic> json) => Publication(
     title: json["title"],
     description: json["description"],
-    user: json["user"],
     date: json["date"],
     category: json["category"],
+    owner: json["owner"],
+    location: Location.fromJson(json["location"]),
+    images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "title": title,
     "description": description,
-    "user": user,
-    "date": date,
-    "category" : category,
+    "date": date.toString(),
+    "category": category,
+    "owner": owner,
+    "location": location.toJson().toString(),
+    "images": List<dynamic>.from(images.map((x) => x.toJson())).toString(),
   };
 }
 
-
-/*List<Image> imageFromJson(String str) => List<Image>.from(json.decode(str).map((x) => Image.fromJson(x)));
-
 class Image {
   Image({
-    required this.imagename,
-    required this.image64,
+    required this.name,
+    required this.url,
   });
 
-  String imagename;
-  String image64;
+  String name;
+  String url;
 
   factory Image.fromJson(Map<String, dynamic> json) => Image(
-    imagename: json["imagename"],
-    image64: json["image64"],
+    name: json["name"],
+    url: json["url"],
   );
 
-}*/
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "url": url,
+  };
+}
 
+class Location {
+  Location({
+    required this.coordinates,
+    required this.type,
+  });
 
+  List<double> coordinates;
+  String type;
+
+  factory Location.fromJson(Map<String, dynamic> json) => Location(
+    coordinates: List<double>.from(json["coordinates"].map((x) => x)),
+    type: json["type"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
+    "type": type,
+  };
+}

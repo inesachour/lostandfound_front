@@ -29,15 +29,12 @@ class _MapScreenState extends State<MapScreen> {
         FlutterMap(
           options: MapOptions(
               interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
-              //nePanBoundary: LatLng(35, 10),
-              //swPanBoundary: LatLng(34, 9),
               onTap: (p,latlng) async {
                 try{
                   location = await geoCode.reverseGeocoding(latitude: latlng.latitude, longitude: latlng.longitude);
                   locationString = "${location.countryName ?? ""} ${location.city ?? ""} ${location.region ?? ""}";
                   setState(() {
                     point = latlng;
-                    print(point);
                   });
                 }
                 catch(Exception){
@@ -85,7 +82,7 @@ class _MapScreenState extends State<MapScreen> {
                 Card(
                     child: TextButton.icon(
                       onPressed: (){
-                        Navigator.pop(context,[locationString,location]);
+                        Navigator.pop(context,[locationString,point]);
                       },
                       icon: Icon(Icons.location_on),
                       label: Text("Confirmer"),

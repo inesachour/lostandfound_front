@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:lostandfound/constants/categories.dart';
@@ -7,6 +8,8 @@ import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/image_picker.dart';
 import 'package:lostandfound/widgets/form_widgets.dart';
 import 'package:lostandfound/widgets/map.dart';
+
+
 
 class AddPublicationForm extends StatefulWidget {
   const AddPublicationForm({Key? key}) : super(key: key);
@@ -17,7 +20,7 @@ class AddPublicationForm extends StatefulWidget {
 
 class _AddPublicationFormState extends State<AddPublicationForm> {
 
-  //Form Validation varaibles
+  //Form Validation variables
   final _formKey = GlobalKey<FormState>();
 
   var validator = (value) {
@@ -29,7 +32,6 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
 
   //Date variables
   DateTime _date = DateTime.now();
-
 
   //Images variables
   ImagePickerService _imagePickerService = ImagePickerService();
@@ -46,14 +48,18 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
   //Category varaibles
   String _category = "";
 
-  //type variables
+  //Type variables
   String _type = "perdu";
 
+  //Location variables
   late LatLng _location;
 
   @override
   Widget build(BuildContext context) {
 
+    initializeDateFormatting();
+
+    //Showing Map function
     _show() async {
       var loc = await showDialog(
           context: context,
@@ -67,9 +73,10 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
       });
     }
 
+    //Date Controller
+    TextEditingController _dateController = TextEditingController(text: DateFormat('EEEE d MMMM yyyy','fr').format(_date));
 
-    TextEditingController _dateController = TextEditingController(text: DateFormat('dd/MM/yyyy').format(_date));
-
+    //Sizes
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -77,7 +84,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
         backgroundColor: Color(0xfff5f5f5),
         appBar: AppBar(
           backgroundColor: Color(0xff52aee5),
-          leading: Icon(Icons.arrow_back),
+          leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context),),
           title: Text("Publication d'objet"),
           centerTitle: true,
         ),
@@ -155,7 +162,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                             fieldLabelText: "Entrer la date",
                           ) ?? DateTime.now();
                           setState(() {
-                            _dateController.text = DateFormat('dd/MM/yyyy').format(_date);//_date .toString();
+                            _dateController.text = DateFormat('EEEE d MMMM yyyy','fr').format(_date);//_date .toString();
                           });
                         },
                       ),
@@ -269,6 +276,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                             owner: "test",
                             type: _type,
                         );
+                        Navigator.pop(context);
                       }
 
                       },

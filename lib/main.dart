@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lostandfound/home.dart';
+import 'package:lostandfound/widgets/searchBar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Lost and found',
-      home: Home(),
+      home: Scaffold(
+        body: Home(),
+      ),
     );
   }
 }

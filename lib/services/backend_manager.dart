@@ -13,7 +13,6 @@ addPublication({required String title, required String description,required Stri
   var client = http.Client();
   try {
     String url = 'http://192.168.0.103:3000/publications';
-    DateTime d = DateTime.parse(date);
     Location l = Location(
         coordinates: [latlng.latitude, latlng.longitude], type: "point");
     List<Image> imgs = [];
@@ -25,7 +24,7 @@ addPublication({required String title, required String description,required Stri
     var publication = Publication(
         title: title,
         description: description,
-        date: d ,
+        date: date ,
         category: category,
         owner: owner,
         location: l,

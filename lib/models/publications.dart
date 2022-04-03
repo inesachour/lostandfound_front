@@ -18,7 +18,7 @@ class Publication {
 
   String title;
   String description;
-  DateTime date;
+  String date;
   String category;
   String owner;
   Location location;

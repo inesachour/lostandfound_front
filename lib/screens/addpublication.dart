@@ -49,7 +49,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
   String _category = "";
 
   //Type variables
-  String _type = "perdu";
+  String _type = "lost";
 
   //Location variables
   late LatLng _location;
@@ -100,9 +100,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                     children: [
                       Text("L'objet déclaré est : "),
                       SizedBox(width: 20,),
-                      Text("Perdu"),
+                      Text("Lost"),
                       Radio<String>(
-                        value: "perdu",
+                        value: "lost",
                         groupValue: _type,
                         onChanged: (item){
                           setState(() {
@@ -110,9 +110,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                           });
                         },
                       ),
-                      Text("Trouvé"),
+                      Text("Found"),
                       Radio<String>(
-                        value: "trouvé",
+                        value: "found",
                         groupValue: _type,
                         onChanged: (item){
                           setState(() {

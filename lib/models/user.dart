@@ -29,10 +29,10 @@ class User {
   );
 
   Map<String, dynamic> toJson() => {
-    "firstName": firstName,
-    "lastName": lastName,
-    "phone": phone,
-    "email": email,
-    "photo" : photo
+    "\"firstName\"": "\""+firstName+"\"",
+    "\"lastName\"": "\""+lastName+"\"",
+    "\"phone\"": "\""+phone+"\"",
+    "\"email\"": "\""+email+"\"",
+    "\"photo\"" : "\""+photo+"\""
   };
 }

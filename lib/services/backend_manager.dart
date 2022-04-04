@@ -36,6 +36,7 @@ addPublication({required String title, required String description,required Stri
         tempsCreation: DateTime.now().toString(),
     );
     await client.post(Uri.parse(url), body: publication.toJson());
+    print(publication.toJson());
   }
   catch (e) {
     print(e.toString());

@@ -29,8 +29,8 @@ class _PubcardState extends State<Pubcard> {
 
     Geocoder.local
         .findAddressesFromCoordinates(Coordinates(
-            widget._publication.location.coordinates[0],
-            widget._publication.location.coordinates[1]))
+            double.tryParse(widget._publication.location.coordinates[0]),
+        double.tryParse(widget._publication.location.coordinates[1])))
         .then((value) {
       setState(() {
         _locality = value[0].locality.toString();
@@ -59,11 +59,11 @@ class _PubcardState extends State<Pubcard> {
                     width: MediaQuery.of(context).size.width * 0.9,
                     child: Image(
                       fit: BoxFit.cover,
-                      image: NetworkImage(widget._publication.imagesUrl.first),
+                      image: NetworkImage(widget._publication.images[0].url),
                     ),
                   )),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding:EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

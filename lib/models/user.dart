@@ -5,13 +5,13 @@ List<User> userFromJson(String str) => List<User>.from(json.decode(str).map((x) 
 String userToJson(List<User> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class User {
-  User({
-    required this.firstName,
-    required this.lastName,
-    required this.phone,
-    required this.email,
-    required this.photo
-  });
+  User(
+      this.firstName,
+      this.lastName,
+      this.phone,
+      this.email,
+      this.photo
+      );
 
   String firstName;
   String lastName;
@@ -21,11 +21,11 @@ class User {
 
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-      firstName: json["first_name"],
-      lastName:json["last_name"],
-      phone: json["phone"],
-      email: json["email"],
-      photo: json["photo"]
+      json["firstName"],
+      json["lastName"],
+      json["phone"],
+      json["email"],
+      json["photo"]
   );
 
   Map<String, dynamic> toJson() => {

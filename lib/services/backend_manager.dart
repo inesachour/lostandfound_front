@@ -14,7 +14,7 @@ class BackendManager{
 addPublication({required String title, required String description,required String date, required String category, required LatLng latlng, required List<File> images, required User owner , required String type}) async {
   var client = http.Client();
   try {
-    String url = 'http://192.168.0.103:3000/publications';
+    String url = 'http://10.0.2.2:3000/publications';
     Location l = Location(
         coordinates: [latlng.latitude, latlng.longitude], type: "point");
     List<Image> imgs = [];

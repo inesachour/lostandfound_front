@@ -34,7 +34,7 @@ class _ConsultpubsState extends State<Consultpubs> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
-                  height: MediaQuery.of(context).size.height * 0.88,
+                  height: MediaQuery.of(context).size.height * 0.9,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: Colors.white,

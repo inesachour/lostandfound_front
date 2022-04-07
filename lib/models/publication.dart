@@ -1,9 +1,10 @@
 import 'package:lostandfound/models/image.dart';
 import 'package:lostandfound/models/location.dart';
 import 'package:lostandfound/models/user.dart';
+import 'dart:convert';
 
-//List<Publication> publicationFromJson(String str) => List<Publication>.from(json.decode(str).map((x) => Publication.fromJson(x)));
-List<Publication> publicationFromJson(str) => List<Publication>.from(str.map((x) => Publication.fromJson(x)));
+List<Publication> publicationFromJson(String str) => List<Publication>.from(json.decode(str).map((x) => Publication.fromJson(x)));
+//List<Publication> publicationFromJson(str) => List<Publication>.from(str.map((x) => Publication.fromJson(x)));
 
 class Publication {
   Publication(
@@ -31,7 +32,6 @@ class Publication {
   String status;
 
   factory Publication.fromJson(Map<String, dynamic> json) {
-    print('holaaaa');
     return Publication(
         json["title"]?? "",
         json["description"]?? "",

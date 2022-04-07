@@ -38,7 +38,7 @@ class _SearchBarState extends State<SearchBar> {
           );
         },
         decoration: InputDecoration(
-          hintText: 'rechercher',
+          hintText: 'Rechercher',
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),
             borderSide: const BorderSide(color: Colors.blue),
@@ -86,7 +86,7 @@ class CustomSearchDelegate extends SearchDelegate {
         if (snapshot.hasData) {
           return snapshot.data!.isEmpty
               ? Center(
-                  child: Text("Aucune publication"),
+                  child: Text("Aucune publication trouvée"),
                 )
               : ListView.builder(
                   itemCount: snapshot.data!.indexOf(snapshot.data!.last) + 1,
@@ -118,11 +118,6 @@ class CustomSearchDelegate extends SearchDelegate {
                     );
                   },
                 );
-        } else if (snapshot.data!.isEmpty) {
-          return Center(
-              child: Expanded(
-            child: Text('nothing'),
-          ));
         } else {
           return Center(
             child: CircularProgressIndicator(),
@@ -141,10 +136,11 @@ class CustomSearchDelegate extends SearchDelegate {
         if (snapshot.hasData) {
           return snapshot.data!.isEmpty
               ? Center(
-                  child: Text("Aucune publication"),
+                  child: Text("Aucune publication trouvée"),
                 )
               : ListView.builder(
-                  itemCount: snapshot.data!.indexOf(snapshot.data!.last) + 1,
+                  //shows last 5 pubs if query (search term) is empty
+                  itemCount: query.length > 0 ? snapshot.data!.indexOf(snapshot.data!.last) + 1 : 5,
                   itemBuilder: (BuildContext context, int index) {
                     var pub = snapshot.data!.elementAt(index);
                     return ListTile(

@@ -12,13 +12,12 @@ import 'package:lostandfound/models/user.dart';
 
 class BackendManager{
 
-addPublication({required String title, required String description,required String date, required String category, required LatLng latlng, required List<File> images, required String owner , required String type}) async {
+addPublication({required String title, required String description,required String date, required String category, required LatLng latlng, required List<File> images, required User owner , required String type}) async {
   var client = http.Client();
   try {
-    String url = 'http://192.168.0.103:3000/publications';
-    DateTime d = DateTime.parse(date);
+    String url = 'http://10.0.2.2:3000/publications';
     Location l = Location(
-        coordinates: [latlng.latitude.toString(), latlng.longitude.toString()], type: "point");
+        coordinates: [latlng.latitude, latlng.longitude], type: "point");
     List<Image> imgs = [];
     int i =1;
     images.forEach((element) {
@@ -28,12 +27,14 @@ addPublication({required String title, required String description,required Stri
     var publication = Publication(
         title: title,
         description: description,
-        date: d ,
+        date: date ,
         category: category,
-        owner: User(phone: "",photo: "",lastName: "",firstName: "",email: ""),
+        owner: owner,
         location: l,
         images: imgs,
         type: type,
+        status:"en cours",
+        tempsCreation: DateTime.now().toString(),
     );
     await client.post(Uri.parse(url), body: publication.toJson());
   }

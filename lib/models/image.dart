@@ -13,7 +13,7 @@ class Image {
   );
 
   Map<String, dynamic> toJson() => {
-    "name": name,
-    "url": url,
+    "\"name\"": "\""+name+"\"",
+    "\"url\"": "\""+url+"\"",
   };
 }

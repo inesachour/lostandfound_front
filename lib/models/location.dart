@@ -1,6 +1,3 @@
-// To parse this JSON data, do
-//
-//     final location = locationFromJson(jsonString);
 
 import 'dart:convert';
 
@@ -23,7 +20,7 @@ class Location {
   );
 
   Map<String, dynamic> toJson() => {
-    "coordinates": List<dynamic>.from(coordinates.map((x) => x)),
-    "type": type,
+    "\"coordinates\"": List<dynamic>.from(coordinates.map((x) => x)),
+    "\"type\"": "\""+type+"\"",
   };
 }

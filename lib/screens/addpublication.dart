@@ -4,6 +4,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:lostandfound/constants/categories.dart';
+import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/image_picker.dart';
 import 'package:lostandfound/widgets/form_widgets.dart';
@@ -49,7 +50,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
   String _category = "";
 
   //Type variables
-  String _type = "perdu";
+  String _type = "lost";
 
   //Location variables
   late LatLng _location;
@@ -100,9 +101,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                     children: [
                       Text("L'objet déclaré est : "),
                       SizedBox(width: 20,),
-                      Text("Perdu"),
+                      Text("Lost"),
                       Radio<String>(
-                        value: "perdu",
+                        value: "lost",
                         groupValue: _type,
                         onChanged: (item){
                           setState(() {
@@ -110,9 +111,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                           });
                         },
                       ),
-                      Text("Trouvé"),
+                      Text("Found"),
                       Radio<String>(
-                        value: "trouvé",
+                        value: "found",
                         groupValue: _type,
                         onChanged: (item){
                           setState(() {
@@ -273,10 +274,10 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                             date: _date.toString(), category: _category,
                             latlng: _location,
                             images: _photos,
-                            owner: "test",
+                            owner: User(firstName: "firstName", lastName: "lastName", phone: "phone", email: "email", photo: "photo"),
                             type: _type,
                         );
-                        Navigator.pop(context);
+                        //Navigator.pop(context);
                       }
 
                       },

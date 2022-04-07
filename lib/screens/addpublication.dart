@@ -7,6 +7,7 @@ import 'package:lostandfound/constants/categories.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/image_picker.dart';
+import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/widgets/form_widgets.dart';
 import 'package:lostandfound/widgets/map.dart';
 
@@ -82,9 +83,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xfff5f5f5),
+        backgroundColor: primaryBackground,
         appBar: AppBar(
-          backgroundColor: Color(0xff52aee5),
+          backgroundColor: primaryBlue,
           leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context),),
           title: Text("Publication d'objet"),
           centerTitle: true,
@@ -262,7 +263,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   ElevatedButton(
                     child: Text("Ajouter la publication"),
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Color(0xff53abe2),),
+                      backgroundColor: MaterialStateProperty.all(primaryBlue,),
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                       fixedSize: MaterialStateProperty.all(Size(width*0.9,50)),
                     ),
@@ -277,7 +278,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                             owner: User(firstName: "firstName", lastName: "lastName", phone: "phone", email: "email", photo: "photo"),
                             type: _type,
                         );
-                        //Navigator.pop(context);
+                        Navigator.pop(context);
                       }
 
                       },

@@ -1,9 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/services/pubservices.dart';
+import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/widgets/pubcard.dart';
 import 'package:lostandfound/widgets/searchbar.dart';
 import 'package:lostandfound/settings/config.dart';
@@ -26,7 +25,7 @@ class _ConsultpubsState extends State<Consultpubs> {
           padding: EdgeInsets.all(10),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-          color: Colors.blue.shade300,
+          color: primaryBlue
         ),
         Positioned(
           top: MediaQuery.of(context).size.height * 0.1,
@@ -49,16 +48,16 @@ class _ConsultpubsState extends State<Consultpubs> {
                         return [
                           SliverAppBar(
                             pinned: true,
-                            backgroundColor: Colors.grey.shade200,
+                            backgroundColor: primaryBackground,
                             shape: ContinuousRectangleBorder(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(30),
                                     topRight: Radius.circular(30))),
                             toolbarHeight: 0,
                             bottom: TabBar(
-                              labelColor: Colors.blue.shade300,
+                              labelColor: primaryBlue,
                               unselectedLabelColor: Colors.grey,
-                              indicatorColor: Colors.blue.shade300,
+                              indicatorColor: primaryBlue,
                               tabs: [
                                 Tab(text: 'Lost'),
                                 Tab(text: 'Found'),
@@ -77,7 +76,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                 children: [
                                   Searchbar(),
                                   InkWell(
-                                      splashColor: Colors.blue,
+                                      splashColor: primaryBlue,
                                       child: Text(
                                         'Filtrer',
                                         style: TextStyle(
@@ -131,7 +130,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                 children: [
                                   Searchbar(),
                                   InkWell(
-                                      splashColor: Colors.blue,
+                                      splashColor: primaryBlue,
                                       child: Text(
                                         'Filtrer',
                                         style: TextStyle(

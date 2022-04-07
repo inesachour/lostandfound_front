@@ -1,8 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace
 
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:geocode/geocode.dart';
 import 'package:lostandfound/models/publication.dart';
-import 'package:flutter_geocoder/geocoder.dart';
+//import 'package:flutter_geocoder/geocoder.dart';
 import 'package:lostandfound/settings/config.dart';
 
 class Pubcard extends StatefulWidget {
@@ -26,7 +29,17 @@ class _PubcardState extends State<Pubcard> {
     // TODO: implement initState
     super.initState();
 
-    Geocoder.local
+    GeoCode geoCode = GeoCode();
+    geoCode.reverseGeocoding(
+        latitude: double.parse(widget._publication.location.coordinates[0]),
+        longitude: double.parse(widget._publication.location.coordinates[1])
+        ).then((value) {
+      setState(() {
+        _locality = value.city.toString();// value[0].locality.toString();
+        _adminArea = value.city.toString(); //[0].adminArea.toString();
+      });
+    });
+    /*Geocoder.local
         .findAddressesFromCoordinates(Coordinates(
            double.parse(widget._publication.location.coordinates[0]),
         double.parse(widget._publication.location.coordinates[1])))
@@ -35,7 +48,7 @@ class _PubcardState extends State<Pubcard> {
         _locality = value[0].locality.toString();
         _adminArea = value[0].adminArea.toString();
       });
-    });
+    });*/
   }
 
   @override
@@ -56,9 +69,10 @@ class _PubcardState extends State<Pubcard> {
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.35,
                     width: MediaQuery.of(context).size.width * 0.9,
-                    child: Image(
+                    child: Image.memory(
+                      widget._publication.images[0].url as Uint8List,
                       fit: BoxFit.cover,
-                      image: NetworkImage(widget._publication.images[0].url),
+                      //image: NetworkImage(widget._publication.images[0].url),
                     ),
                   )),
               Padding(

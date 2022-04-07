@@ -17,7 +17,7 @@ addPublication({required String title, required String description,required Stri
   try {
     String url = 'http://10.0.2.2:3000/publications';
     Location l = Location(
-        coordinates: [latlng.latitude, latlng.longitude], type: "point");
+        coordinates: [latlng.latitude.toString(), latlng.longitude.toString()], type: "point");
     List<Image> imgs = [];
     int i =1;
     images.forEach((element) {

@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields
 import 'package:flutter/material.dart';
+import 'package:lostandfound/screens/addpublication.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
+import 'package:lostandfound/settings/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,12 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
       _currentIndex = index;
     });
   }
-  Color getColor(int index) {
+  Color? getColor(int index) {
     if(_currentIndex==index)
       {
-        return Colors.blue.shade200;
+        return primaryBlue;
       }
-    return Colors.grey.shade600;
+    return primaryGrey;
 
   }
 
@@ -59,8 +61,10 @@ class _HomeScreenState extends State<HomeScreen> {
         child: _children[_currentIndex],
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue.shade200,
-        onPressed: () {},
+        backgroundColor: primaryBlue,
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AddPublicationForm()));
+        },
         tooltip: 'js',
         child: Icon(
           Icons.add,

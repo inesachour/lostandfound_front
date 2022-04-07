@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class Image {
   Image({
     required this.name,
@@ -9,7 +11,7 @@ class Image {
 
   factory Image.fromJson(Map<String, dynamic> json) => Image(
     name: json["name"],
-    url: json["url"],
+    url: Base64Decoder().convert(json["url"]).toString(),
   );
 
   Map<String, dynamic> toJson() => {

@@ -4,7 +4,10 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:lostandfound/models/publications.dart';
+import 'package:lostandfound/models/image.dart';
+import 'package:lostandfound/models/location.dart';
+import 'package:lostandfound/models/publication.dart';
+import 'package:lostandfound/models/user.dart';
 
 
 class BackendManager{
@@ -15,7 +18,7 @@ addPublication({required String title, required String description,required Stri
     String url = 'http://192.168.0.103:3000/publications';
     DateTime d = DateTime.parse(date);
     Location l = Location(
-        coordinates: [latlng.latitude, latlng.longitude], type: "point");
+        coordinates: [latlng.latitude.toString(), latlng.longitude.toString()], type: "point");
     List<Image> imgs = [];
     int i =1;
     images.forEach((element) {
@@ -27,7 +30,7 @@ addPublication({required String title, required String description,required Stri
         description: description,
         date: d ,
         category: category,
-        owner: owner,
+        owner: User(phone: "",photo: "",lastName: "",firstName: "",email: ""),
         location: l,
         images: imgs,
         type: type,

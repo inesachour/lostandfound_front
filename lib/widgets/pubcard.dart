@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:flutter_geocoder/geocoder.dart';
@@ -29,8 +28,8 @@ class _PubcardState extends State<Pubcard> {
 
     Geocoder.local
         .findAddressesFromCoordinates(Coordinates(
-            double.tryParse(widget._publication.location.coordinates[0]),
-        double.tryParse(widget._publication.location.coordinates[1])))
+           double.parse(widget._publication.location.coordinates[0]),
+        double.parse(widget._publication.location.coordinates[1])))
         .then((value) {
       setState(() {
         _locality = value[0].locality.toString();

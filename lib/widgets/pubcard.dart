@@ -1,8 +1,5 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geocode/geocode.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/settings/config.dart';
@@ -25,7 +22,6 @@ class _PubcardState extends State<Pubcard> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     GeoCode geoCode = GeoCode();
@@ -152,8 +148,8 @@ class _PubcardState extends State<Pubcard> {
                             backgroundColor: Colors.grey,
                             radius: 30,
                             child: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(widget._publication.owner.photo),
+                              child: Icon(Icons.person, size: 40,color: Colors.white,),
+                              backgroundColor: Colors.transparent,
                               radius: 28,
                             ),
                           ),

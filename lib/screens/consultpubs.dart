@@ -49,10 +49,6 @@ class _ConsultpubsState extends State<Consultpubs> {
                           SliverAppBar(
                             pinned: true,
                             backgroundColor: primaryBackground,
-                            shape: ContinuousRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(30),
-                                    topRight: Radius.circular(30))),
                             toolbarHeight: 0,
                             bottom: TabBar(
                               labelColor: primaryBlue,

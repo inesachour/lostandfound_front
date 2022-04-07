@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geocode/geocode.dart';
 import 'package:lostandfound/models/publication.dart';
+import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/settings/config.dart';
 
 class Pubcard extends StatefulWidget {
@@ -61,21 +62,79 @@ class _PubcardState extends State<Pubcard> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20)),
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.35,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: widget._publication.images.length != 0 ? Image.memory(
-                      Base64Decoder().convert(widget._publication.images[0].url),
-                      fit: BoxFit.cover,
-                      //image: NetworkImage(widget._publication.images[0].url),
-                    ) : SizedBox(height: MediaQuery.of(context).size.height * 0.35),
+                  child: Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        height: MediaQuery.of(context).size.height*0.06,
+                        color: Colors.grey.shade300,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Text(
+                              "  "+widget._publication.date.toString(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15,
+                                  color: Colors.white),
+                            ),
+                            SizedBox(
+                              height: context.height * 0.01,
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  color: Colors.white,
+                                  size: 25,
+                                ),
+                                SizedBox(
+                                  height: context.height * 0.01,
+                                ),
+                                Container(
+                                  child: Text(
+                                    _locality ?? "",
+                                    style: TextStyle(
+                                        fontSize: context.width * 0.035,
+                                        color: Colors.white
+                                    ),
+
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(
+                                    _adminArea != null ? ", "+_adminArea!+ "  " :"",
+                                    style: TextStyle(
+                                        fontSize: context.width * 0.035,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold
+
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.35,
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        child: widget._publication.images.length != 0 ?
+                        Image.memory(
+                          Base64Decoder().convert(widget._publication.images[0].url),
+                          fit: BoxFit.cover,
+                          //image: NetworkImage(widget._publication.images[0].url),
+                        ) : Image.asset('assets/logo.png'),
+                      ),
+                    ],
                   )),
               Padding(
                 padding:EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    /*Text(
                       widget._publication.date.toString(),
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -119,7 +178,7 @@ class _PubcardState extends State<Pubcard> {
                               ),
                             ),
                           ],
-                        ))
+                        ))*/
                   ],
                 ),
               )

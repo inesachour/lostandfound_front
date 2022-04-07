@@ -43,7 +43,10 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+<<<<<<< HEAD
 	<key>NSPhotoLibraryUsageDescription</key>
 	<key>SMicrophoneUsageDescription</key>
+=======
+>>>>>>> sprint1_searchPublications
 </dict>
 </plist>

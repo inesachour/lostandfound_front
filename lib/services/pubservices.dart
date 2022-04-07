@@ -19,7 +19,7 @@ class PubServices
     if(response.statusCode==200)
     {
       print("lost te5dem");
-      List<Publication> publications = publicationsFromJson(response.body) ;
+      List<Publication> publications = publicationFromJson(response.body) ;
       print("parse1 te5dem");
 
       publications.forEach((element) {
@@ -36,7 +36,7 @@ class PubServices
     var response = await http.get(Uri.parse("${Const.url}/publications/"));
     if(response.statusCode==200)
     {
-      var publications = publicationsFromJson(response.body) ;
+      var publications = publicationFromJson(response.body) ;
       print("parse2 te5dem");
 
       publications.forEach((element) {

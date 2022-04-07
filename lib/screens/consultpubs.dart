@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/widgets/pubcard.dart';
-import 'package:lostandfound/widgets/searchbar.dart';
+import 'package:lostandfound/widgets/searchBar.dart';
 import 'package:lostandfound/settings/config.dart';
 
 class Consultpubs extends StatefulWidget {
@@ -75,7 +75,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Searchbar(),
+                                  SearchBar(),
                                   InkWell(
                                       splashColor: Colors.blue,
                                       child: Text(
@@ -129,7 +129,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Searchbar(),
+                                  SearchBar(),
                                   InkWell(
                                       splashColor: Colors.blue,
                                       child: Text(

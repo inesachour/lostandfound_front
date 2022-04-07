@@ -1,47 +1,51 @@
-import 'dart:convert';
-
 import 'package:lostandfound/models/image.dart';
 import 'package:lostandfound/models/location.dart';
 import 'package:lostandfound/models/user.dart';
+import 'dart:convert';
 
-Publication publicationFromJson(String str) => Publication.fromJson(json.decode(str));
-
-List<Publication> publicationsFromJson(String str) => List<Publication>.from(json.decode(str).map((x) => Publication.fromJson(x)));
-
-String publicationToJson(Publication data) => json.encode(data.toJson());
+List<Publication> publicationFromJson(String str) => List<Publication>.from(json.decode(str).map((x) => Publication.fromJson(x)));
+//List<Publication> publicationFromJson(str) => List<Publication>.from(str.map((x) => Publication.fromJson(x)));
 
 class Publication {
-  Publication({
-    required this.title,
-    required this.description,
-    required this.date,
-    required this.category,
-    required this.owner,
-    required this.location,
-    required this.images,
-    required this.type,
-  });
+  Publication(
+      this.title,
+      this.description,
+      this.type,
+      this.date,
+      this.tempsCreation,
+      this.category,
+      this.location,
+      this.images,
+      this.owner,
+      this.status
+      );
 
   String title;
   String description;
-  DateTime date;
+  String type;
+  String date;
+  String tempsCreation;
   String category;
-  User owner;
   Location location;
   List<Image> images;
-  String type;
+  User owner;
+  String status;
 
-  factory Publication.fromJson(Map<String, dynamic> json) => Publication(
-    title: json["title"],
-    description: json["description"],
-    date: json["date"],
-    category: json["category"],
-    owner: json["owner"],
-    location: Location.fromJson(json["location"]),
-    images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
-    type: json["type"],
-  );
+  factory Publication.fromJson(Map<String, dynamic> json) {
+    return Publication(
+      json["title"]?? "",
+      json["description"]?? "",
+      json["type"]?? "",
+      json["date"]?? "",
+      json["tempsCreation"]?? "",
+      json["category"] ?? "",
+      Location.fromJson(json["location"]),
+      List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+      User.fromJson(json["owner"]),
+      json["status"]??"",
+    );
 
+  }
   Map<String, dynamic> toJson() => {
     "title": title,
     "description": description,
@@ -53,7 +57,3 @@ class Publication {
     "type": type,
   };
 }
-
-
-
-

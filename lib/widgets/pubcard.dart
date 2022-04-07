@@ -104,11 +104,14 @@ class _PubcardState extends State<Pubcard> {
                             SizedBox(
                               height: context.height * 0.01,
                             ),
-                            Text(
-                              _locality?.replaceAll(" ", "\n") ?? "",
-                              style: TextStyle(
-                                  fontSize: context.width * 0.035,
-                                  color: Colors.white),
+                            Container(
+                              child: Text(
+                                _locality?.replaceAll(" ", "\n") ?? "",
+                                style: TextStyle(
+                                    fontSize: context.width * 0.035,
+                                    color: Colors.white
+                                ),
+                              ),
                             ),
                             Container(
                               child: Text(
@@ -178,7 +181,7 @@ class _PubcardState extends State<Pubcard> {
                             style: TextStyle(fontSize: 20),
                           ),
                           SizedBox(
-                            height: 20,
+                            height: 5,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.end,
@@ -189,6 +192,7 @@ class _PubcardState extends State<Pubcard> {
                                     TextStyle(color: Colors.grey, fontSize: 12),
                                 overflow: _overflow,
                               ),
+                              SizedBox(height: 5,),
                               InkWell(
                                 onTap: () {
                                   if (_show == "voir plus") {

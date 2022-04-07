@@ -12,20 +12,16 @@ class PubServices
   {
     List<Publication> _lostPublications = [];
     var response = await http.get(Uri.parse("${Const.url}/publications/"));
-    print(response.body);
 
     if(response.statusCode==200)
     {
-      print("lost te5dem");
       List<Publication> publications = publicationsFromJson(response.body) ;
-      print("parse1 te5dem");
 
       publications.forEach((element) {
         if(element.type.toUpperCase()=="LOST")
           _lostPublications.add(element);
       });
     }
-    print(_lostPublications.length);
     return _lostPublications;
   }
   static Future<List<Publication>> getFoundPub() async
@@ -35,14 +31,12 @@ class PubServices
     if(response.statusCode==200)
     {
       var publications = publicationsFromJson(response.body) ;
-      print("parse2 te5dem");
 
       publications.forEach((element) {
         if(element.type.toUpperCase()=="FOUND")
           _foundPublications.add(element);
       });
     }
-    print(_foundPublications.length);
 
     return _foundPublications;
   }

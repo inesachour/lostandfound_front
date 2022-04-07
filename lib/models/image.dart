@@ -11,7 +11,7 @@ class Image {
 
   factory Image.fromJson(Map<String, dynamic> json) => Image(
     name: json["name"],
-    url: json["url"],//Base64Decoder().convert(json["url"]).toString(),
+    url: json["url"],
   );
 
   Map<String, dynamic> toJson() => {

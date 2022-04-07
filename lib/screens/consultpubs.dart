@@ -162,7 +162,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                     else
                                       _pubs = snapshot.data ?? [];
                                     return Container(
-                                      height: context.height * 0.7,
+                                      height: context.height * 0.69,
                                       child: ListView.builder(
                                           itemCount: _pubs.length,
                                           itemBuilder: (context, index) {

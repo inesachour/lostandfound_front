@@ -13,17 +13,16 @@ String publicationToJson(List<Publication> data) => json.encode(List<dynamic>.fr
 
 class Publication {
   Publication(
-    this.title,
-    this.description,
-    this.type,
-    this.date,
-    this.tempsCreation,
-    this.category,
-    this.location,
-    this.images,
-    this.owner,
-      this.status
-  );
+      {required this.title,
+      required this.description,
+      required this.type,
+      required this.date,
+      required this.tempsCreation,
+      required this.category,
+      required this.location,
+      required this.images,
+      required this.owner,
+      required this.status});
 
   String title;
   String description;
@@ -35,30 +34,29 @@ class Publication {
   List<Image> images;
   User owner;
   String status;
- static final int count = 123456789;
+
   factory Publication.fromJson(Map<String, dynamic> json) => Publication(
-    json["title"]??"",
-    json["description"]??"",
-    json["type"]??"",
-    json["date"]??"",
-    json["tempsCreation"]??"",
-    json["category"]??"",
-    Location.fromJson(json["location"]),
-    List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
-    User.fromJson(json["owner"]),
-    json["status"]
-  );
+      title: json["title"] ,
+      description: json["description"] ,
+      type: json["type"] ,
+      date: json["date"] ,
+      tempsCreation: json["tempsCreation"] ,
+      category: json["category"] ,
+      location: Location.fromJson(json["location"]),
+      images: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+      owner: User.fromJson(json["owner"]),
+      status: json["status"]);
 
   Map<String, dynamic> toJson() => {
-    "title": title,
-    "description": description,
-    "type": type,
-    "date": date,
-    "tempsCreation":tempsCreation,
-    "category": category,
-    "location": location.toJson(),
-    "images": List<dynamic>.from(images.map((x) => x.toJson())),
-    "owner" : owner.toJson(),
-    "status":status
-  };
+        "title": title,
+        "description": description,
+        "type": type,
+        "date": date,
+        "tempsCreation": tempsCreation,
+        "category": category,
+        "location": location.toJson(),
+        "images": List<dynamic>.from(images.map((x) => x.toJson())),
+        "owner": owner.toJson(),
+        "status": status
+      };
 }

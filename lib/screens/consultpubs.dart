@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:anim_search_bar/anim_search_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
@@ -35,7 +34,7 @@ class _ConsultpubsState extends State<Consultpubs> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Container(
-                  height: MediaQuery.of(context).size.height * 0.88,
+                  height: MediaQuery.of(context).size.height * 0.9,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
                     color: Colors.white,

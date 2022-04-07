@@ -4,7 +4,7 @@ import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/widgets/pubcard.dart';
-import 'package:lostandfound/widgets/searchbar.dart';
+import 'package:lostandfound/widgets/searchBar.dart';
 import 'package:lostandfound/settings/config.dart';
 
 class Consultpubs extends StatefulWidget {
@@ -74,7 +74,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Searchbar(),
+                                  SearchBar(),
                                   InkWell(
                                       splashColor: primaryBlue,
                                       child: Text(
@@ -108,7 +108,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                     else
                                       _pubs = snapshot.data ?? [];
                                     return Container(
-                                      height: context.height * 0.7,
+                                      height: context.height * 0.69,
                                       child: ListView.builder(
                                           itemCount: _pubs.length,
                                           itemBuilder: (context, index) {
@@ -128,7 +128,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Searchbar(),
+                                  SearchBar(),
                                   InkWell(
                                       splashColor: primaryBlue,
                                       child: Text(

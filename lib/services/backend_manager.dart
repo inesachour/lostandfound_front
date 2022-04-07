@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:lostandfound/models/image.dart';
 import 'package:lostandfound/models/location.dart';
@@ -12,19 +11,20 @@ import 'package:lostandfound/models/user.dart';
 
 class BackendManager{
 
-addPublication({required String title, required String description,required String date, required String category, required LatLng latlng, required List<File> images, required User owner , required String type}) async {
-  var client = http.Client();
-  try {
-    String url = 'http://10.0.2.2:3000/publications';
-    Location l = Location(
-        coordinates: [latlng.latitude.toString(), latlng.longitude.toString()], type: "point");
-    List<Image> imgs = [];
-    int i =1;
-    images.forEach((element) {
-      imgs.add(Image(name: "image"+i.toString(), url: base64Encode(element.readAsBytesSync())));
-      i++;
-    });
-    var publication = Publication(
+  addPublication({required String title, required String description,required String date, required String category, required LatLng latlng, required List<File> images, required User owner , required String type}) async {
+    var client = http.Client();
+    try {
+      String url = 'http://192.168.0.103:3000/publications';
+      Location l = Location(
+          coordinates: [latlng.latitude.toString(), latlng.longitude.toString()], type: "point");
+      List<Image> imgs = [];
+      int i =1;
+      images.forEach((element) {
+        print('ok');
+        imgs.add(Image(name: "image"+i.toString(), url: base64Encode(element.readAsBytesSync())));
+        i++;
+      });
+      var publication = Publication(
         title: title,
         description: description,
         date: date ,
@@ -35,13 +35,14 @@ addPublication({required String title, required String description,required Stri
         type: type,
         status:"en cours",
         tempsCreation: DateTime.now().toString(),
-    );
-    await client.post(Uri.parse(url), body: publication.toJson());
+
+      );
+      await client.post(Uri.parse(url), body: publication.toJson());
+    }
+    catch (e) {
+      print(e.toString());
+    }
   }
-  catch (e) {
-    print(e.toString());
-  }
-}
 
   /* TO DECODE IMAGE
   Future<Uint8List?> getPhoto() async {
@@ -59,4 +60,22 @@ addPublication({required String title, required String description,required Stri
     }
   }
    */
+
+Future<List<Publication>> getPublications(String search) async {
+  var client = http.Client();
+  List<Publication> publications = [];
+  try{
+    String url = 'http://192.168.43.116:3000/publications?search=$search';
+    var response = await client.get(Uri.parse(url));
+    var jsonString = response.body;
+    //var jsonMap = json.decode(jsonString);
+    publications = publicationsFromJson(jsonString);
+    print(response.body);
+  }
+  catch(e){
+    print('mochkla kbira');
+    print(e.toString());
+  }
+  return publications;
+}
 }

@@ -1,8 +1,6 @@
 // ignore_for_file: curly_braces_in_flow_control_structures, avoid_function_literals_in_foreach_calls
 
 import 'package:lostandfound/models/publication.dart';
-import 'package:lostandfound/models/user.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lostandfound/settings/const.dart';
 

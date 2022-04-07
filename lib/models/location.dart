@@ -23,4 +23,6 @@ class Location {
     "\"coordinates\"": List<dynamic>.from(coordinates.map((x) => x)),
     "\"type\"": "\""+type+"\"",
   };
+
 }
+

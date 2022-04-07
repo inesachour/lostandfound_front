@@ -1,11 +1,10 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, sized_box_for_whitespace
 
-import 'dart:typed_data';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:geocode/geocode.dart';
 import 'package:lostandfound/models/publication.dart';
-//import 'package:flutter_geocoder/geocoder.dart';
 import 'package:lostandfound/settings/config.dart';
 
 class Pubcard extends StatefulWidget {
@@ -36,7 +35,7 @@ class _PubcardState extends State<Pubcard> {
         ).then((value) {
       setState(() {
         _locality = value.city.toString();// value[0].locality.toString();
-        _adminArea = value.city.toString(); //[0].adminArea.toString();
+        _adminArea = value.region.toString(); //[0].adminArea.toString();
       });
     });
     /*Geocoder.local
@@ -69,11 +68,11 @@ class _PubcardState extends State<Pubcard> {
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.35,
                     width: MediaQuery.of(context).size.width * 0.9,
-                    child: Image.memory(
-                      widget._publication.images[0].url as Uint8List,
+                    child: widget._publication.images.length != 0 ? Image.memory(
+                      Base64Decoder().convert(widget._publication.images[0].url),
                       fit: BoxFit.cover,
                       //image: NetworkImage(widget._publication.images[0].url),
-                    ),
+                    ) : SizedBox(height: MediaQuery.of(context).size.height * 0.35),
                   )),
               Padding(
                 padding:EdgeInsets.all(8.0),

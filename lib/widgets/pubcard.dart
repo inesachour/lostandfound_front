@@ -30,10 +30,10 @@ class _PubcardState extends State<Pubcard> {
         latitude: double.parse(widget._publication.location.coordinates[0]),
         longitude: double.parse(widget._publication.location.coordinates[1])
         ).then((value) {
-      setState(() {
+     setState(() {
         _locality = value.city.toString();// value[0].locality.toString();
         _adminArea = value.region.toString(); //[0].adminArea.toString();
-      });
+     });
     });
     /*Geocoder.local
         .findAddressesFromCoordinates(Coordinates(

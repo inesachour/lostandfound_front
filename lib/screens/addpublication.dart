@@ -278,7 +278,8 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                             owner: User(firstName: "firstName", lastName: "lastName", phone: "phone", email: "email", photo: "photo"),
                             type: _type,
                         );
-                        Navigator.pop(context);
+                        //Navigator.pop(context);
+                        Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
                       }
 
                       },

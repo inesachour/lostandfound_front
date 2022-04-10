@@ -40,7 +40,7 @@ class _SearchBarState extends State<SearchBar> {
           );
         },
         decoration: InputDecoration(
-          hintText: 'Rechercher',
+          hintText: 'Rechercher...',
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25),
             borderSide: const BorderSide(color: Colors.blue),
@@ -55,7 +55,7 @@ class _SearchBarState extends State<SearchBar> {
 /************************************/
 class CustomSearchDelegate extends SearchDelegate {
   late Future<List<Publication>> _allPublications =
-  backendManager.getPublications(query);
+      backendManager.getPublications(query);
 
   @override
   String get searchFieldLabel => 'Rechercher';
@@ -88,36 +88,52 @@ class CustomSearchDelegate extends SearchDelegate {
         if (snapshot.hasData) {
           return snapshot.data!.isEmpty
               ? Center(
-            child: Text("Aucune publication trouvée"),
-          )
+                  child: Text("Aucune publication trouvée"),
+                )
               : ListView.builder(
-            itemCount: snapshot.data!.indexOf(snapshot.data!.last) + 1,
-            itemBuilder: (BuildContext context, int index) {
-              var pub = snapshot.data!.elementAt(index);
-              return ListTile(
-                leading: pub.images.length > 0
-                    ? Image.memory(
-                  Base64Decoder().convert(pub.images[0].url),
-                  fit: BoxFit.cover,
-                  //image: NetworkImage(widget._publication.images[0].url),
-                ) : SizedBox(
-                  height: 20,
-                ),
-                title: Text(pub.title),
-                subtitle: Text(pub.description),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => Scaffold(
-                          body: Center(
-                            child: Text('hello, u pressed ${pub.title}'),
-                          )),
-                    ),
-                  );
-                },
-              );
-            },
-          );
+                  itemCount: snapshot.data!.indexOf(snapshot.data!.last) + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    var pub = snapshot.data!.elementAt(index);
+                    return ListTile(
+                      leading: pub.images.length > 0
+                          ? Image.memory(
+                              Base64Decoder().convert(pub.images[0].url),
+                              fit: BoxFit.cover,
+                              height: 50,
+                              width: 50,
+                              //image: NetworkImage(widget._publication.images[0].url),
+                            )
+                          : SizedBox(
+                              height: 20,
+                            ),
+                      title: Text(pub.title),
+                      subtitle: Row(
+                        children: [
+                          Expanded(
+                            child: Text(pub.description),
+                            flex: 2,
+                          ),
+                          Text(
+                            pub.type.toUpperCase(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => Scaffold(
+                                body: Center(
+                              child: Text('hello, u pressed ${pub.title}'),
+                            )),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
         } else {
           return Center(
             child: CircularProgressIndicator(),
@@ -136,39 +152,54 @@ class CustomSearchDelegate extends SearchDelegate {
         if (snapshot.hasData) {
           return snapshot.data!.isEmpty
               ? Center(
-            child: Text("Aucune publication trouvée"),
-          )
-              : ListView.builder(
-            //shows last 5 pubs if query (search term) is empty
-            //itemCount: query.length > 0 ? snapshot.data!.indexOf(snapshot.data!.last) + 1 : 5,
-            itemCount: snapshot.data!.indexOf(snapshot.data!.last) + 1,
-            itemBuilder: (BuildContext context, int index) {
-              var pub = snapshot.data!.elementAt(index);
-              return ListTile(
-                leading: pub.images.length > 0
-                    ? Image.memory(
-                  Base64Decoder().convert(pub.images[0].url),
-                  fit: BoxFit.cover,
-                  //image: NetworkImage(widget._publication.images[0].url),
+                  child: Text("Aucune publication trouvée"),
                 )
-                    : SizedBox(
-                  height: 20,
-                ),
-                title: Text(pub.title),
-                subtitle: Text(pub.description),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => Scaffold(
-                          body: Center(
-                            child: Text('hello, u pressed ${pub.title}'),
-                          )),
-                    ),
-                  );
-                },
-              );
-            },
-          );
+              : ListView.builder(
+                  //shows last 5 pubs if query (search term) is empty
+                  //itemCount: query.length > 0 ? snapshot.data!.indexOf(snapshot.data!.last) + 1 : 5,
+                  itemCount: snapshot.data!.indexOf(snapshot.data!.last) + 1,
+                  itemBuilder: (BuildContext context, int index) {
+                    var pub = snapshot.data!.elementAt(index);
+                    return ListTile(
+                      leading: pub.images.length > 0
+                          ? Image.memory(
+                              Base64Decoder().convert(pub.images[0].url),
+                              fit: BoxFit.cover,
+                              width: 50,
+                              height: 50,
+                              //image: NetworkImage(widget._publication.images[0].url),
+                            )
+                          : SizedBox(
+                              height: 20,
+                            ),
+                      title: Text(pub.title),
+                      subtitle: Row(
+                        children: [
+                          Expanded(
+                            child: Text(pub.description),
+                            flex: 2,
+                          ),
+                          Text(
+                            pub.type.toUpperCase(),
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => Scaffold(
+                                body: Center(
+                              child: Text('hello, u pressed ${pub.title}'),
+                            )),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                );
         } else {
           return Center(
             child: CircularProgressIndicator(),

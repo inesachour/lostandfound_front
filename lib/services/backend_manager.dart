@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
@@ -8,6 +7,8 @@ import 'package:lostandfound/models/image.dart';
 import 'package:lostandfound/models/location.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/models/user.dart';
+import 'package:lostandfound/settings/const.dart';
+
 
 
 class BackendManager{
@@ -15,7 +16,7 @@ class BackendManager{
 addPublication({required String title, required String description,required String date, required String category, required LatLng latlng, required List<File> images, required String owner , required String type}) async {
   var client = http.Client();
   try {
-    String url = 'http://192.168.0.103:3000/publications';
+    String url = '${Const.url}/publications';
     DateTime d = DateTime.parse(date);
     Location l = Location(
         coordinates: [latlng.latitude.toString(), latlng.longitude.toString()], type: "point");
@@ -28,12 +29,14 @@ addPublication({required String title, required String description,required Stri
     var publication = Publication(
         title: title,
         description: description,
-        date: d ,
+        date: d.toIso8601String() ,
         category: category,
         owner: User(phone: "",photo: "",lastName: "",firstName: "",email: ""),
         location: l,
         images: imgs,
         type: type,
+      status: "en cours",
+        tempsCreation: DateTime.now().toIso8601String()
     );
     await client.post(Uri.parse(url), body: publication.toJson());
   }

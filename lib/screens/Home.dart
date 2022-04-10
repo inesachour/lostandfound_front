@@ -41,7 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue.shade200,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).pushNamed("/addpubs");
+        },
         tooltip: 'js',
         child: Icon(
           Icons.add,

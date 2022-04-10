@@ -2,7 +2,6 @@
 
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/models/user.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:lostandfound/settings/const.dart';
 
@@ -12,8 +11,10 @@ class PubServices
 
   static Future<List<Publication>> getLostPub() async
   {
+    print("d5alt");
     List<Publication> _lostPublications = [];
     var response = await http.get(Uri.parse("${Const.url}/publications/"));
+    print("t3adit");
     print(response.body);
 
     if(response.statusCode==200)

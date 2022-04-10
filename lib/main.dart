@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:lostandfound/screens/addpublication.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
 import 'package:lostandfound/settings/colors.dart';
+import 'package:lostandfound/screens/register.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,12 +16,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      routes: {"/consultpubs": (context) => Consultpubs()},
+      title: 'Lost And Found',
+      //routes: {"/consultpubs": (context) => Consultpubs()},
       theme: ThemeData(
           bottomAppBarColor: Colors.grey.shade200,
       ),
-      home: HomeScreen(),
+      home: Register(),
     );
   }
 }

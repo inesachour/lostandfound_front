@@ -104,8 +104,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      final bool isValid = EmailValidator.validate(email!);
-                      if(isValid && pwd != null )
+                      final bool isValid = EmailValidator.validate(email??"");
+                      if(isValid && pwd != null && pwd!="")
                       {Auth.Login(email??"",pwd??"").then((value) {
                         if(value==true)
                           Navigator.of(context).pushReplacementNamed("/home");

@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
+import 'package:lostandfound/services/auth_services.dart';
 import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/widgets/pubcard.dart';
@@ -22,9 +25,18 @@ class _ConsultpubsState extends State<Consultpubs> {
       alignment: AlignmentDirectional.bottomCenter,
       children: [
         Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(20),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
+          child: IconButton(
+            alignment: Alignment.topRight,
+            icon:Icon(Icons.logout,color: Colors.white,semanticLabel: "Logout",),
+            onPressed: (){
+              Auth.Logout().then((value) {
+                Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
+              });
+            },
+          ),
           color: primaryBlue
         ),
         Positioned(
@@ -49,6 +61,10 @@ class _ConsultpubsState extends State<Consultpubs> {
                           SliverAppBar(
                             pinned: true,
                             backgroundColor: primaryBackground,
+                            shape: ContinuousRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    topLeft: Radius.circular(30),
+                                    topRight: Radius.circular(30))),
                             toolbarHeight: 0,
                             bottom: TabBar(
                               labelColor: primaryBlue,

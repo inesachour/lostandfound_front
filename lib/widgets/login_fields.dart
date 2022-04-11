@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/settings/config.dart';
 
-
 class LoginField extends StatefulWidget {
   String type;
   String hint;

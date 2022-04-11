@@ -7,7 +7,7 @@ import 'package:lostandfound/settings/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Auth {
-  static Future<bool> Login(String email,String pwd) async {
+  static Future Login(String email,String pwd) async {
     var response = await http.post(
       Uri.parse("${Const.url}/auth"),
       body: {
@@ -24,7 +24,10 @@ class Auth {
         bodyRes["expiresIn"].toString()]);
       return true;
     }
-    return false;
+    else
+      {
+        return bodyRes["message"];
+      }
   }
   static Future Logout() async{
     final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -33,5 +36,6 @@ class Auth {
       {
         prefs.remove("tokenInfo");
       }
+    return true;
   }
 }

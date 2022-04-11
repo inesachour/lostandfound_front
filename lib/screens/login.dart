@@ -1,10 +1,14 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, curly_braces_in_flow_control_structures, sized_box_for_whitespace
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:lostandfound/services/auth_services.dart';
 import 'package:lostandfound/settings/config.dart';
 import 'dart:ui' as ui;
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 import 'package:lostandfound/widgets/login_fields.dart';
 
@@ -16,6 +20,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   String? email;
   String? pwd;
+  Widget _errorWidget=SizedBox();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SharedPreferences.getInstance().then((value){
+      if(value.containsKey("tokenInfo"))
+        Navigator.of(context).pushReplacementNamed("/home");
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: context.height * 0.07,
                 ),
+                _errorWidget,
                 LoginField(type: "email", hint: "E-mail",getContent: (value){
                   setState(() {
                     email = value;
@@ -89,11 +104,44 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   child: ElevatedButton(
                     onPressed: () {
-                      Auth.Login(email??"",pwd??"").then((value) {
-                        if(value)
+                      final bool isValid = EmailValidator.validate(email!);
+                      if(isValid)
+                      {Auth.Login(email??"",pwd??"").then((value) {
+                        if(value==true)
                           Navigator.of(context).pushReplacementNamed("/home");
+                        else
+                          setState(() {
+                            _errorWidget=Container(
+                              width: context.width*0.75,
+                              child: Text(
+                                value.toString().toUpperCase()+" !",style: TextStyle(
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                                  fontSize: context.width * 0.03
 
-                      });
+                              ),
+                                textAlign: TextAlign.start,
+                              ),
+                            );
+                          });
+
+                      });}
+                      else
+                        {
+                          setState(() {
+                            _errorWidget = Container(
+                              width: context.width*0.75,
+                              child: Text(
+                                "Please enter a valid email !".toUpperCase(),style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                fontSize: context.width * 0.03
+                              ),
+                                textAlign: TextAlign.start,
+                              ),
+                            );
+                          });
+                        }
                     },
                     child: Text("Login"),
                     style: ButtonStyle(

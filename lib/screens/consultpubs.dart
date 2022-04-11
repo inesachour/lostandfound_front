@@ -3,6 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
+import 'package:lostandfound/services/auth_services.dart';
 import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/widgets/pubcard.dart';
 import 'package:lostandfound/widgets/searchbar.dart';
@@ -23,10 +24,19 @@ class _ConsultpubsState extends State<Consultpubs> {
       alignment: AlignmentDirectional.bottomCenter,
       children: [
         Container(
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.all(20),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           color: Colors.blue.shade300,
+          child: IconButton(
+            alignment: Alignment.topRight,
+            icon:Icon(Icons.logout,color: Colors.white,semanticLabel: "Logout",),
+            onPressed: (){
+              Auth.Logout().then((value) {
+                Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
+              });
+            },
+          ),
         ),
         Positioned(
           top: MediaQuery.of(context).size.height * 0.1,

@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: ElevatedButton(
                     onPressed: () {
                       final bool isValid = EmailValidator.validate(email!);
-                      if(isValid)
+                      if(isValid && pwd != null )
                       {Auth.Login(email??"",pwd??"").then((value) {
                         if(value==true)
                           Navigator.of(context).pushReplacementNamed("/home");
@@ -128,6 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       });}
                       else
                         {
+                          if(!isValid)
                           setState(() {
                             _errorWidget = Container(
                               width: context.width*0.75,
@@ -141,6 +142,21 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             );
                           });
+                          else
+                            setState(() {
+                              _errorWidget = Container(
+                                width: context.width*0.75,
+                                child: Text(
+                                  "Please enter a password !".toUpperCase(),style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: context.width * 0.03
+                                ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              );
+                            });
+
                         }
                     },
                     child: Text("Login"),

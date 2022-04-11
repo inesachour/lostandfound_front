@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/services/image_picker.dart';
 import 'dart:io';
-import 'package:intl/intl.dart';
-import 'package:lostandfound/models/user.dart';
-import 'package:lostandfound/services/backend_manager.dart';
+import 'package:lostandfound/services/registerService.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/widgets/form_widgets.dart';
 
@@ -62,7 +60,7 @@ class _RegisterState extends State<Register> {
   List<File> _photos = [];
 
   //Backend Manager
-  BackendManager _backendManager = BackendManager();
+  RegisterService _registerService = RegisterService();
 
   @override
   Widget build(BuildContext context) {
@@ -80,28 +78,32 @@ class _RegisterState extends State<Register> {
         ),
         title: Column(
           children: [
-            Text("Lost And Found",
+            Text(
+              "Lost And Found",
               style: TextStyle(
                 fontSize: 30,
               ),
             ),
-            Text("Ou rien ne se perd",
-            style: TextStyle(
-              fontSize: 13,
-            ),
+            Text(
+              "Ou rien ne se perd",
+              style: TextStyle(
+                fontSize: 13,
+              ),
             ),
           ],
         ),
-        toolbarHeight: 100,
+        toolbarHeight: 150,
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 40,),
+              SizedBox(
+                height: 40,
+              ),
               Text(
                 "Créer votre compte",
                 style: TextStyle(
@@ -110,13 +112,79 @@ class _RegisterState extends State<Register> {
                   fontSize: 22,
                 ),
               ),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               Form(
                 key: _formKey,
                 child: Column(
                   children: [
+                    Stack(
+                      children: [
+                        CircleAvatar(
+                          backgroundColor: primaryGrey,
+                          radius: 80,
+                          child: _photos.length == 0
+                              ? Icon(Icons.account_circle_rounded,
+                                  color: primaryBackground)
+                              : Stack(
+                                  children: [
+                                    ClipOval(
+                                      child: Image.file(
+                                        _photos[0],
+                                        width: 200,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    Positioned(
+                                      top: 5,
+                                      right: 10,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            _photos.removeAt(0);
+                                          });
+                                        },
+                                        icon: Icon(
+                                          Icons.close_rounded,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                        ),
+                        Positioned(
+                          bottom: 5,
+                          right: 10,
+                          child: TextButton.icon(
+                            onPressed: () async {
+                              var _images = await _imagePickerService
+                                  .getPhotosFromGallery();
+                              if (_images != null) {
+                                setState(() {
+                                  if (_photos.length > 0) {
+                                    _images.forEach((e) {
+                                      _photos.add(e);
+                                    });
+                                  } else {
+                                    _photos = _images;
+                                  }
+                                });
+                              }
+                            },
+                            icon: Icon(
+                              Icons.camera_alt_rounded,
+                              color: primaryBackground,
+                            ),
+                            label: Text(""),
+                          ),
+                        ),
+                      ],
+                    ),
                     SizedBox(
-                      height: 10,
+                      height: 25,
                     ),
                     RegisterInputField(
                       decoration:
@@ -179,10 +247,8 @@ class _RegisterState extends State<Register> {
                       height: 30,
                     ),
                     RegisterInputField(
-                      decoration: buildInputDecoration(
-                          Icons.password,
-                          "Confirmer le mot de passe",
-                          "Mot de passe"),
+                      decoration: buildInputDecoration(Icons.password,
+                          "Confirmer le mot de passe", "Mot de passe"),
                       keyboardType: TextInputType.text,
                       obscureText: true,
                       controller: _confirmPasswordController,
@@ -197,69 +263,6 @@ class _RegisterState extends State<Register> {
                         return null;
                       },
                       maxLines: 1,
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    SizedBox(
-                      height: _photos.length == 0 ? 0 :(((_photos.length-1)/2).toInt()+1)*160,
-                      child: _photos==null ? Text("") : GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: _photos.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 1.2,
-                        ),
-                        itemBuilder: (BuildContext context, int index){
-                          return Stack(
-                              alignment: Alignment.topRight,
-                              children: [
-                                Container(
-                                  height: 150,
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(color: Color(0xffd4d8dc), width: 2),
-                                  ),
-                                  child: Image.file(_photos[index], fit: BoxFit.contain,),
-                                ),
-                                IconButton(
-                                  onPressed: (){
-                                    setState(() {
-                                      _photos.removeAt(index);
-                                    });
-                                  },
-                                  icon: Icon(Icons.close_rounded, color: Colors.red,),
-
-                                ),
-                              ]
-                          );
-                        },
-                      ),
-                    ),
-                    Container(
-                      child: ( _photos.length >= 4) ? null : TextButton.icon(
-                        onPressed: () async{
-                          var _images = await _imagePickerService.getPhotosFromGallery();
-                          if(_images!=null){
-                            setState(() {
-                              if(_photos.length >0){
-                                _images.forEach((e) {
-                                  _photos.add(e);
-                                });
-                              }else{
-                                _photos = _images;
-                              }
-                            });
-                          }
-                        },
-                        icon: Icon(Icons.add,color: Color(0xff707070),),
-                        label: Text("ajouter des photos (maximum : 4)",style: TextStyle(color: Color(0xff707070)),),
-                        style: ButtonStyle(
-                          overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
-                        ),
-                      ),
                     ),
                     SizedBox(
                       height: 30,
@@ -283,12 +286,16 @@ class _RegisterState extends State<Register> {
                           print(_emailController.text);
                           print(_passwordController.text);
                           print(_photos[0].path);
-                          //_backendManager.register(
-                          //title: _titleController.text,
-                          //date: _date.toString(),
-                          //images: _photo,
-                          //owner: User(firstName: "firstName", lastName: "lastName", phone: "phone", email: "email", photo: "photo"),
-                          //);
+                          _registerService.register(
+                            firstName: _nameController.text,
+                            lastName: _lastNameController.text,
+                            phone: _phoneController.text,
+                            email: _emailController.text,
+                            password: _passwordController.text,
+                            photo: _photos,
+                            role: "user",
+                            verified: false,
+                          );
                           //Navigator.pop(context);
                           Navigator.of(context)
                               .pushNamedAndRemoveUntil("/", (route) => false);
@@ -299,15 +306,92 @@ class _RegisterState extends State<Register> {
                       height: 10,
                     ),
                     Center(
-                      child: Text(
-                          "En créant un compte, vous acceptez les conditions d'utilisation et politique de confidentialité de Lost And Found",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 11,
-                        ),
+                      child: Column(
+                        children: [
+                          Text(
+                            "En créant un compte, vous acceptez les conditions d'utilisation et politique de confidentialité de Lost And Found",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 11,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Divider(
+                                  thickness: 0.7,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(" ou "),
+                              Expanded(
+                                child: Divider(
+                                  thickness: 0.7,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          ElevatedButton(
+                            child: Text(
+                              "Se connecter avec Google",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 15),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                Color(0xfffafafa),
+                              ),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                              fixedSize: MaterialStateProperty.all(
+                                  Size(width * 0.9, 50)),
+                            ),
+                            onPressed: () {},
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          ElevatedButton(
+                            child: Text(
+                              "Se connecter avec Facebook",
+                              style:
+                                  TextStyle(color: Colors.black, fontSize: 15),
+                            ),
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(
+                                Color(0xfffafafa),
+                              ),
+                              shape: MaterialStateProperty.all(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20))),
+                              fixedSize: MaterialStateProperty.all(
+                                  Size(width * 0.9, 50)),
+                            ),
+                            onPressed: () {},
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          TextButton(
+                            child: Text(
+                              "Vous avez déjà un compte?",
+                              style: TextStyle(
+                                color: primaryGrey,
+                              ),
+                            ),
+                            onPressed: () {},
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 20,),
                   ],
                 ),
               ),

@@ -60,13 +60,14 @@ Widget RegisterInputField(
 }
 
 //decoration
-InputDecoration buildInputDecoration(IconData icons, String hinttext, String label) {
+InputDecoration buildInputDecoration(IconData icons, String hinttext, String label, Widget? widget) {
   return InputDecoration(
     fillColor: Color(0xfffafafa),
     filled: true,
     label: Text(label),
     hintText: hinttext,
     prefixIcon: Icon(icons),
+    suffixIcon: widget,
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(25.0),
       borderSide: BorderSide(color: Colors.blue, width: 1.5),

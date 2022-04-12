@@ -25,10 +25,24 @@ class _RegisterState extends State<Register> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
-  //obligation validator
+  //show password control
+  bool eyeForPassword = true;
+  bool eyeForConfirmPassword = true;
+
+  // validators
   var validator = (value) {
     if (value == null || value.isEmpty) {
-      return 'Champ obligatoire';
+      return 'Veuillez remplir ce champ';
+    }
+    return null;
+  };
+
+  var passwordValidator = (value) {
+    if (value == null || value.isEmpty) {
+      return 'Resaisir le mot de passe';
+    }
+    if(value.toString().length < 6 ){
+      return 'longeur minimal de 6 caractères';
     }
     return null;
   };
@@ -126,6 +140,7 @@ class _RegisterState extends State<Register> {
                           radius: 80,
                           child: _photos.length == 0
                               ? Icon(Icons.account_circle_rounded,
+                                  size: 70,
                                   color: primaryBackground)
                               : Stack(
                                   children: [
@@ -188,7 +203,7 @@ class _RegisterState extends State<Register> {
                     ),
                     RegisterInputField(
                       decoration:
-                          buildInputDecoration(Icons.title, "Nom", "Nom"),
+                          buildInputDecoration(Icons.title, "Nom", "Nom", null),
                       keyboardType: TextInputType.text,
                       obscureText: false,
                       controller: _nameController,
@@ -200,7 +215,7 @@ class _RegisterState extends State<Register> {
                     ),
                     RegisterInputField(
                       decoration:
-                          buildInputDecoration(Icons.title, "Prénom", "Prénom"),
+                          buildInputDecoration(Icons.title, "Prénom", "Prénom", null),
                       keyboardType: TextInputType.text,
                       obscureText: false,
                       controller: _lastNameController,
@@ -212,7 +227,7 @@ class _RegisterState extends State<Register> {
                     ),
                     RegisterInputField(
                       decoration: buildInputDecoration(
-                          Icons.phone, "Téléphone", "Téléphone"),
+                          Icons.phone, "Téléphone", "Téléphone", null),
                       keyboardType: TextInputType.phone,
                       obscureText: false,
                       controller: _phoneController,
@@ -224,7 +239,7 @@ class _RegisterState extends State<Register> {
                     ),
                     RegisterInputField(
                       decoration:
-                          buildInputDecoration(Icons.email, "E-mail", "E-mail"),
+                          buildInputDecoration(Icons.email, "E-mail", "E-mail", null),
                       keyboardType: TextInputType.emailAddress,
                       obscureText: false,
                       controller: _emailController,
@@ -236,11 +251,13 @@ class _RegisterState extends State<Register> {
                     ),
                     RegisterInputField(
                       decoration: buildInputDecoration(
-                          Icons.password, "Mot de passe", "Mot de passe"),
+                          Icons.password, "Mot de passe", "Mot de passe", IconButton(onPressed: (){  setState(() {
+                        eyeForPassword = !eyeForPassword;
+                          });}, icon: Icon(Icons.remove_red_eye))),
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: eyeForPassword,
                       controller: _passwordController,
-                      validator: validator,
+                      validator: passwordValidator,
                       maxLines: 1,
                     ),
                     SizedBox(
@@ -248,9 +265,11 @@ class _RegisterState extends State<Register> {
                     ),
                     RegisterInputField(
                       decoration: buildInputDecoration(Icons.password,
-                          "Confirmer le mot de passe", "Mot de passe"),
+                          "Confirmer le mot de passe", "Mot de passe", IconButton(onPressed: (){ setState(() {
+                            eyeForConfirmPassword = !eyeForConfirmPassword;
+                          });}, icon: Icon(Icons.remove_red_eye))),
                       keyboardType: TextInputType.text,
-                      obscureText: true,
+                      obscureText: eyeForConfirmPassword,
                       controller: _confirmPasswordController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -258,7 +277,7 @@ class _RegisterState extends State<Register> {
                         }
                         if (_passwordController.text !=
                             _confirmPasswordController.text) {
-                          return "Password does not match";
+                          return "Mots de passe non identiques";
                         }
                         return null;
                       },

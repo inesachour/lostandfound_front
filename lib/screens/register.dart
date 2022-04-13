@@ -304,7 +304,6 @@ class _RegisterState extends State<Register> {
                           print(_phoneController.text);
                           print(_emailController.text);
                           print(_passwordController.text);
-                          print(_photos[0].path);
                           _registerService.register(
                             firstName: _nameController.text,
                             lastName: _lastNameController.text,

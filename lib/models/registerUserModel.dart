@@ -19,7 +19,7 @@ class RegisterUser {
   String firstName;
   String lastName;
   String phone;
-  List<Image> photo;
+  List<Image>? photo;
   String email;
   String password;
   String role;
@@ -42,7 +42,7 @@ class RegisterUser {
     "firstName": firstName,
     "lastName": lastName,
     "phone": phone,
-    "photo": List<dynamic>.from(photo.map((x) => x.toJson())).toString(),
+    "photo": photo != null ? List<dynamic>.from(photo!.map((x) => x.toJson())).toString() : [],
     "email" : email,
     "password": password,
     "role" : role,

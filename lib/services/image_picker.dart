@@ -27,6 +27,22 @@ class ImagePickerService{
     }
   }
 
+  Future<File?> getPhotoFromGallery() async {
+    try{
+      final XFile? photo = await _picker.pickImage(source: ImageSource.gallery);
+      if(photo == null)
+        return null;
+      else{
+        final File photoFile;
+        photoFile = File(photo.path);
+        return photoFile;
+      }
+    }
+    catch(e){
+      print("Failed to pick image $e");
+    }
+  }
+
   savePhoto(File photo,String name) async{
     final File newPhoto = await photo.copy('$path/$name.png');
     return newPhoto;

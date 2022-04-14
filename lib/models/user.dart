@@ -10,7 +10,7 @@ class User {
     required this.lastName,
     required this.phone,
     required this.email,
-    required this.photo
+    required this.photo,
   });
 
   String firstName;

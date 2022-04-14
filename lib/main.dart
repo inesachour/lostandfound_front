@@ -17,18 +17,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      routes: {
-        "/consultpubs": (context) => Consultpubs(),
-        "/addpubs": (context) => AddPublicationForm(),
-        "/home": (context) => HomeScreen()
-      },
-      theme: ThemeData(
+        debugShowCheckedModeBanner: false,
+        title: 'Lost and Found',
+        routes: {
+          "/consultpubs": (context) => Consultpubs(),
+          "/addpubs": (context) => AddPublicationForm(),
+          "/home": (context) => HomeScreen()
+        },
+        theme: ThemeData(
           bottomAppBarColor: Colors.grey.shade200,
-      ),
-      home: LoginScreen()//HomeScreen(),
+        ),
+        home: LoginScreen()//HomeScreen(),
     );
   }
 }
-

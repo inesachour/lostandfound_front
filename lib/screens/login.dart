@@ -181,24 +181,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: context.height * 0.05,
                 ),
-                ElevatedButton(
-                  child: Text("Rejoindre la communauté"),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      primaryBlue,
+                TextButton(
+                  child: Text(
+                    "Vous n'avez pas de compte?",
+                    style: TextStyle(
+                      color: primaryGrey,
                     ),
-                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20))),
-                    fixedSize:
-                    MaterialStateProperty.all(Size(context.width * 0.75, 50)),
                   ),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) =>  Register()),
+                      MaterialPageRoute(builder: (context) => Register()),
                     );
                   },
-
                 ),
               ],
             ),

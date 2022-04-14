@@ -86,10 +86,6 @@ class _RegisterState extends State<Register> {
       backgroundColor: primaryBackground,
       appBar: AppBar(
         backgroundColor: primaryBlue,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
         title: Column(
           children: [
             Text(

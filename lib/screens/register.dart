@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/services/image_picker.dart';
 import 'dart:io';
@@ -71,7 +70,7 @@ class _RegisterState extends State<Register> {
 
   //photo
   ImagePickerService _imagePickerService = ImagePickerService();
-  List<File> _photos = [];
+  File? _photo;
 
   //Backend Manager
   RegisterService _registerService = RegisterService();
@@ -138,7 +137,7 @@ class _RegisterState extends State<Register> {
                         CircleAvatar(
                           backgroundColor: primaryGrey,
                           radius: 80,
-                          child: _photos.length == 0
+                          child: _photo == null
                               ? Icon(Icons.account_circle_rounded,
                                   size: 70,
                                   color: primaryBackground)
@@ -146,7 +145,7 @@ class _RegisterState extends State<Register> {
                                   children: [
                                     ClipOval(
                                       child: Image.file(
-                                        _photos[0],
+                                        _photo!,
                                         width: 200,
                                         height: 200,
                                         fit: BoxFit.cover,
@@ -158,7 +157,7 @@ class _RegisterState extends State<Register> {
                                       child: IconButton(
                                         onPressed: () {
                                           setState(() {
-                                            _photos.removeAt(0);
+                                            _photo = null;
                                           });
                                         },
                                         icon: Icon(
@@ -175,16 +174,17 @@ class _RegisterState extends State<Register> {
                           right: 10,
                           child: TextButton.icon(
                             onPressed: () async {
-                              var _images = await _imagePickerService
-                                  .getPhotosFromGallery();
-                              if (_images != null) {
+                              var _image = await _imagePickerService
+                                  .getPhotoFromGallery();
+                              if (_image != null) {
                                 setState(() {
-                                  if (_photos.length > 0) {
-                                    _images.forEach((e) {
-                                      _photos.add(e);
-                                    });
+                                  if (_photo != null) {
+                                    _image = _photo;
+                                    // _images.forEach((e) {
+                                    //   _photos.add(e);
+                                    // });
                                   } else {
-                                    _photos = _images;
+                                    _photo = _image;
                                   }
                                 });
                               }
@@ -310,7 +310,7 @@ class _RegisterState extends State<Register> {
                             phone: _phoneController.text,
                             email: _emailController.text,
                             password: _passwordController.text,
-                            photo: _photos,
+                            photo: _photo,
                             role: "user",
                             verified: false,
                           );

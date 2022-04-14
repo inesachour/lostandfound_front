@@ -8,23 +8,23 @@ import 'package:lostandfound/settings/const.dart';
 
 class RegisterService{
 
-  register({required String firstName, required String lastName,required String phone, List<File>? photo, required String email , required String password, required String role, required bool verified}) async {
+  register({required String firstName, required String lastName,required String phone, File? photo, required String email , required String password, required String role, required bool verified}) async {
     var client = http.Client();
     try {
       String url = Const.url+'/users';
-      List<Image> imgs = [];
-      int i = 1;
+      Image? img;
       if(photo != null){
-        photo.forEach((element) {
-          imgs.add(Image(name: "image"+i.toString(), url: base64Encode(element.readAsBytesSync())));
-          i++;
-        });
+        img = Image(name: "image"+photo.path.toString(), url: base64Encode(photo.readAsBytesSync()));
+        // photo.forEach((element) {
+        //   imgs.add(Image(name: "image"+i.toString(), url: base64Encode(element.readAsBytesSync())));
+        //   i++;
+        // });
       }
       var user = RegisterUser(
         firstName: firstName,
         lastName: lastName,
         phone: phone,
-        photo: imgs,
+        photo: img,
         email: email,
         password: password,
         role: role,

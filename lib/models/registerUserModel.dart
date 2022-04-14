@@ -19,7 +19,7 @@ class RegisterUser {
   String firstName;
   String lastName;
   String phone;
-  List<Image>? photo;
+  Image? photo;
   String email;
   String password;
   String role;
@@ -30,7 +30,8 @@ class RegisterUser {
       firstName : json["firstName"]?? "",
       lastName: json["lastName"]?? "",
       phone: json["phone"]?? "",
-      photo: List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+      photo: //List<Image>.from(json["images"].map((x) => Image.fromJson(x))),
+            Image.fromJson(json["photo"]),
       email: json["date"]?? "",
       password: json["password"]??"",
       role: json["role"]??"",
@@ -42,7 +43,8 @@ class RegisterUser {
     "firstName": firstName,
     "lastName": lastName,
     "phone": phone,
-    "photo": photo != null ? List<dynamic>.from(photo!.map((x) => x.toJson())).toString() : [],
+    "photo": //photo != null ? List<dynamic>.from(photo!.map((x) => x.toJson())).toString() : [],
+               photo != null ? (photo!.toJson()).toString() : [].toString() ,
     "email" : email,
     "password": password,
     "role" : role,

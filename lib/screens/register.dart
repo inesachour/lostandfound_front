@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:lostandfound/services/registerService.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/widgets/form_widgets.dart';
+import 'package:lostandfound/screens/login.dart';
 
 class Register extends StatefulWidget {
   const Register({Key? key}) : super(key: key);
@@ -109,7 +110,7 @@ class _RegisterState extends State<Register> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -326,11 +327,24 @@ class _RegisterState extends State<Register> {
                     Center(
                       child: Column(
                         children: [
-                          Text(
-                            "En créant un compte, vous acceptez les conditions d'utilisation et politique de confidentialité de Lost And Found",
+                          RichText(
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 11,
+                            text: TextSpan(
+                              style : TextStyle(
+                                fontSize: 12,
+                                color: primaryGrey,
+                              ),
+                            children : <TextSpan>[
+                              TextSpan(text: "En créant un compte, vous acceptez les "),
+                              TextSpan(text: "conditions d'utilisation", style: TextStyle(
+                                color: primaryBlue,
+                              ),),
+                              TextSpan(text: " et "),
+                              TextSpan(text: "politique de confidentialité", style: TextStyle(
+                                color: primaryBlue,
+                              ),),
+                              TextSpan(text: " de Lost and Found.")
+                            ],
                             ),
                           ),
                           SizedBox(
@@ -405,7 +419,12 @@ class _RegisterState extends State<Register> {
                                 color: primaryGrey,
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => LoginScreen()),
+                              );
+                            },
                           ),
                         ],
                       ),

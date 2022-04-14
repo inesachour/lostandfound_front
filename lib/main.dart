@@ -4,6 +4,7 @@ import 'package:lostandfound/screens/Home.dart';
 import 'package:lostandfound/screens/addpublication.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
 import 'package:lostandfound/screens/login.dart';
+import 'package:lostandfound/screens/register.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           bottomAppBarColor: Colors.grey.shade200,
         ),
-        home: LoginScreen()//HomeScreen(),
+        home: Register(),
     );
   }
 }

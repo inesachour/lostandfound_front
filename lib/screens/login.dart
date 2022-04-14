@@ -4,7 +4,9 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:lostandfound/screens/register.dart';
 import 'package:lostandfound/services/auth_services.dart';
+import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/settings/config.dart';
 import 'dart:ui' as ui;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -178,6 +180,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 SizedBox(
                   height: context.height * 0.05,
+                ),
+                ElevatedButton(
+                  child: Text("Rejoindre la communauté"),
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(
+                      primaryBlue,
+                    ),
+                    shape: MaterialStateProperty.all(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20))),
+                    fixedSize:
+                    MaterialStateProperty.all(Size(context.width * 0.75, 50)),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) =>  Register()),
+                    );
+                  },
+
                 ),
               ],
             ),

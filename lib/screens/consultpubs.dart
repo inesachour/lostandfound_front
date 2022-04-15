@@ -20,6 +20,7 @@ class _ConsultpubsState extends State<Consultpubs> {
   List<Publication> _pubs = [];
   var pubsStream = PubServices.getLostPub();
 
+
   @override
   Widget build(BuildContext context) {
     return Stack(

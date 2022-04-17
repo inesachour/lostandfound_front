@@ -1,10 +1,12 @@
 
+
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/services/comments_service.dart';
 import 'package:lostandfound/settings/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-Widget addComment({required TextEditingController controller}){
+Widget addComment({required TextEditingController controller, required String publication}){
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
     child: TextFormField(
@@ -15,11 +17,14 @@ Widget addComment({required TextEditingController controller}){
         suffixIcon: IconButton(
             icon: Icon(Icons.send,),
             onPressed: () async {
+              final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+              final SharedPreferences prefs = await _prefs;
+              var commentOwner = prefs.getStringList("user");
               var ok = await CommentsService.addComment(
                   text: controller.text,
-                  owner: User(firstName: "test", lastName: "test", phone: "test", email: "test", photo: "test")
+                  commentOwner: commentOwner![0],
+                  publication: publication,
               );
-              print(ok);
               controller.clear();
         }
         ),

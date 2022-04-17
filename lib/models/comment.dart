@@ -12,25 +12,29 @@ class Comment {
     required this.text,
     required this.dateCreation,
     this.dateModification,
-    required this.owner,
+    required this.commentOwner,
+    required this.publication
   });
 
   String text;
   DateTime dateCreation;
   DateTime? dateModification;
-  User owner;
+  String commentOwner;
+  String publication;
 
   factory Comment.fromJson(Map<String, dynamic> json) => Comment(
-    text: json["text"],
-    dateCreation: json["dateCreation"],
-    dateModification: json["dateModification"],
-    owner: User.fromJson(json["owner"])
+      text: json["text"],
+      dateCreation: json["dateCreation"],
+      dateModification: json["dateModification"],
+      commentOwner: "user",
+      publication: json["publication"]
   );
 
   Map<String, dynamic> toJson() => {
     "text": text,
-    "dateCreation": dateCreation,
-    "dateModification" : dateModification,
-    "owner" : owner.toJson().toString()
+    "dateCreation": dateCreation.toString(),
+    "dateModification" : dateModification.toString(),
+    "commentOwner" : commentOwner,
+    "publication" : publication
   };
 }

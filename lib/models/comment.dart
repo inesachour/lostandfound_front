@@ -3,6 +3,10 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:lostandfound/models/user.dart';
 
+List<Comment> commentsFromJson(String str) => List<Comment>.from(json.decode(str).map((x) => Comment.fromJson(x)));
+
+String commentsToJson(List<Comment> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 Comment commentFromJson(String str) => Comment.fromJson(json.decode(str));
 
 String commentToJson(Comment data) => json.encode(data.toJson());
@@ -17,8 +21,8 @@ class Comment {
   });
 
   String text;
-  DateTime dateCreation;
-  DateTime? dateModification;
+  String dateCreation;
+  String? dateModification;
   String commentOwner;
   String publication;
 

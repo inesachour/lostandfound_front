@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:lostandfound/models/comment.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/services/comments_service.dart';
 import 'package:lostandfound/settings/colors.dart';
@@ -40,6 +41,61 @@ Widget addComment({required TextEditingController controller, required String pu
         focusColor: Colors.white,
         hintText: "Ecrire commentaire",
       ),
+    ),
+  );
+}
+
+
+Widget listComments({required TextEditingController controller, required String publicationId}){
+  var commentsFuture = CommentsService.findComments(publicationId: publicationId);
+
+  return Column(
+    children: [
+      StreamBuilder<List<Comment>?>(
+        stream: Stream.fromFuture(commentsFuture),
+        builder: (BuildContext context, AsyncSnapshot<List<Comment>?> snapshot,) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SizedBox();
+          } else if (snapshot.connectionState == ConnectionState.active
+              || snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return const Text('Erreur');
+            } else if (snapshot.hasData) {
+              var _comments = snapshot.data ?? [];
+              print(_comments.length);
+              return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _comments.length,
+                  itemBuilder: (context, index) {
+                    Comment comment = _comments[index];
+                    return CommentCard(comment);
+                  });
+            } else {
+              return const Text('Empty data');
+            }
+          } else {
+            return Text('State: ${snapshot.connectionState}');
+          }
+        },
+      ),
+      addComment(controller : controller, publication: publicationId)
+    ],
+  );
+}
+
+Widget CommentCard(Comment comment){
+  return Card(
+    child: Row(
+      children: [
+
+        Container(
+          child: Column(
+            children: [
+              Text(comment.text)
+            ],
+          ),
+        )
+      ],
     ),
   );
 }

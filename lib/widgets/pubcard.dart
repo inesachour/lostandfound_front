@@ -348,7 +348,6 @@ class _PubcardState extends State<Pubcard> {
                         onPressed: () {
                           setState(() {
                             addCommentToggle = !addCommentToggle;
-                           // comments = addCommentToggle ? CommentsService.findComments(publicationId: widget._publication.id!) : null;
                             CommentsService.findComments(publicationId: widget._publication.id!);
                           });
                         }
@@ -356,33 +355,7 @@ class _PubcardState extends State<Pubcard> {
 
                   ],
                 ),
-                addCommentToggle ? Column(
-                  children: [
-                    StreamBuilder<Comment>(
-                      //stream: Stream.fromFuture(comments!),
-                      builder: (BuildContext context, AsyncSnapshot<Comment> snapshot,) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return CircularProgressIndicator();
-                        } else if (snapshot.connectionState == ConnectionState.active
-                            || snapshot.connectionState == ConnectionState.done) {
-                          if (snapshot.hasError) {
-                            return const Text('Erreur');
-                          } else if (snapshot.hasData) {
-                            return Text(
-                                snapshot.data.toString(),
-                                style: const TextStyle(color: Colors.teal, fontSize: 36)
-                            );
-                          } else {
-                            return const Text('Empty data');
-                          }
-                        } else {
-                          return Text('State: ${snapshot.connectionState}');
-                        }
-                      },
-                    ),
-                    addComment(controller : commentController, publication: widget._publication.id!)
-                  ],
-                ) : SizedBox(),
+                addCommentToggle ? listComments(controller: commentController, publicationId: widget._publication.id!) : SizedBox(),
               ]
 
               )),

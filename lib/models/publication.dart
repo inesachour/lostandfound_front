@@ -11,6 +11,7 @@ String publicationToJson(List<Publication> data) => json.encode(List<dynamic>.fr
 
 class Publication {
   Publication({
+    this.id,
     required this.title,
     required this.description,
     required this.type,
@@ -23,6 +24,7 @@ class Publication {
     required this.status
   });
 
+  String? id;
   String title;
   String description;
   String type;
@@ -36,6 +38,7 @@ class Publication {
 
   factory Publication.fromJson(Map<String, dynamic> json) {
     return Publication(
+      id: json["_id"],
       title : json["title"]?? "",
       description: json["description"]?? "",
       type: json["type"]?? "",

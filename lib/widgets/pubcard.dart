@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geocode/geocode.dart';
 import 'package:lostandfound/models/publication.dart';
+import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/settings/config.dart';
+import 'package:lostandfound/widgets/comment_widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Pubcard extends StatefulWidget {
   Pubcard(this._publication);
@@ -20,6 +23,8 @@ class _PubcardState extends State<Pubcard> {
   String _show = "voir plus";
   String? _locality;
   String? _adminArea;
+  bool addCommentToggle = false;
+  TextEditingController commentController = TextEditingController();
 
   @override
   void initState() {
@@ -47,8 +52,11 @@ class _PubcardState extends State<Pubcard> {
     });*/
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+
     return Container(
       width: context.width * 0.9,
       padding: EdgeInsets.all(8),
@@ -335,12 +343,22 @@ class _PubcardState extends State<Pubcard> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                             ))),
-                        onPressed: () {}),
+                        onPressed: () {
+                          setState(() {
+                            addCommentToggle = !addCommentToggle;
+                          });
+                        }
+                        ),
+
                   ],
                 ),
-              ])),
+                addCommentToggle ? addComment(controller : commentController, publication: widget._publication.id!) : SizedBox()
+              ]
+
+              )),
         ],
       ),
     );
   }
 }
+

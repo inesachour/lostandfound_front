@@ -18,6 +18,8 @@ class Consultpubs extends StatefulWidget {
 class _ConsultpubsState extends State<Consultpubs> {
   TextEditingController textController = TextEditingController();
   List<Publication> _pubs = [];
+  var pubsStream = PubServices.getLostPub();
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,10 +104,11 @@ class _ConsultpubsState extends State<Consultpubs> {
                                 ],
                               ),
                               FutureBuilder<List<Publication>>(
-                                future: PubServices.getLostPub(),
+                                future: pubsStream,//PubServices.getLostPub(),
                                 // function where you call your api
                                 builder: (BuildContext context,
                                     AsyncSnapshot<List<Publication>> snapshot) {
+                                  // AsyncSnapshot<Your object type>
                                   // AsyncSnapshot<Your object type>
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
@@ -158,8 +161,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                               FutureBuilder<List<Publication>>(
                                 future: PubServices.getFoundPub(),
                                 // function where you call your api
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<List<Publication>> snapshot) {
+                                builder: (BuildContext context, AsyncSnapshot<List<Publication>> snapshot) {
                                   // AsyncSnapshot<Your object type>
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {

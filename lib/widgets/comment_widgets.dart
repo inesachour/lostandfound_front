@@ -19,15 +19,17 @@ Widget addComment({required TextEditingController controller, required String pu
         suffixIcon: IconButton(
             icon: Icon(Icons.send,),
             onPressed: () async {
-              final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-              final SharedPreferences prefs = await _prefs;
-              var commentOwner = prefs.getString("userId");
-              var ok = await CommentsService.addComment(
+              if(controller.text != Null && controller.text.isNotEmpty ){
+                final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+                final SharedPreferences prefs = await _prefs;
+                var commentOwner = prefs.getString("userId");
+                var ok = await CommentsService.addComment(
                   text: controller.text,
                   commentOwner: commentOwner!,
                   publication: publication,
-              );
-              controller.clear();
+                );
+                controller.clear();
+              }
         }
         ),
         border: OutlineInputBorder(
@@ -36,7 +38,7 @@ Widget addComment({required TextEditingController controller, required String pu
         fillColor: Colors.white,
         filled: true,
         focusColor: Colors.white,
-        hintText: " . . .",
+        hintText: "Ecrire commentaire",
       ),
     ),
   );

@@ -1,5 +1,7 @@
 
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/services/comments_service.dart';
@@ -19,10 +21,10 @@ Widget addComment({required TextEditingController controller, required String pu
             onPressed: () async {
               final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
               final SharedPreferences prefs = await _prefs;
-              var commentOwner = prefs.getStringList("user");
+              var commentOwner = prefs.getString("userId");
               var ok = await CommentsService.addComment(
                   text: controller.text,
-                  commentOwner: commentOwner![0],
+                  commentOwner: commentOwner!,
                   publication: publication,
               );
               controller.clear();

@@ -30,7 +30,7 @@ class Comment {
       text: json["text"],
       dateCreation: json["dateCreation"],
       dateModification: json["dateModification"],
-      commentOwner: "user",
+      commentOwner: json["commentOwner"],
       publication: json["publication"]
   );
 

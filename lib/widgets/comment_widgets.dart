@@ -6,8 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:lostandfound/models/comment.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/services/comments_service.dart';
+import 'package:lostandfound/services/users_service.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+late User? user;
 
 Widget addComment({required TextEditingController controller, required String publication}){
   return Padding(
@@ -68,6 +70,7 @@ Widget listComments({required TextEditingController controller, required String 
                   itemCount: _comments.length,
                   itemBuilder: (context, index) {
                     Comment comment = _comments[index];
+                    print(comment.commentOwner);
                     return CommentCard(comment);
                   });
             } else {
@@ -84,6 +87,8 @@ Widget listComments({required TextEditingController controller, required String 
 }
 
 Widget CommentCard(Comment comment){
+
+  getUser(comment.commentOwner);
   return Card(
     child: Row(
       children: [
@@ -91,6 +96,7 @@ Widget CommentCard(Comment comment){
         Container(
           child: Column(
             children: [
+              Text(user!= null ? user!.firstName : "ok"),
               Text(comment.text)
             ],
           ),
@@ -98,4 +104,8 @@ Widget CommentCard(Comment comment){
       ],
     ),
   );
+}
+
+getUser(String commentOwner) async{
+  user =  await UsersService.findUser(userId: commentOwner);
 }

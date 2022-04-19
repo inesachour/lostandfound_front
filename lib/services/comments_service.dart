@@ -30,7 +30,6 @@ class CommentsService{
     try {
       String url = Const.url+'/comments/'+ publicationId;
       var result = await client.get(Uri.parse(url));
-      print(commentsFromJson(result.body));
       return commentsFromJson(result.body);
     }
     catch (e) {

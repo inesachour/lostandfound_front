@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lostandfound/screens/verifyemail.dart';
 import 'package:lostandfound/services/image_picker.dart';
 import 'dart:io';
 import 'package:lostandfound/services/registerService.dart';
@@ -311,9 +312,10 @@ class _RegisterState extends State<Register> {
                             role: "user",
                             verified: false,
                           );
-                          //Navigator.pop(context);
-                          Navigator.of(context)
-                              .pushNamedAndRemoveUntil("/", (route) => false);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => VerifyEmail()),
+                          );
                         }
                       },
                     ),

@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
         routes: {
           "/consultpubs": (context) => Consultpubs(),
           "/addpubs": (context) => AddPublicationForm(),
-          "/home": (context) => HomeScreen()
+          "/home": (context) => HomeScreen(),
+          "/login": (context) => LoginScreen()
         },
         theme: ThemeData(
           bottomAppBarColor: Colors.grey.shade200,

@@ -1,8 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geocode/geocode.dart';
+import 'package:lostandfound/models/comment.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/models/user.dart';
+import 'package:lostandfound/services/comments_service.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/settings/config.dart';
 import 'package:lostandfound/widgets/comment_widgets.dart';
@@ -337,7 +339,7 @@ class _PubcardState extends State<Pubcard> {
                         ),
                         style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all<Color>(Colors.grey.shade400),
+                                MaterialStateProperty.all<Color>(addCommentToggle ?  primaryBlue : Colors.grey.shade400 ),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(RoundedRectangleBorder(
                               borderRadius:
@@ -346,13 +348,14 @@ class _PubcardState extends State<Pubcard> {
                         onPressed: () {
                           setState(() {
                             addCommentToggle = !addCommentToggle;
+                            CommentsService.findComments(publicationId: widget._publication.id!);
                           });
                         }
                         ),
 
                   ],
                 ),
-                addCommentToggle ? addComment(controller : commentController, publication: widget._publication.id!) : SizedBox()
+                addCommentToggle ? listComments(controller: commentController, publicationId: widget._publication.id!) : SizedBox(),
               ]
 
               )),

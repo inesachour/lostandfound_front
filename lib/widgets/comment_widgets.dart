@@ -3,10 +3,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:lostandfound/models/comment.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/services/comments_service.dart';
+import 'package:lostandfound/services/users_service.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+late User? user;
 
 Widget addComment({required TextEditingController controller, required String publication}){
   return Padding(
@@ -42,4 +45,77 @@ Widget addComment({required TextEditingController controller, required String pu
       ),
     ),
   );
+}
+
+
+Widget listComments({required TextEditingController controller, required String publicationId}){
+  var commentsFuture = CommentsService.findComments(publicationId: publicationId);
+
+  return Column(
+    children: [
+      StreamBuilder<List<Comment>?>(
+        stream: Stream.fromFuture(commentsFuture),
+        builder: (BuildContext context, AsyncSnapshot<List<Comment>?> snapshot,) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return SizedBox();
+          } else if (snapshot.connectionState == ConnectionState.active
+              || snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return const Text('Erreur');
+            } else if (snapshot.hasData) {
+              var _comments = snapshot.data ?? [];
+              return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _comments.length,
+                  itemBuilder: (context, index) {
+                    Comment comment = _comments[index];
+                    return CommentCard(comment);
+                  });
+            } else {
+              return const Text('Empty data');
+            }
+          } else {
+            return Text('State: ${snapshot.connectionState}');
+          }
+        },
+      ),
+      addComment(controller : controller, publication: publicationId)
+    ],
+  );
+}
+
+Widget CommentCard(Comment comment){
+  getUser(comment.commentOwner);
+
+  return Card(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15)
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(width: 10,),
+        Expanded(
+          flex: 1,
+          child: CircleAvatar(child: Image.asset("assets/logo.png"),),
+        ),
+        Expanded(
+          flex:5,
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(user!= null ? user!.firstName : "ok"),
+                Text(comment.text)
+              ],
+            ),
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+getUser(String commentOwner) async{
+  user =  await UsersService.findUser(userId: commentOwner);
 }

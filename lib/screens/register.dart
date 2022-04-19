@@ -312,8 +312,9 @@ class _RegisterState extends State<Register> {
                             verified: false,
                           );
                           //Navigator.pop(context);
+
                           Navigator.of(context)
-                              .pushNamedAndRemoveUntil("/", (route) => false);
+                              .pushNamedAndRemoveUntil("/login", (route) => false);
                         }
                       },
                     ),

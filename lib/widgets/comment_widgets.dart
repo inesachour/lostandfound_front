@@ -64,13 +64,11 @@ Widget listComments({required TextEditingController controller, required String 
               return const Text('Erreur');
             } else if (snapshot.hasData) {
               var _comments = snapshot.data ?? [];
-              print(_comments.length);
               return ListView.builder(
                   shrinkWrap: true,
                   itemCount: _comments.length,
                   itemBuilder: (context, index) {
                     Comment comment = _comments[index];
-                    print(comment.commentOwner);
                     return CommentCard(comment);
                   });
             } else {
@@ -87,18 +85,30 @@ Widget listComments({required TextEditingController controller, required String 
 }
 
 Widget CommentCard(Comment comment){
-
   getUser(comment.commentOwner);
-  return Card(
-    child: Row(
-      children: [
 
-        Container(
-          child: Column(
-            children: [
-              Text(user!= null ? user!.firstName : "ok"),
-              Text(comment.text)
-            ],
+  return Card(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15)
+    ),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        SizedBox(width: 10,),
+        Expanded(
+          flex: 1,
+          child: CircleAvatar(child: Image.asset("assets/logo.png"),),
+        ),
+        Expanded(
+          flex:5,
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(user!= null ? user!.firstName : "ok"),
+                Text(comment.text)
+              ],
+            ),
           ),
         )
       ],

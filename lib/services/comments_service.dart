@@ -16,7 +16,6 @@ class CommentsService{
       );
 
       var result = await client.post(Uri.parse(url), body: comment.toJson());
-      print(result);
     }
     catch (e) {
       print(e.toString());

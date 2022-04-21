@@ -10,13 +10,26 @@ class CommentsService{
       String url = Const.url+'/comments';
       var comment = Comment(
           text: text,
-          dateCreation: DateTime.now(),
+          dateCreation: DateTime.now().toString(),
           commentOwner: commentOwner,
           publication: publication
       );
 
       var result = await client.post(Uri.parse(url), body: comment.toJson());
-      print(result);
+    }
+    catch (e) {
+      print(e.toString());
+    }
+  }
+
+
+
+  static Future<List<Comment>?> findComments({required String publicationId}) async {
+    var client = http.Client();
+    try {
+      String url = Const.url+'/comments/'+ publicationId;
+      var result = await client.get(Uri.parse(url));
+      return commentsFromJson(result.body);
     }
     catch (e) {
       print(e.toString());

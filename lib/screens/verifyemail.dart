@@ -14,7 +14,9 @@ class VerifyEmail extends StatefulWidget {
 }
 
 class _VerifyEmailState extends State<VerifyEmail> {
-  var msg = "";
+  var emailMsg = "";
+  var resendMsg = "";
+  var couleur;
 
   //Form Validation variables
   final _formKey = GlobalKey<FormState>();
@@ -72,7 +74,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       print(ver);
                       if (user.verified == true) {
                         setState(() {
-                          msg = "";
+                          emailMsg = "";
                         });
                         Navigator.push(
                           context,
@@ -81,7 +83,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                         );
                       } else {
                         setState(() {
-                          msg =
+                          emailMsg =
                               "vous n'avez pas encore vérifié votre adresse e-mail";
                         });
                       }
@@ -91,7 +93,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     height: 10,
                   ),
                   Text(
-                    msg,
+                    emailMsg,
                     style: TextStyle(color: Colors.red),
                   ),
                   SizedBox(
@@ -117,12 +119,31 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       var user = await registerService.findRegistredUser(id!);
                       var email = user.email;
                       print(email);
-                      var res = registerService.resendVerificationEmail(user.email);
+                      var res = await registerService.resendVerificationEmail(user.email);
+                      var success = res.success;
+                      if(success == false){
+                        setState(() {
+                          resendMsg = "Une erreur est survenue";
+                          couleur = Colors.red;
+                        });
+                      }else{
+                        setState(() {
+                          resendMsg = "Email renvoyée avec succés";
+                          couleur = Colors.green;
+                        });
+                      }
+                      if(res == null){
+                        setState(() {
+                          resendMsg = "";
+                        });
+                      }
                     },
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
+                  Text(resendMsg, style: TextStyle(color: couleur),),
+                  SizedBox(height: 20,),
                 ],
               ),
             ),

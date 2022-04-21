@@ -6,6 +6,8 @@ import 'package:lostandfound/models/registerUserModel.dart';
 import 'package:lostandfound/settings/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../constants/reponse.dart';
+
 class RegisterService{
 
   register({required String firstName, required String lastName,required String phone, File? photo, required String email , required String password, required String role, required bool verified}) async {
@@ -48,7 +50,8 @@ class RegisterService{
     try{
       String url = Const.url+'/auth/v2/email/resend-verification/${email}';
       var response = await client.get(Uri.parse(url));
-      return response.body;
+      var jsonString = response.body;
+      return responseFromJson(jsonString);
     }
     catch(e){
       print("mochkla f resend email");

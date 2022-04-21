@@ -135,7 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             _errorWidget = Container(
                               width: context.width*0.75,
                               child: Text(
-                                "Please enter a valid email !".toUpperCase(),style: TextStyle(
+                                "Veuillez saisir un email valide !".toUpperCase(),style: TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold,
                                 fontSize: context.width * 0.03
@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               _errorWidget = Container(
                                 width: context.width*0.75,
                                 child: Text(
-                                  "Please enter a password !".toUpperCase(),style: TextStyle(
+                                  "Veuillez saisir un mot de passe !".toUpperCase(),style: TextStyle(
                                     color: Colors.red,
                                     fontWeight: FontWeight.bold,
                                     fontSize: context.width * 0.03

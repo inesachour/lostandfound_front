@@ -6,7 +6,6 @@ import 'package:lostandfound/models/registerUserModel.dart';
 import 'package:lostandfound/settings/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class RegisterService{
 
   register({required String firstName, required String lastName,required String phone, File? photo, required String email , required String password, required String role, required bool verified}) async {
@@ -16,10 +15,6 @@ class RegisterService{
       Image? img;
       if(photo != null){
         img = Image(name: "image"+photo.path.toString(), url: base64Encode(photo.readAsBytesSync()));
-        // photo.forEach((element) {
-        //   imgs.add(Image(name: "image"+i.toString(), url: base64Encode(element.readAsBytesSync())));
-        //   i++;
-        // });
       }
       var user = RegisterUser(
         firstName: firstName,
@@ -40,7 +35,7 @@ class RegisterService{
         final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
         final SharedPreferences prefs = await _prefs;
         prefs.setString("email", responseBody["email"]);
-        prefs.setBool("verified", responseBody["verified"]);
+        prefs.setString("_id", responseBody["_id"]);
       }
     }
     catch (e) {
@@ -48,19 +43,29 @@ class RegisterService{
       print(e.toString());
     }
   }
-  // Future<dynamic> resendVerificationEmail(String email) async {
-  //   var client = http.Client();
-  //   String reponse = "";
-  //   try{
-  //     String url = Const.url+'auth/v2/email/${email}';
-  //     var response = await client.get(Uri.parse(url));
-  //     reponse = response.body;
-  //     print(reponse);
-  //   }
-  //   catch(e){
-  //     print("mochkla f resend email");
-  //     print(e.toString());
-  //   }
-  //   return reponse;
-  // }
+  resendVerificationEmail(String email) async {
+    var client = http.Client();
+    try{
+      String url = Const.url+'/auth/v2/email/resend-verification/${email}';
+      var response = await client.get(Uri.parse(url));
+      return response.body;
+    }
+    catch(e){
+      print("mochkla f resend email");
+      print(e.toString());
+    }
+  }
+
+  findRegistredUser(String id) async {
+    var client = http.Client();
+    try {
+      String url = Const.url+'/users/${id}';
+      var response = await client.get(Uri.parse(url));
+      var jsonString = response.body;
+      return registerUserFromJson(jsonString);
+    }
+    catch (e) {
+      print(e.toString());
+    }
+  }
 }

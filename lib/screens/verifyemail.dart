@@ -42,9 +42,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
               height: 30,
             ),
             Text(
-              "Vous avez reçu un email de vérification, veillez consulter votre boite de réception",
-              style: TextStyle(fontSize: 15),
-            ),
+                "Vous avez reçu un email de vérification, veuillez consulter votre boite de réception"),
             SizedBox(
               height: 20,
             ),
@@ -53,7 +51,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
               child: Column(
                 children: [
                   ElevatedButton(
-                    child: Text("Renvoyer l'email"),
+                    child: Text("Se connecter"),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
                         primaryBlue,
@@ -67,15 +65,40 @@ class _VerifyEmailState extends State<VerifyEmail> {
                       final Future<SharedPreferences> _prefs =
                           SharedPreferences.getInstance();
                       final SharedPreferences prefs = await _prefs;
-                      var email = prefs.getString("email");
-                      print("sakhta" + email!);
+                      var id = prefs.getString("_id");
+                      print(id);
+                      var user = await registerService.findRegistredUser(id!);
+                      var ver = user.verified;
+                      print(ver);
+                      if (user.verified == true) {
+                        setState(() {
+                          msg = "";
+                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen()),
+                        );
+                      } else {
+                        setState(() {
+                          msg =
+                              "vous n'avez pas encore vérifié votre adresse e-mail";
+                        });
+                      }
                     },
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    msg,
+                    style: TextStyle(color: Colors.red),
                   ),
                   SizedBox(
                     height: 20,
                   ),
                   ElevatedButton(
-                    child: Text("Se connecter"), //
+                    child: Text("Renvoyer l'email"),
                     style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
                         primaryBlue,
@@ -86,32 +109,19 @@ class _VerifyEmailState extends State<VerifyEmail> {
                           MaterialStateProperty.all(Size(width * 0.9, 50)),
                     ),
                     onPressed: () async {
-                      final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+                      final Future<SharedPreferences> _prefs =
+                      SharedPreferences.getInstance();
                       final SharedPreferences prefs = await _prefs;
-                      var verified = prefs.getBool("verified");
-                      print(verified);
-                      if (verified == true) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LoginScreen()),
-                        );
-                      } else {
-                        setState(() {
-                          msg = "vous n'avez pas encore vérifié votre adresse e-mail";
-                        });
-                      }
-                      setState(() {
-                        verified = prefs.getBool("verified");
-                      });
+                      var id = prefs.getString("_id");
+                      print(id);
+                      var user = await registerService.findRegistredUser(id!);
+                      var email = user.email;
+                      print(email);
+                      var res = registerService.resendVerificationEmail(user.email);
                     },
                   ),
-                  SizedBox(height: 10,),
-                  Text(
-                    msg,
-                    style: TextStyle(
-                      color: Colors.redAccent,
-                    ),
+                  SizedBox(
+                    height: 10,
                   ),
                 ],
               ),

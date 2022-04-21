@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+Image imageFromJson(String str) => Image.fromJson(json.decode(str));
+
+String imageToJson(Image data) => json.encode(data.toJson());
 class Image {
   Image({
     required this.name,

@@ -36,6 +36,7 @@ class BackendManager{
         tempsCreation: DateTime.now().toString(),
 
       );
+      print("ok");
       await client.post(Uri.parse(url), body: publication.toJson());
     }
     catch (e) {

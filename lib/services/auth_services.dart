@@ -15,7 +15,7 @@ class Auth {
         "password" : pwd
       }
     );
-    //print("bodyyyyy "+response.body.toString());
+    print("bodyyyyy "+response.body.toString());
     var bodyRes=jsonDecode(response.body);
     if(bodyRes["status"]==null) {
       final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -32,6 +32,7 @@ class Auth {
         return bodyRes["message"];
       }
   }
+
   static Future Logout() async{
     final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;

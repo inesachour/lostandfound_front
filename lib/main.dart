@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           bottomAppBarColor: Colors.grey.shade200,
         ),
-        home: Register(),
+        home: LoginScreen(),
     );
   }
 }

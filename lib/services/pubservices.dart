@@ -42,7 +42,13 @@ class PubServices
   }
 
 
-  static filterPublications({String? category}){
+  filterPublications({String? category}) async{
 
+    print(category);
+    var body = {
+      "category" : category
+    };
+    var response = await http.post(Uri.parse("${Const.url}/publications/filter"),body: body);
+    print(response.body);
   }
 }

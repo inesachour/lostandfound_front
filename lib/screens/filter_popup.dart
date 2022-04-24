@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lostandfound/constants/categories.dart';
+import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/widgets/form_widgets.dart';
 
 class FilterPopUp extends StatefulWidget {
@@ -15,7 +16,8 @@ class _FilterPopUpState extends State<FilterPopUp> {
 
   Widget build(BuildContext context) {
 
-    String _category = "";
+    PubServices pubServices = PubServices();
+    String? _category;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -30,6 +32,7 @@ class _FilterPopUpState extends State<FilterPopUp> {
                   onchanged: (item){
                     setState(() {
                       _category = item.toString();
+                      print(_category);
 
                     });
                   },
@@ -42,7 +45,9 @@ class _FilterPopUpState extends State<FilterPopUp> {
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
                   fixedSize: MaterialStateProperty.all(Size(width*0.7,40))
                 ),
-                onPressed: (){},
+                onPressed: (){
+                  pubServices.filterPublications(category: _category);
+                },
               ),
             ],
           ),

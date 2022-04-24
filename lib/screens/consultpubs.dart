@@ -3,6 +3,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
+import 'package:lostandfound/screens/addpublication.dart';
+import 'package:lostandfound/screens/filter_popup.dart';
 import 'package:lostandfound/services/auth_services.dart';
 import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/settings/colors.dart';
@@ -99,7 +101,12 @@ class _ConsultpubsState extends State<Consultpubs> {
                                             color: Colors.grey.shade400),
                                       ),
                                       onTap: () {
-                                        print("filtrer");
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context){
+                                              return FilterPopUp();
+                                            }
+                                        );
                                       }),
                                 ],
                               ),
@@ -154,8 +161,14 @@ class _ConsultpubsState extends State<Consultpubs> {
                                             color: Colors.grey.shade400),
                                       ),
                                       onTap: () {
-                                        print("filtrer");
-                                      }),
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context){
+                                              return FilterPopUp();
+                                            }
+                                        );
+                                      }
+                                      ),
                                 ],
                               ),
                               FutureBuilder<List<Publication>>(

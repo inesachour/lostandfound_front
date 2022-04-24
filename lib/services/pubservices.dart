@@ -41,4 +41,8 @@ class PubServices
     return _foundPublications;
   }
 
+
+  static filterPublications({String? category}){
+
+  }
 }

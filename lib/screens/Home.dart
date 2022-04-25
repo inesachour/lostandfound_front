@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
+import 'package:lostandfound/screens/userprofile.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -12,7 +13,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 3;
   List _children = [
-    Text("Profile Screen "),
+    //Text("Profile Screen "),
+    UserProfile(),
     Text("Messages Screen "),
     Text("Notifications Screen "),
     Consultpubs(),

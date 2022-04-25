@@ -64,11 +64,6 @@ class RegisterService{
       String url = Const.url+'/users/${id}';
       var response = await client.get(Uri.parse(url));
       var jsonString = response.body;
-      // if(jsonString != null){
-      //   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-      //   final SharedPreferences prefs = await _prefs;
-      //   prefs.setString("_id", jsonString["_id"]);
-      // }
       return registerUserFromJson(jsonString);
     }
     catch (e) {

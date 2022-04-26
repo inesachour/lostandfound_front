@@ -9,6 +9,9 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 User? user;
+String? idModified;
+
+
 
 class addComment extends StatelessWidget {
   TextEditingController controller;
@@ -17,7 +20,9 @@ class addComment extends StatelessWidget {
   void Function() getPressed;
 
   addComment(this.context,
-      {required this.controller, required this.publication,required this.getPressed});
+      {required this.controller,
+      required this.publication,
+      required this.getPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +74,7 @@ class CommentCard extends StatefulWidget {
   Comment comment;
   static bool? commentModif = false;
 
-  CommentCard({required this.comment,required this.onDelete});
+  CommentCard({required this.comment, required this.onDelete});
 
   @override
   State<CommentCard> createState() => _CommentCardState();
@@ -78,8 +83,6 @@ class CommentCard extends StatefulWidget {
 }
 
 class _CommentCardState extends State<CommentCard> {
-  TextEditingController _controller = TextEditingController();
-
   String format(Comment comment) {
     int commentDay = DateTime.tryParse(comment.dateCreation)!.day;
     int commentMonth = DateTime.tryParse(comment.dateCreation)!.month;
@@ -191,128 +194,188 @@ class _CommentCardState extends State<CommentCard> {
                     Icons.more_horiz,
                     size: 25,
                   ),
+                  onSelected: (val) async {
+                    if(val==1)
+                      {
+                        if (!CommentCard.commentModif!) {
+                          setState(() {
+                            CommentCard.commentModif = true;
+                            idModified = widget.comment.id;
+                            content = Focus(
+                              onFocusChange: (focus) async {
+                                if (!focus) {
+                                  var res = await showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('Confirmation'),
+                                        content: Text(
+                                            'Voulez-vous sauvegarder les changements ?'),
+                                        actions: <Widget>[
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(
+                                                  false); // dismisses only the dialog and returns false
+                                            },
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                MaterialStateProperty
+                                                    .all(Colors.red)),
+                                            child: Text('Non'),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () async {
+                                              Navigator.of(context)
+                                                  .pop(
+                                                  true); // dismisses only the dialog and returns true
+                                            },
+                                            child: Text('Oui'),
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                MaterialStateProperty
+                                                    .all(Colors.green
+                                                    .shade300)),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  if (res) {
+                                    if (widget.comment.text.isNotEmpty) {
+                                      await CommentsService
+                                          .getCommentService
+                                          .updateComment(widget.comment.id!,
+                                          widget.comment.text);
+                                    }
+
+                                    setState(() {
+                                      content = Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Text(user != null
+                                                  ? user!.firstName
+                                                  : "User"),
+                                              Text(
+                                                format(widget.comment),
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              )
+                                            ],
+                                          ),
+                                          Text(
+                                            widget.comment.text,
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                overflow:
+                                                TextOverflow.ellipsis),
+                                          )
+                                        ],
+                                      );
+                                      CommentCard.commentModif = false;
+                                      idModified = null;
+                                    });
+                                  }
+                                }
+
+                              },
+                              child: TextFormField(
+                                autofocus: true,
+                                maxLines: null,
+                                keyboardType: TextInputType.multiline,
+                                initialValue: widget.comment.text,
+                                onChanged: (val) {
+                                  setState(() {
+                                    widget.comment.text = val;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                  suffixIcon: InkWell(
+                                    child: Icon(Icons.send_rounded),
+                                    onTap: () async {
+                                      if (widget.comment.text.isNotEmpty) {
+                                        await CommentsService
+                                            .getCommentService
+                                            .updateComment(
+                                            widget.comment.id!,
+                                            widget.comment.text);
+                                        setState(() {
+                                          content = Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                                children: [
+                                                  Text(user != null
+                                                      ? user!.firstName
+                                                      : "User"),
+                                                  Text(
+                                                    format(widget.comment),
+                                                    style: TextStyle(
+                                                        color: Colors.grey),
+                                                  )
+                                                ],
+                                              ),
+                                              Text(
+                                                widget.comment.text,
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    overflow: TextOverflow
+                                                        .ellipsis),
+                                              )
+                                            ],
+                                          );
+
+                                          CommentCard.commentModif = false;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0)),
+                                  ),
+                                  disabledBorder: InputBorder.none,
+                                ),
+                              ),
+                            );
+                          });
+                        }
+                      }
+                    else if(val==2)
+                      {
+                        var res = await CommentsService.getCommentService
+                            .deleteComment(widget.comment.id!);
+                        widget.onDelete();
+                        if(idModified == widget.comment.id)
+                          {
+                              idModified = null;
+                              CommentCard.commentModif = false;
+                          }
+                      }
+                  },
                   itemBuilder: (context) => [
                         PopupMenuItem(
                           child: Text("Modifier commentaire"),
                           textStyle: TextStyle(color: Colors.grey.shade700),
                           value: 1,
-                          onTap: () {
-                            if (!CommentCard.commentModif!) {
-                              setState(() {
-                                CommentCard.commentModif = true;
-                                content = Focus(
-                                  onFocusChange: (focus) async {
-                                    if (!focus) {
-                                      var res = await showDialog(
-                                        barrierDismissible: false,
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Text('Confirmation'),
-                                            content:
-                                                Text('Do you want to save?'),
-                                            actions: <Widget>[
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.of(context,
-                                                          rootNavigator: true)
-                                                      .pop(
-                                                          false); // dismisses only the dialog and returns false
-                                                },
-                                                child: Text('No'),
-                                              ),
-                                              ElevatedButton(
-                                                onPressed: () {
-                                                  Navigator.of(context,
-                                                          rootNavigator: true)
-                                                      .pop(
-                                                          true); // dismisses only the dialog and returns true
-                                                },
-                                                child: Text('Yes'),
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    }
-                                  },
-                                  child: TextFormField(
-                                    autofocus: true,
-                                    maxLines: null,
-                                    keyboardType: TextInputType.multiline,
-                                    initialValue: widget.comment.text,
-                                    onChanged: (val) {
-                                      setState(() {
-                                        widget.comment.text = val;
-                                      });
-                                    },
-                                    decoration: InputDecoration(
-                                      suffixIcon: InkWell(
-                                        child: Icon(Icons.send_rounded),
-                                        onTap: () {
-                                          if (widget.comment.text.isNotEmpty) {
-                                            setState(() async {
-                                              content = Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(user != null
-                                                          ? user!.firstName
-                                                          : "User"),
-                                                      Text(
-                                                        format(widget.comment),
-                                                        style: TextStyle(
-                                                            color: Colors.grey),
-                                                      )
-                                                    ],
-                                                  ),
-                                                  Text(
-                                                    widget.comment.text,
-                                                    style: TextStyle(
-                                                        color: Colors.grey,
-                                                        overflow: TextOverflow
-                                                            .ellipsis),
-                                                  )
-                                                ],
-                                              );
-                                              await CommentsService
-                                                  .getCommentService
-                                                  .updateComment(
-                                                      widget.comment.id!,
-                                                      widget.comment.text);
-                                              CommentCard.commentModif = false;
-                                            });
-                                          }
-                                        },
-                                      ),
-                                      enabledBorder: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10.0)),
-                                      ),
-                                      disabledBorder: InputBorder.none,
-                                    ),
-                                  ),
-                                );
-                              });
-                            }
-                          },
                         ),
                         PopupMenuItem(
                           textStyle: TextStyle(color: Colors.grey.shade700),
                           child: Text("Supprimer commentaire"),
                           value: 2,
-                          onTap: () async {
-                            var res = await CommentsService.getCommentService
-                                .deleteComment(widget.comment.id!);
-                            widget.onDelete();
-                          },
                         ),
                       ])
               : SizedBox(
@@ -340,9 +403,7 @@ class listComments extends StatefulWidget {
   BuildContext context;
   TextEditingController controller;
   String publicationId;
-  static bool got = false ;
-  static var getComments ;
-
+  static var getComments;
 
   listComments(this.context,
       {required this.controller, required this.publicationId});
@@ -358,53 +419,64 @@ class _listCommentsState extends State<listComments> {
     super.initState();
     listComments.getComments = CommentsService.getCommentService
         .findComments(publicationId: widget.publicationId);
+    CommentCard.commentModif = false;
   }
+
   @override
   Widget build(BuildContext context) {
     print("list comments");
     return Column(
       children: [
         FutureBuilder<List<Comment>?>(
-            future: listComments.getComments,
-            builder:
-                (BuildContext context, AsyncSnapshot<List<Comment>?> snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: Text('Please wait its loading...'));
+          future: listComments.getComments,
+          builder:
+              (BuildContext context, AsyncSnapshot<List<Comment>?> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: Text('Please wait its loading...'));
+            } else {
+              if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
               } else {
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  var _comments = snapshot.data ?? [];
-                  return SingleChildScrollView(
-                    child: SizedBox(
-                      height: (_comments.length >= 2)
-                          ? 100
-                          : (80 * _comments.length.toDouble()),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: _comments.length,
-                          itemBuilder: (context, index) {
-                            Comment comment = _comments[index];
-                            return CommentCard(comment: comment,onDelete: (){
+                var _comments = snapshot.data ?? [];
+                return SingleChildScrollView(
+                  child: SizedBox(
+                    height: (_comments.length >= 2)
+                        ? 100
+                        : (80 * _comments.length.toDouble()),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: _comments.length,
+                        itemBuilder: (context, index) {
+                          Comment comment = _comments[index];
+                          return CommentCard(
+                            comment: comment,
+                            onDelete: () {
                               setState(() {
-                                listComments.getComments = CommentsService.getCommentService
-                                    .findComments(publicationId: widget.publicationId);
+                                listComments.getComments = CommentsService
+                                    .getCommentService
+                                    .findComments(
+                                        publicationId: widget.publicationId);
                               });
-                            },);
-                          }),
-                    ),
-                  );
-                }
+                            },
+                          );
+                        }),
+                  ),
+                );
               }
-            },
-          ),
-        addComment(widget.context,
-            controller:widget.controller, publication: widget.publicationId,getPressed: (){
-          setState(() {
-            listComments.getComments = CommentsService.getCommentService
-                .findComments(publicationId: widget.publicationId);
-          });
-          },)
+            }
+          },
+        ),
+        addComment(
+          widget.context,
+          controller: widget.controller,
+          publication: widget.publicationId,
+          getPressed: () {
+            setState(() {
+              listComments.getComments = CommentsService.getCommentService
+                  .findComments(publicationId: widget.publicationId);
+            });
+          },
+        )
       ],
     );
   }

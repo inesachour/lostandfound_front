@@ -1,9 +1,10 @@
 
 // ignore_for_file: prefer_const_constructors, prefer_final_fields
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -33,16 +34,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   }
 
+  bool _keyboardIsVisible() {
+    return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+  late StreamSubscription<bool> keyboardSubscription;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       extendBody: true,
-      body: SafeArea(
-        bottom: false,
-        child: _children[_currentIndex],
+      body: SingleChildScrollView(
+        child: SafeArea(
+          bottom: false,
+          child: _children[_currentIndex],
+        ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: _keyboardIsVisible() ? SizedBox() : FloatingActionButton(
         backgroundColor: Colors.blue.shade200,
         onPressed: () {
           Navigator.of(context).pushNamed("/addpubs");
@@ -107,30 +122,6 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           )
-        /*BottomNavigationBar(
-            selectedItemColor: Colors.blue,
-            unselectedItemColor: Colors.grey,
-            onTap: onTabTapped,
-            currentIndex: _currentIndex,
-            items: [
-              BottomNavigationBarItem(
-                  backgroundColor: Colors.grey.shade100,
-                  icon: Icon(Icons.account_circle),
-                  label: "profile"),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.messenger),
-                label: 'messages',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.notifications),
-                label: 'notifications',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.vrpano_sharp),
-                label: 'publications',
-              )
-            ],
-          )*/
       ),
     );
   }

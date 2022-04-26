@@ -69,10 +69,12 @@ class CommentCard extends StatefulWidget {
   Comment comment;
   static bool? commentModif = false;
 
-  CommentCard({required this.comment});
+  CommentCard({required this.comment,required this.onDelete});
 
   @override
   State<CommentCard> createState() => _CommentCardState();
+
+  void Function() onDelete;
 }
 
 class _CommentCardState extends State<CommentCard> {
@@ -309,6 +311,7 @@ class _CommentCardState extends State<CommentCard> {
                           onTap: () async {
                             var res = await CommentsService.getCommentService
                                 .deleteComment(widget.comment.id!);
+                            widget.onDelete();
                           },
                         ),
                       ])
@@ -338,6 +341,8 @@ class listComments extends StatefulWidget {
   TextEditingController controller;
   String publicationId;
   static bool got = false ;
+  static var getComments ;
+
 
   listComments(this.context,
       {required this.controller, required this.publicationId});
@@ -347,12 +352,11 @@ class listComments extends StatefulWidget {
 }
 
 class _listCommentsState extends State<listComments> {
-  var getComments;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getComments = CommentsService.getCommentService
+    listComments.getComments = CommentsService.getCommentService
         .findComments(publicationId: widget.publicationId);
   }
   @override
@@ -361,7 +365,7 @@ class _listCommentsState extends State<listComments> {
     return Column(
       children: [
         FutureBuilder<List<Comment>?>(
-            future: getComments,
+            future: listComments.getComments,
             builder:
                 (BuildContext context, AsyncSnapshot<List<Comment>?> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -381,7 +385,12 @@ class _listCommentsState extends State<listComments> {
                           itemCount: _comments.length,
                           itemBuilder: (context, index) {
                             Comment comment = _comments[index];
-                            return CommentCard(comment: comment);
+                            return CommentCard(comment: comment,onDelete: (){
+                              setState(() {
+                                listComments.getComments = CommentsService.getCommentService
+                                    .findComments(publicationId: widget.publicationId);
+                              });
+                            },);
                           }),
                     ),
                   );
@@ -392,7 +401,7 @@ class _listCommentsState extends State<listComments> {
         addComment(widget.context,
             controller:widget.controller, publication: widget.publicationId,getPressed: (){
           setState(() {
-            getComments = CommentsService.getCommentService
+            listComments.getComments = CommentsService.getCommentService
                 .findComments(publicationId: widget.publicationId);
           });
           },)

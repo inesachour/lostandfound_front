@@ -5,11 +5,21 @@ import 'package:lostandfound/screens/addpublication.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
 import 'package:lostandfound/screens/login.dart';
 import 'package:lostandfound/screens/register.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:lostandfound/services/backend_manager.dart';
+import 'package:lostandfound/services/comments_service.dart';
+import 'package:provider/provider.dart';
 
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => CommentsService.getCommentService),
+        ChangeNotifierProvider(create: (context) => BackendManager()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,12 +34,13 @@ class MyApp extends StatelessWidget {
           "/consultpubs": (context) => Consultpubs(),
           "/addpubs": (context) => AddPublicationForm(),
           "/home": (context) => HomeScreen(),
-          "/login": (context) => LoginScreen()
+          "/login": (context) => LoginScreen(),
+          "/register": (context) => Register()
         },
         theme: ThemeData(
           bottomAppBarColor: Colors.grey.shade200,
         ),
-        home: Register(),
+        home: LoginScreen(),
     );
   }
 }

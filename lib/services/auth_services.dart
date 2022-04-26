@@ -38,7 +38,7 @@ class Auth {
     if(prefs.containsKey("tokenInfo"))
       {
         prefs.remove("tokenInfo");
-        prefs.remove("user");
+        prefs.remove("userId");
       }
     return true;
   }

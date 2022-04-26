@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors, prefer_function_declarations_over_variables, prefer_final_fields, unnecessary_null_comparison
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -43,9 +44,6 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
   TextEditingController _locationController = TextEditingController();
   TextEditingController _titleController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
-
-  //Backend Manager
-  BackendManager _backendManager = BackendManager();
 
   //Category varaibles
   String _category = "";
@@ -175,7 +173,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                   SizedBox(height: 30,),
 
                   SizedBox(
-                    height: _photos.length == 0 ? 0 :(((_photos.length-1)/2).toInt()+1)*160,
+                    height: _photos.isEmpty ? 0 :((_photos.length-1)~/2+1)*160,
                     child: _photos==null ? Text("") : GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: _photos.length,
@@ -218,10 +216,10 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                         var _images = await _imagePickerService.getPhotosFromGallery();
                         if(_images!=null){
                           setState(() {
-                            if(_photos.length >0){
-                              _images.forEach((e) {
+                            if(_photos.isNotEmpty){
+                              for (var e in _images) {
                                 _photos.add(e);
-                              });
+                              }
                             }else{
                               _photos = _images;
                             }
@@ -267,9 +265,9 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                       shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
                       fixedSize: MaterialStateProperty.all(Size(width*0.9,50)),
                     ),
-                    onPressed: (){
+                    onPressed: ()async{
                       if (_formKey.currentState!.validate()){
-                        _backendManager.addPublication(
+                       await BackendManager.getBackendManager.addPublication(
                             title: _titleController.text,
                             description: _descriptionController.text,
                             date: _date.toString(), category: _category,
@@ -279,7 +277,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                             type: _type,
                         );
                         //Navigator.pop(context);
-                        Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
+                        Navigator.pushNamedAndRemoveUntil(context, "/", (route) => false);
                       }
 
                       },

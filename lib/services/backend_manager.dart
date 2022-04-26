@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 import 'package:lostandfound/models/image.dart';
@@ -9,9 +10,11 @@ import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/settings/const.dart';
 
 
-class BackendManager{
+class BackendManager extends ChangeNotifier{
+  static BackendManager _BackendManager = BackendManager();
+  static BackendManager get getBackendManager => _BackendManager;
 
-  addPublication({required String title, required String description,required String date, required String category, required LatLng latlng, required List<File> images, required User owner , required String type}) async {
+Future addPublication({required String title, required String description,required String date, required String category, required LatLng latlng, required List<File> images, required User owner , required String type}) async {
     var client = http.Client();
     try {
       String url = Const.url+'/publications';
@@ -36,7 +39,9 @@ class BackendManager{
         tempsCreation: DateTime.now().toString(),
 
       );
-      await client.post(Uri.parse(url), body: publication.toJson());
+      var result = await client.post(Uri.parse(url), body: publication.toJson());
+      if(result.statusCode==201)
+        notifyListeners();
     }
     catch (e) {
       print(e.toString());

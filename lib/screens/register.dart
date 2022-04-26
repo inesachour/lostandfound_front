@@ -18,12 +18,12 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
   //Controller
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
 
   //show password control
   bool eyeForPassword = true;
@@ -70,11 +70,11 @@ class _RegisterState extends State<Register> {
   };
 
   //photo
-  ImagePickerService _imagePickerService = ImagePickerService();
+  final ImagePickerService _imagePickerService = ImagePickerService();
   File? _photo;
 
   //Backend Manager
-  RegisterService _registerService = RegisterService();
+  final RegisterService _registerService = RegisterService();
 
   @override
   Widget build(BuildContext context) {

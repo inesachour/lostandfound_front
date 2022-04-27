@@ -42,20 +42,22 @@ class PubServices
   }
 
 
-  filterPublications({required String category, required String type}) async{
+  Future<List<Publication>> filterPublications({required String category, required String type}) async{
     var body = {
       "category" : category
     };
-  print("gkodgkopdghijodghk,o");
+    List<Publication> _filteredpubs = [];
     try{
       var response = await http.post(Uri.parse("${Const.url}/publications/filter"),body: body);
-      print(response);
       var publications = publicationsFromJson(response.body);
-      print(publications);
-      return publications;
-
+      publications.forEach((element) {
+        if (element.type.toUpperCase() == type.toUpperCase()){
+          _filteredpubs.add(element);
+        }
+      });
     }catch(e){
       print(e);
     }
+    return _filteredpubs;
   }
 }

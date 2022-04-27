@@ -44,10 +44,10 @@ class _FilterPopUpState extends State<FilterPopUp> {
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
                   fixedSize: MaterialStateProperty.all(Size(width*0.7,40))
                 ),
-                onPressed: () {
+                onPressed: () async {
                   print("gkodgkopdghijodghk,o");
-                  pubServices.filterPublications(category: _category, type: "LOST");
-                  //Navigator.pop(context);
+                  var pubs = pubServices.filterPublications(category: _category, type: "LOST");
+                  Navigator.pop(context,["Lost",pubs]);
                 },
               ),
             ],

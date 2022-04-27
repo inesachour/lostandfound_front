@@ -3,7 +3,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
-import 'package:lostandfound/screens/addpublication.dart';
 import 'package:lostandfound/widgets/filter_popup.dart';
 import 'package:lostandfound/services/auth_services.dart';
 import 'package:lostandfound/services/pubservices.dart';
@@ -23,9 +22,27 @@ class _ConsultpubsState extends State<Consultpubs> {
   var pubsStreamLost = PubServices.getLostPub();
   var pubsStreamFound = PubServices.getFoundPub();
 
-
   @override
   Widget build(BuildContext context) {
+
+    _show(String type) async {
+      var pubs = await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return FilterPopUp(type: type);
+          }
+      );
+      print(pubs);
+      setState(() {
+        if(pubs[0] == "Lost"){
+          pubsStreamLost = pubs[1];
+        }
+        else if(pubs[0]== "Found"){
+          pubsStreamFound = pubs[1];
+        }
+      });
+    }
+
     return Stack(
       alignment: AlignmentDirectional.bottomCenter,
       children: [
@@ -102,12 +119,13 @@ class _ConsultpubsState extends State<Consultpubs> {
                                             color: Colors.grey.shade400),
                                       ),
                                       onTap: () {
-                                        showDialog(
+                                        _show("Lost");
+                                        /*showDialog(
                                             context: context,
                                             builder: (BuildContext context){
-                                              return FilterPopUp(type: "Lost");
+                                              _show("Lost");//return FilterPopUp(type: "Lost");
                                             }
-                                        );
+                                        );*/
                                       }),
                                 ],
                               ),
@@ -162,12 +180,13 @@ class _ConsultpubsState extends State<Consultpubs> {
                                             color: Colors.grey.shade400),
                                       ),
                                       onTap: () {
-                                        showDialog(
+                                        _show("Found");
+                                        /*showDialog(
                                             context: context,
                                             builder: (BuildContext context){
-                                              return FilterPopUp(type: "Found");
+                                              _show("Found");//return FilterPopUp(type: "Found");
                                             }
-                                        );
+                                        );*/
                                       }
                                       ),
                                 ],

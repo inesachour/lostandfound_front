@@ -1,5 +1,6 @@
 // ignore_for_file: curly_braces_in_flow_control_structures, avoid_function_literals_in_foreach_calls
 
+import 'package:lostandfound/constants/categories.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:http/http.dart' as http;
 import 'package:lostandfound/settings/const.dart';
@@ -44,20 +45,17 @@ class PubServices
 
   Future<List<Publication>> filterPublications({required String category, required String type}) async{
     var body = {
-      "category" : category
+      "category" : category != filterCategories[0] ? category : "",
+      "type": type
     };
-    List<Publication> _filteredpubs = [];
+    List<Publication> publications = [];
     try{
       var response = await http.post(Uri.parse("${Const.url}/publications/filter"),body: body);
-      var publications = publicationsFromJson(response.body);
-      publications.forEach((element) {
-        if (element.type.toUpperCase() == type.toUpperCase()){
-          _filteredpubs.add(element);
-        }
-      });
+      publications = publicationsFromJson(response.body);
+
     }catch(e){
       print(e);
     }
-    return _filteredpubs;
+    return publications;
   }
 }

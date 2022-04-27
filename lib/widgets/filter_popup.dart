@@ -18,7 +18,6 @@ class _FilterPopUpState extends State<FilterPopUp> {
 
   @override
   Widget build(BuildContext context) {
-  print("y=test");
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -35,7 +34,7 @@ class _FilterPopUpState extends State<FilterPopUp> {
                       _category = item.toString();
                     });
                   },
-                  items: categories
+                  items: filterCategories,
               ),
 
               ElevatedButton(

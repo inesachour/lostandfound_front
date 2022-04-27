@@ -42,13 +42,20 @@ class PubServices
   }
 
 
-  filterPublications({String? category}) async{
-
-    print(category);
+  filterPublications({required String category, required String type}) async{
     var body = {
       "category" : category
     };
-    var response = await http.post(Uri.parse("${Const.url}/publications/filter"),body: body);
-    print(response.body);
+  print("gkodgkopdghijodghk,o");
+    try{
+      var response = await http.post(Uri.parse("${Const.url}/publications/filter"),body: body);
+      print(response);
+      var publications = publicationsFromJson(response.body);
+      print(publications);
+      return publications;
+
+    }catch(e){
+      print(e);
+    }
   }
 }

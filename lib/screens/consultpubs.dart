@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/screens/addpublication.dart';
-import 'package:lostandfound/screens/filter_popup.dart';
+import 'package:lostandfound/widgets/filter_popup.dart';
 import 'package:lostandfound/services/auth_services.dart';
 import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/settings/colors.dart';
@@ -20,7 +20,8 @@ class Consultpubs extends StatefulWidget {
 class _ConsultpubsState extends State<Consultpubs> {
   TextEditingController textController = TextEditingController();
   List<Publication> _pubs = [];
-  var pubsStream = PubServices.getLostPub();
+  var pubsStreamLost = PubServices.getLostPub();
+  var pubsStreamFound = PubServices.getFoundPub();
 
 
   @override
@@ -104,14 +105,14 @@ class _ConsultpubsState extends State<Consultpubs> {
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context){
-                                              return FilterPopUp();
+                                              return FilterPopUp(type: "Lost");
                                             }
                                         );
                                       }),
                                 ],
                               ),
                               FutureBuilder<List<Publication>>(
-                                future: pubsStream,//PubServices.getLostPub(),
+                                future: pubsStreamLost,//PubServices.getLostPub(),
                                 // function where you call your api
                                 builder: (BuildContext context,
                                     AsyncSnapshot<List<Publication>> snapshot) {
@@ -164,7 +165,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                         showDialog(
                                             context: context,
                                             builder: (BuildContext context){
-                                              return FilterPopUp();
+                                              return FilterPopUp(type: "Found");
                                             }
                                         );
                                       }
@@ -172,7 +173,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                 ],
                               ),
                               FutureBuilder<List<Publication>>(
-                                future: PubServices.getFoundPub(),
+                                future: pubsStreamFound,//PubServices.getFoundPub(),
                                 // function where you call your api
                                 builder: (BuildContext context, AsyncSnapshot<List<Publication>> snapshot) {
                                   // AsyncSnapshot<Your object type>

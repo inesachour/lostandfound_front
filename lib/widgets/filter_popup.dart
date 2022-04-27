@@ -4,20 +4,21 @@ import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/widgets/form_widgets.dart';
 
 class FilterPopUp extends StatefulWidget {
-  const FilterPopUp({Key? key}) : super(key: key);
+  const FilterPopUp({Key? key,required String type}) : super(key: key);
 
   @override
   _FilterPopUpState createState() => _FilterPopUpState();
 }
 
 class _FilterPopUpState extends State<FilterPopUp> {
+
+  PubServices pubServices = PubServices();
+  String _category = "";
+
+
   @override
-
-
   Widget build(BuildContext context) {
-
-    PubServices pubServices = PubServices();
-    String? _category;
+  print("y=test");
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -32,8 +33,6 @@ class _FilterPopUpState extends State<FilterPopUp> {
                   onchanged: (item){
                     setState(() {
                       _category = item.toString();
-                      print(_category);
-
                     });
                   },
                   items: categories
@@ -45,8 +44,10 @@ class _FilterPopUpState extends State<FilterPopUp> {
                   shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.circular(30))),
                   fixedSize: MaterialStateProperty.all(Size(width*0.7,40))
                 ),
-                onPressed: (){
-                  pubServices.filterPublications(category: _category);
+                onPressed: () {
+                  print("gkodgkopdghijodghk,o");
+                  pubServices.filterPublications(category: _category, type: "LOST");
+                  //Navigator.pop(context);
                 },
               ),
             ],

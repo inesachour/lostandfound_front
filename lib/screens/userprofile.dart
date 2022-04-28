@@ -55,6 +55,7 @@ class _UserProfileState extends State<UserProfile> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        //TODO upper part ui fix
                         //abt this profile pic stack, can do a container, than has the name and image of the person shit
                         //gotta do some research abt profile screens
                         //just show it now
@@ -142,7 +143,7 @@ class _UserProfileState extends State<UserProfile> {
                         SizedBox(
                           height: 20,
                         ),
-                        //toggle for activating notifications
+                        //switch for activating notifications
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [

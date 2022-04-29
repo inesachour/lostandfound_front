@@ -10,6 +10,8 @@ class ModifProfile extends StatefulWidget {
 class _ModifProfileState extends State<ModifProfile> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: Text("modify profile screen"),
+    );
   }
 }

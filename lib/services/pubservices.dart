@@ -1,5 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures, avoid_function_literals_in_foreach_calls
 
+import 'dart:convert';
+
 import 'package:lostandfound/constants/categories.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:http/http.dart' as http;
@@ -43,11 +45,13 @@ class PubServices
   }
 
 
-  Future<List<Publication>> filterPublications({required String category, required String type}) async{
+  Future<List<Publication>> filterPublications({required List categories, required String type}) async{
+
     var body = {
-      "category" : category != filterCategories[0] ? category : "",
+      "categories" : json.encode(categories),
       "type": type
     };
+
     List<Publication> publications = [];
     try{
       var response = await http.post(Uri.parse("${Const.url}/publications/filter"),body: body);

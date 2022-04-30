@@ -2,7 +2,9 @@
 
 import 'dart:convert';
 
+import 'package:latlong2/latlong.dart';
 import 'package:lostandfound/constants/categories.dart';
+import 'package:lostandfound/models/location.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:http/http.dart' as http;
 import 'package:lostandfound/settings/const.dart';
@@ -45,12 +47,15 @@ class PubServices
   }
 
 
-  Future<List<Publication>> filterPublications({required List categories, required String type}) async{
+  Future<List<Publication>> filterPublications({required List categories, required String type, required LatLng? latlng }) async{
 
     var body = {
       "categories" : json.encode(categories),
-      "type": type
+      "type": type,
+      "longitude" : latlng != null ? latlng.longitude.toString() : '',
+      "latitude" : latlng != null ? latlng.latitude.toString() : '',
     };
+
 
     List<Publication> publications = [];
     try{

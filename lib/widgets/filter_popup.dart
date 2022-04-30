@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:lostandfound/constants/categories.dart';
 import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/widgets/form_widgets.dart';
+import 'package:lostandfound/widgets/map.dart';
 import 'package:multiselect_formfield/multiselect_formfield.dart';
 
 class FilterPopUp extends StatefulWidget {
@@ -16,6 +18,8 @@ class _FilterPopUpState extends State<FilterPopUp> {
 
   PubServices pubServices = PubServices();
   List selectedCategories = [];
+  LatLng? _location;
+  TextEditingController _filterLocationController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +35,21 @@ class _FilterPopUpState extends State<FilterPopUp> {
         "value": element,
       });
     });
+
+    _show() async {
+      var loc = await showDialog(
+          context: context,
+          builder: (BuildContext dialogContext) {
+            return MapScreen();
+          }
+      );
+      setState(() {
+        print(_filterLocationController.text);
+        _filterLocationController.text = loc[0];
+        print(_filterLocationController.text);
+        _location = loc[1];
+      });
+    }
 
     return Scaffold(
       body: Padding(
@@ -66,6 +85,24 @@ class _FilterPopUpState extends State<FilterPopUp> {
                 },
               ),
 
+              TextFormField(
+                controller: _filterLocationController,
+                readOnly: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(borderRadius: BorderRadius.all(Radius.circular(20))),
+                  label: Text("Localisation"),
+                  fillColor: Color(0xfffafafa),
+                  filled: true,
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.location_on),
+                    onPressed: () {
+                      _show();
+                    },
+                  ),
+                ),
+              ),
+
+
               ElevatedButton(
                 child: Text("Filtrer"),
                 style: ButtonStyle(
@@ -73,7 +110,7 @@ class _FilterPopUpState extends State<FilterPopUp> {
                   fixedSize: MaterialStateProperty.all(Size(width*0.7,40))
                 ),
                 onPressed: () async {
-                  var pubs = pubServices.filterPublications(categories: selectedCategories, type: widget.type);
+                  var pubs = pubServices.filterPublications(categories: selectedCategories, type: widget.type, latlng: _location);
                   Navigator.pop(context,[widget.type,pubs]);
                 },
               ),

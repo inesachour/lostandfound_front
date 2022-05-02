@@ -44,9 +44,9 @@ class _FilterPopUpState extends State<FilterPopUp> {
           }
       );
       setState(() {
-        print(_filterLocationController.text);
+        print(loc[1]);
         _filterLocationController.text = loc[0];
-        print(_filterLocationController.text);
+        //print(_filterLocationController.text);
         _location = loc[1];
       });
     }

@@ -49,11 +49,15 @@ class PubServices
 
   Future<List<Publication>> filterPublications({required List categories, required String type, required LatLng? latlng }) async{
 
+    Location? l;
+    latlng != null ?l = Location(coordinates: [latlng.latitude.toString(), latlng.longitude.toString()], type: "point") : null;
+    print(l!.toJson().toString());
     var body = {
       "categories" : json.encode(categories),
       "type": type,
-      "longitude" : latlng != null ? latlng.longitude.toString() : '',
-      "latitude" : latlng != null ? latlng.latitude.toString() : '',
+      //"longitude" : latlng != null ? latlng.longitude.toString() : '',
+      //"latitude" : latlng != null ? latlng.latitude.toString() : '',
+      "location" : l != null ? l.toJson().toString() : '',
     };
 
 

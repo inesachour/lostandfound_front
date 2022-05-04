@@ -2,10 +2,10 @@ import 'package:lostandfound/models/image.dart';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:lostandfound/models/registerUserModel.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/settings/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/userProf.dart';
 
 class UsersService{
 
@@ -21,7 +21,7 @@ class UsersService{
     }
   }
 
-  updateUser({required id, required String firstName, required String lastName,required String phone, File? photo, required String email , required String password, required String role, required bool verified}) async {
+  updateUser({required id, String? firstName, String? lastName, String? phone, File? photo,  String? email ,  String? password, required String role, required bool verified}) async {
     var client = http.Client();
     try {
       String url = Const.url+'/users/update/${id}';
@@ -29,7 +29,7 @@ class UsersService{
       if(photo != null){
         img = Image(name: "image"+photo.path.toString(), url: base64Encode(photo.readAsBytesSync()));
       }
-      var user = RegisterUser(
+      var user = UserProfile(
         firstName: firstName,
         lastName: lastName,
         phone: phone,

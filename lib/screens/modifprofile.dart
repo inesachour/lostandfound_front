@@ -6,12 +6,19 @@ import 'package:lostandfound/services/image_picker.dart';
 import 'package:lostandfound/services/registerService.dart';
 import 'package:lostandfound/services/users_service.dart';
 import 'package:lostandfound/settings/colors.dart';
+import 'package:lostandfound/settings/config.dart';
 import 'package:lostandfound/widgets/form_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var user;
 var registerService = RegisterService();
 var usersService = UsersService();
+
+var firstName;
+var lastName;
+var phone;
+var email;
+var password;
 
 gettingUser() async {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
@@ -40,7 +47,6 @@ class _ModifProfileState extends State<ModifProfile> {
   TextEditingController _phoneController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
 
   //show password control
   bool eyeForPassword = true;
@@ -92,9 +98,6 @@ class _ModifProfileState extends State<ModifProfile> {
 
   @override
   Widget build(BuildContext context) {
-    // //initial values
-    // _lastNameController.text = _last;
-
 
     //the user future
     late Future<dynamic> _userFuture = gettingUser();
@@ -109,7 +112,7 @@ class _ModifProfileState extends State<ModifProfile> {
       appBar: AppBar(
         backgroundColor: primaryBlue,
         title: Text(
-          "Modifier..",
+          "Modifier vos infos",
         ),
         centerTitle: true,
         leading: IconButton(
@@ -125,12 +128,6 @@ class _ModifProfileState extends State<ModifProfile> {
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 user = snapshot.data as RegisterUser?;
-                _lastNameController.text = user!.lastName;
-                _firstNameController.text = user!.firstName;
-                _phoneController.text = user!.phone;
-                _emailController.text = user!.email;
-                _passwordController.text = user!.password;
-                _confirmPasswordController.text = user!.password;
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -187,9 +184,6 @@ class _ModifProfileState extends State<ModifProfile> {
                                       setState(() {
                                         if (_photo != null) {
                                           _image = _photo;
-                                          // _images.forEach((e) {
-                                          //   _photos.add(e);
-                                          // });
                                         } else {
                                           _photo = _image;
                                         }
@@ -208,102 +202,47 @@ class _ModifProfileState extends State<ModifProfile> {
                           SizedBox(
                             height: 25,
                           ),
-                          RegisterInputField(
-                            decoration: buildInputDecoration(
-                                Icons.title, "Nom", "Nom", null),
-                            keyboardType: TextInputType.text,
-                            obscureText: false,
-                            controller: _lastNameController,
-                            validator: validator,
-                            maxLines: 1,
+                          Field(type: "name", hint: "Prénom",getContent: (value){
+                            setState(() {
+                              firstName = value;
+                            });
+                          },
                           ),
                           SizedBox(
                             height: 30,
                           ),
-                          RegisterInputField(
-                            decoration: buildInputDecoration(
-                                Icons.title, "Prénom", "Prénom", null),
-                            keyboardType: TextInputType.text,
-                            obscureText: false,
-                            controller: _firstNameController,
-                            validator: validator,
-                            maxLines: 1,
+                          Field(type: "name", hint: "Nom",getContent: (value){
+                            setState(() {
+                              lastName = value;
+                            });
+                          },
                           ),
                           SizedBox(
                             height: 30,
                           ),
-                          RegisterInputField(
-                            decoration: buildInputDecoration(
-                                Icons.phone, "Téléphone", "Téléphone", null),
-                            keyboardType: TextInputType.phone,
-                            obscureText: false,
-                            controller: _phoneController,
-                            validator: phoneValidator,
-                            maxLines: 1,
+                          Field(type: "phone", hint: "Tél",getContent: (value){
+                            setState(() {
+                              phone = value;
+                            });
+                          },
                           ),
                           SizedBox(
                             height: 30,
                           ),
-                          RegisterInputField(
-                            decoration: buildInputDecoration(
-                                Icons.email, "E-mail", "E-mail", null),
-                            keyboardType: TextInputType.emailAddress,
-                            obscureText: false,
-                            controller: _emailController,
-                            validator: emailValidator,
-                            maxLines: 1,
+                          Field(type: "email", hint: "Email",getContent: (value){
+                            setState(() {
+                              email = value;
+                            });
+                          },
                           ),
                           SizedBox(
                             height: 30,
                           ),
-                          RegisterInputField(
-                            decoration: buildInputDecoration(
-                                Icons.password,
-                                "Mot de passe",
-                                "Mot de passe",
-                                IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        eyeForPassword = !eyeForPassword;
-                                      });
-                                    },
-                                    icon: Icon(Icons.remove_red_eye))),
-                            keyboardType: TextInputType.text,
-                            obscureText: eyeForPassword,
-                            controller: _passwordController,
-                            validator: passwordValidator,
-                            maxLines: 1,
-                          ),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          RegisterInputField(
-                            decoration: buildInputDecoration(
-                                Icons.password,
-                                "Confirmer le mot de passe",
-                                "Mot de passe",
-                                IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        eyeForConfirmPassword =
-                                            !eyeForConfirmPassword;
-                                      });
-                                    },
-                                    icon: Icon(Icons.remove_red_eye))),
-                            keyboardType: TextInputType.text,
-                            obscureText: eyeForConfirmPassword,
-                            controller: _confirmPasswordController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Resaisir le mot de passe';
-                              }
-                              if (_passwordController.text !=
-                                  _confirmPasswordController.text) {
-                                return "Mots de passe non identiques";
-                              }
-                              return null;
-                            },
-                            maxLines: 1,
+                          Field(type: "password", hint: "Mot de passe",getContent: (value){
+                              setState(() {
+                              password = value;
+                              });
+                              },
                           ),
                           SizedBox(
                             height: 30,
@@ -321,28 +260,22 @@ class _ModifProfileState extends State<ModifProfile> {
                                   RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(20))),
                               fixedSize: MaterialStateProperty.all(
-                                  Size(width * 0.9, 50)),
+                                  Size(width * 0.7, 50)),
                             ),
                             onPressed: () async {
                               final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
                               final SharedPreferences prefs = await _prefs;
                               var _id = prefs.getString("_id");
                               var user = await registerService.findRegistredUser(_id!);
-                              var ver = user.verified;
-                              print(ver);
+
                               if (_formKey.currentState!.validate()) {
-                                print(_firstNameController.text);
-                                print(_lastNameController.text);
-                                print(_phoneController.text);
-                                print(_emailController.text);
-                                print(_passwordController.text);
                                 usersService.updateUser(
                                   id: _id,
-                                  firstName: _firstNameController.text == "" ? _firstNameController.text : user.firstName,
-                                  lastName: _lastNameController.text == "" ? _lastNameController.text : user.lastName,
-                                  phone: _phoneController.text == "" ? _phoneController.text : user.phone,
-                                  email: _emailController.text == "" ? _emailController.text : user.email,
-                                  password: _passwordController.text == "" ? _passwordController.text : user.password,
+                                  firstName: firstName ?? user!.firstName,
+                                  lastName: lastName ?? user!.lastName,
+                                  phone: phone ?? user!.phone,
+                                  email: email ?? user!.email,
+                                  password: user!.password,
                                   photo: _photo,
                                   role: user.role,
                                   verified: user.verified,
@@ -390,3 +323,78 @@ class _ModifProfileState extends State<ModifProfile> {
     );
   }
 }
+
+class Field extends StatefulWidget {
+  String type;
+  String hint;
+  void Function(String)? getContent;
+  Field({ required this.type,required this.hint,this.getContent});
+  @override
+  _FieldState createState() => _FieldState();
+}
+
+class _FieldState extends State<Field> {
+  bool show = true;
+  FocusNode _focusNode = FocusNode();
+  TextEditingController? _controller ;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+  @override
+  Widget build(BuildContext context) {
+
+    return Container(
+      margin: EdgeInsets.only(top: context.height*0.025),
+      width: context.width*0.75,
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3),
+            )
+          ]
+      ),
+      child: TextFormField(
+        onChanged: (value){
+          widget.getContent!(value);
+        },
+        textInputAction: TextInputAction.done,
+        focusNode: _focusNode,
+        onEditingComplete: () {
+          setState(() {
+            _focusNode.unfocus();
+          });
+        },
+        controller : _controller ,
+        obscureText: widget.type=="password"?show:false,
+        keyboardType: widget.type=='email' ? TextInputType.emailAddress:TextInputType.text,
+        decoration :InputDecoration(
+          prefixIcon: widget.type=='password'?Icon(Icons.vpn_key_rounded):Icon(Icons.abc,),
+          suffixIcon: widget.type=='password' ? InkWell(
+              splashColor: Colors.transparent,
+              onTap: (){
+                setState(() {
+                  show=!show;
+                });
+              },
+              child: Icon(Icons.remove_red_eye_outlined)):null,
+          contentPadding: EdgeInsets.all(15.0),
+          border: InputBorder.none,
+          hintText:widget.hint,
+          hintStyle: TextStyle(
+            color:Colors.grey[400],
+            fontSize:  context.width*0.04,
+          ),
+        ),
+      ),
+    );
+  }
+}
+

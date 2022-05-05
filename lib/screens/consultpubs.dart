@@ -21,6 +21,8 @@ class _ConsultpubsState extends State<Consultpubs> {
   List<Publication> _pubs = [];
   var pubsStreamLost = PubServices.getLostPub();
   var pubsStreamFound = PubServices.getFoundPub();
+  bool filterActivatedFound = false;
+  bool filterActivatedLost = false;
 
   @override
   Widget build(BuildContext context) {
@@ -29,17 +31,33 @@ class _ConsultpubsState extends State<Consultpubs> {
       var pubs = await showDialog(
           context: context,
           builder: (BuildContext context) {
-            return FilterPopUp(type: type);
+            return Center(
+                child: Container(
+                    height: MediaQuery.of(context).size.height*0.8,
+                    width: MediaQuery.of(context).size.width*0.9,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: FilterPopUp(type: type)
+                )
+            );
           }
       );
-      print(pubs);
+
       setState(() {
-        if(pubs[0] == "Lost"){
-          pubsStreamLost = pubs[1];
+
+        if(pubs != null){
+          if(pubs[0] == "Lost"){
+            pubsStreamLost = pubs[1];
+            filterActivatedLost = true;
+
+          }
+          else if(pubs[0]== "Found"){
+            pubsStreamFound = pubs[1];
+            filterActivatedFound= true;
+          }
         }
-        else if(pubs[0]== "Found"){
-          pubsStreamFound = pubs[1];
-        }
+
       });
     }
 
@@ -109,24 +127,41 @@ class _ConsultpubsState extends State<Consultpubs> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SearchBar(),
-                                  InkWell(
-                                      splashColor: primaryBlue,
-                                      child: Text(
-                                        'Filtrer',
-                                        style: TextStyle(
-                                            decoration:
+
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                          splashColor: primaryBlue,
+                                          child: Text(
+                                            'Filtrer',
+                                            style: TextStyle(
+                                                decoration:
                                                 TextDecoration.underline,
-                                            color: Colors.grey.shade400),
-                                      ),
-                                      onTap: () {
-                                        _show("Lost");
-                                        /*showDialog(
-                                            context: context,
-                                            builder: (BuildContext context){
-                                              _show("Lost");//return FilterPopUp(type: "Lost");
-                                            }
-                                        );*/
-                                      }),
+                                                color: Colors.grey.shade400),
+                                          ),
+                                          onTap: () {
+                                            _show("Lost");
+                                            /*showDialog(
+                                                context: context,
+                                                builder: (BuildContext context){
+                                                  _show("Lost");//return FilterPopUp(type: "Lost");
+                                                }
+                                            );*/
+                                          }),
+
+                                      filterActivatedLost ? IconButton(
+                                        icon: Icon(Icons.cancel_rounded),
+                                        color: Colors.red,
+                                        onPressed: (){
+                                          setState(() {
+                                            pubsStreamLost = PubServices.getLostPub();
+                                            filterActivatedLost = false;
+                                          });
+                                        },
+                                      ) : SizedBox(),
+                                    ],
+                                  ),
+
                                 ],
                               ),
                               FutureBuilder<List<Publication>>(
@@ -170,25 +205,41 @@ class _ConsultpubsState extends State<Consultpubs> {
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   SearchBar(),
-                                  InkWell(
-                                      splashColor: primaryBlue,
-                                      child: Text(
-                                        'Filtrer',
-                                        style: TextStyle(
-                                            decoration:
+
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                          splashColor: primaryBlue,
+                                          child: Text(
+                                            'Filtrer',
+                                            style: TextStyle(
+                                                decoration:
                                                 TextDecoration.underline,
-                                            color: Colors.grey.shade400),
-                                      ),
-                                      onTap: () {
-                                        _show("Found");
-                                        /*showDialog(
-                                            context: context,
-                                            builder: (BuildContext context){
-                                              _show("Found");//return FilterPopUp(type: "Found");
-                                            }
-                                        );*/
-                                      }
-                                      ),
+                                                color: Colors.grey.shade400),
+                                          ),
+                                          onTap: () {
+                                            _show("Lost");
+                                            /*showDialog(
+                                                context: context,
+                                                builder: (BuildContext context){
+                                                  _show("Lost");//return FilterPopUp(type: "Lost");
+                                                }
+                                            );*/
+                                          }),
+
+                                      filterActivatedFound ? IconButton(
+                                        icon: Icon(Icons.cancel_rounded),
+                                        color: Colors.red,
+                                        onPressed: (){
+                                          setState(() {
+                                            pubsStreamFound = PubServices.getFoundPub();
+                                            filterActivatedFound = false;
+                                          });
+                                        },
+                                      ): SizedBox(),
+                                    ],
+                                  ),
+
                                 ],
                               ),
                               FutureBuilder<List<Publication>>(

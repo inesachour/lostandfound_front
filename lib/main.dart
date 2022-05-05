@@ -7,6 +7,7 @@ import 'package:lostandfound/screens/login.dart';
 import 'package:lostandfound/screens/register.dart';
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/comments_service.dart';
+import 'package:lostandfound/services/pubservices.dart';
 import 'package:provider/provider.dart';
 
 
@@ -28,19 +29,19 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Lost and Found',
-        routes: {
-          "/consultpubs": (context) => Consultpubs(),
-          "/addpubs": (context) => AddPublicationForm(),
-          "/home": (context) => HomeScreen(),
-          "/login": (context) => LoginScreen(),
-          "/register": (context) => Register()
-        },
-        theme: ThemeData(
-          bottomAppBarColor: Colors.grey.shade200,
-        ),
-        home: LoginScreen(),
+      debugShowCheckedModeBanner: false,
+      title: 'Lost and Found',
+      routes: {
+        "/consultpubs": (context) => Consultpubs(),
+        "/addpubs": (context) => AddPublicationForm(),
+        "/home": (context) => HomeScreen(),
+        "/login": (context) => LoginScreen(),
+        "/register": (context) => Register()
+      },
+      theme: ThemeData(
+        bottomAppBarColor: Colors.grey.shade200,
+      ),
+      home: LoginScreen(),
     );
   }
 }

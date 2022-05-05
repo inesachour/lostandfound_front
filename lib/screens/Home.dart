@@ -1,8 +1,11 @@
 
+// ignore_for_file: prefer_const_constructors, prefer_final_fields
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
+import 'package:lostandfound/screens/userpubs.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -13,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 3;
   List _children = [
-    Text("Profile Screen "),
+    UserPubs(),
     Text("Messages Screen "),
     Text("Notifications Screen "),
     Consultpubs(),

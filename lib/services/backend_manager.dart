@@ -8,13 +8,14 @@ import 'package:lostandfound/models/location.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/settings/const.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class BackendManager extends ChangeNotifier{
   static BackendManager _BackendManager = BackendManager();
   static BackendManager get getBackendManager => _BackendManager;
 
-Future addPublication({required String title, required String description,required String date, required String category, required LatLng latlng, required List<File> images, required User owner , required String type}) async {
+  Future addPublication({required String title, required String description,required String date, required String category, required LatLng latlng, required List<File> images, required User owner , required String type}) async {
     var client = http.Client();
     try {
       String url = Const.url+'/publications';
@@ -26,12 +27,20 @@ Future addPublication({required String title, required String description,requir
         imgs.add(Image(name: "image"+i.toString(), url: base64Encode(element.readAsBytesSync())));
         i++;
       });
+
+      //get current user
+      SharedPreferences sp = await SharedPreferences.getInstance();
+      var idUser= sp.getString("userId");
+      var user = await http.get(Uri.parse("${Const.url}/users/$idUser"));
+
+
+
       var publication = Publication(
         title: title,
         description: description,
         date: date ,
         category: category,
-        owner: owner,
+        owner: User.fromJson(jsonDecode(user.body)),//owner,
         location: l,
         images: imgs,
         type: type,
@@ -48,18 +57,18 @@ Future addPublication({required String title, required String description,requir
     }
   }
 
-Future<List<Publication>> getPublications(String search) async {
-  var client = http.Client();
-  List<Publication> publications = [];
-  try{
-    String url = Const.url+'/publications?search=$search';
-    var response = await client.get(Uri.parse(url));
-    var jsonString = response.body;
-    publications = publicationsFromJson(jsonString);
+  Future<List<Publication>> getPublications(String search) async {
+    var client = http.Client();
+    List<Publication> publications = [];
+    try{
+      String url = Const.url+'/publications?search=$search';
+      var response = await client.get(Uri.parse(url));
+      var jsonString = response.body;
+      publications = publicationsFromJson(jsonString);
+    }
+    catch(e){
+      print(e.toString());
+    }
+    return publications;
   }
-  catch(e){
-    print(e.toString());
-  }
-  return publications;
-}
 }

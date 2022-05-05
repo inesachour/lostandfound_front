@@ -6,6 +6,7 @@ String userToJson(List<User> data) => json.encode(List<dynamic>.from(data.map((x
 
 class User {
   User({
+    this.id,
     required this.firstName,
     required this.lastName,
     required this.phone,
@@ -13,6 +14,7 @@ class User {
     required this.photo,
   });
 
+  String? id;
   String firstName;
   String lastName;
   String phone;
@@ -21,6 +23,7 @@ class User {
 
 
   factory User.fromJson(Map<String, dynamic> json) => User(
+      id: json["_id"],
       firstName: json["firstName"],
       lastName:json["lastName"],
       phone: json["phone"],
@@ -29,6 +32,15 @@ class User {
   );
 
   Map<String, dynamic> toJson() => {
+    "\"firstName\"": "\""+firstName+"\"",
+    "\"lastName\"": "\""+lastName+"\"",
+    "\"phone\"": "\""+phone+"\"",
+    "\"email\"": "\""+email+"\"",
+    "\"photo\"" : "\""+photo+"\""
+  };
+
+  Map<String, dynamic> toJsonWithId() => {
+    "\"_id\"": "\""+id!+"\"",
     "\"firstName\"": "\""+firstName+"\"",
     "\"lastName\"": "\""+lastName+"\"",
     "\"phone\"": "\""+phone+"\"",

@@ -61,7 +61,7 @@ class Publication {
     "category": category,
     "location": location.toJson().toString(),
     "images": List<dynamic>.from(images.map((x) => x.toJson())).toString(),
-    "owner" : owner.toJson().toString(),
+    "owner" : owner.toJsonWithId().toString(),
     "status":status
   };
 }

@@ -32,10 +32,6 @@ class _UserProfileState extends State<UserProfile> {
     //the user future
     late Future<dynamic> _userFuture = gettingUser();
 
-    //Size
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: primaryBackground,

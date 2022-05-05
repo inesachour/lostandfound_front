@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,9 @@ import 'package:lostandfound/services/registerService.dart';
 import 'package:lostandfound/services/users_service.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/settings/config.dart';
-import 'package:lostandfound/widgets/form_widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'package:lostandfound/screens/userprofile.dart';
 
 var user;
 var registerService = RegisterService();
@@ -40,13 +42,6 @@ class ModifProfile extends StatefulWidget {
 class _ModifProfileState extends State<ModifProfile> {
   //Form Validation variables
   final _formKey = GlobalKey<FormState>();
-
-  //Controller
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
 
   //show password control
   bool eyeForPassword = true;
@@ -202,7 +197,7 @@ class _ModifProfileState extends State<ModifProfile> {
                           SizedBox(
                             height: 25,
                           ),
-                          Field(type: "name", hint: "Prénom",getContent: (value){
+                          Field(text: user!.firstName,type: "name", hint: "Prénom", validator: validator,getContent: (value){
                             setState(() {
                               firstName = value;
                             });
@@ -211,7 +206,7 @@ class _ModifProfileState extends State<ModifProfile> {
                           SizedBox(
                             height: 30,
                           ),
-                          Field(type: "name", hint: "Nom",getContent: (value){
+                          Field(text: user!.lastName, type: "name", hint: "Nom",validator: validator, getContent: (value){
                             setState(() {
                               lastName = value;
                             });
@@ -220,7 +215,7 @@ class _ModifProfileState extends State<ModifProfile> {
                           SizedBox(
                             height: 30,
                           ),
-                          Field(type: "phone", hint: "Tél",getContent: (value){
+                          Field(text: user!.phone,type: "phone", hint: "Tél",validator: phoneValidator, getContent: (value){
                             setState(() {
                               phone = value;
                             });
@@ -229,7 +224,7 @@ class _ModifProfileState extends State<ModifProfile> {
                           SizedBox(
                             height: 30,
                           ),
-                          Field(type: "email", hint: "Email",getContent: (value){
+                          Field(text: user!.email, type: "email", hint: "Email",validator: emailValidator, getContent: (value){
                             setState(() {
                               email = value;
                             });
@@ -275,10 +270,14 @@ class _ModifProfileState extends State<ModifProfile> {
                                   lastName: lastName ?? user!.lastName,
                                   phone: phone ?? user!.phone,
                                   email: email ?? user!.email,
-                                  password: user!.password,
+                                  password: password ?? user!.password,
                                   photo: _photo,
                                   role: user.role,
                                   verified: user.verified,
+                                );
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => UserProfile()),
                                 );
                               }
                             },
@@ -325,10 +324,12 @@ class _ModifProfileState extends State<ModifProfile> {
 }
 
 class Field extends StatefulWidget {
+  String? text;
   String type;
   String hint;
+  dynamic validator;
   void Function(String)? getContent;
-  Field({ required this.type,required this.hint,this.getContent});
+  Field({ required this.type,required this.hint,this.getContent, this.text, this.validator});
   @override
   _FieldState createState() => _FieldState();
 }
@@ -341,7 +342,7 @@ class _FieldState extends State<Field> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
+    _controller = TextEditingController(text: widget.text);
   }
   @override
   Widget build(BuildContext context) {
@@ -362,6 +363,7 @@ class _FieldState extends State<Field> {
           ]
       ),
       child: TextFormField(
+        validator: widget.validator,
         onChanged: (value){
           widget.getContent!(value);
         },

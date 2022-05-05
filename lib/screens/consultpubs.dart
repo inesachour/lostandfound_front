@@ -1,17 +1,15 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/widgets/filter_popup.dart';
 import 'package:lostandfound/services/auth_services.dart';
-import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/widgets/pubcard.dart';
 import 'package:lostandfound/widgets/searchBar.dart';
 import 'package:lostandfound/settings/config.dart';
-import 'package:provider/provider.dart';
+
 
 class Consultpubs extends StatefulWidget {
   @override

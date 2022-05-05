@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_function_declarations_over_variables, prefer_final_fields, unnecessary_null_comparison
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';

@@ -1,18 +1,14 @@
-// ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geocode/geocode.dart';
-import 'package:lostandfound/models/comment.dart';
 import 'package:lostandfound/models/publication.dart';
-import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/services/comments_service.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/settings/config.dart';
 import 'package:lostandfound/widgets/comment_widgets.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 class Pubcard extends StatefulWidget {
   Pubcard(this._publication);

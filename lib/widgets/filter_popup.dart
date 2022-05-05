@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:lostandfound/constants/categories.dart';
 import 'package:lostandfound/services/pubservices.dart';
@@ -21,11 +23,16 @@ class _FilterPopUpState extends State<FilterPopUp> {
   LatLng? _location;
   TextEditingController _filterLocationController = TextEditingController();
 
+  //DateTime _date = DateTime.now();
+  TextEditingController _dateController = TextEditingController();
+  DateTimeRange? _dateRange;
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
+    initializeDateFormatting();
 
     List _filterCategoriesObjects = [];
 
@@ -103,6 +110,49 @@ class _FilterPopUpState extends State<FilterPopUp> {
               ),
 
 
+              TextFormField(
+                    controller: _dateController,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(20))
+                      ),
+                      label: Text("Date"),
+                      fillColor: Color(0xfffafafa),
+                      filled: true,
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.date_range_outlined),
+                        onPressed: () async {
+                          print("ok");
+                          _dateRange = await showDateRangePicker(
+                            context: context,
+                            //initialDate: _date,
+                            firstDate: DateTime(2012),
+                            lastDate: DateTime.now(),
+                            cancelText: "Annuler",
+                            confirmText: "Confirmer",
+                            helpText: "Choisir la date",
+                            errorFormatText: "Format invalide",
+                            errorInvalidText: "Texte invalide",
+                          );
+                          setState(() {
+                            print(_dateRange);
+                           // _dateController.text = DateFormat('EEEE d MMMM yyyy','fr').format(_date);
+                            //print(_date);
+                            String _date;
+                            if(_dateRange!.start != _dateRange!.end){
+                              _date = DateFormat('EEEE d MMMM yyyy', 'fr').format(_dateRange!.start)+" - "+ DateFormat('EEEE d MMMM yyyy', 'fr').format(_dateRange!.end);
+                            }
+                            else{
+                              _date =  DateFormat('EEEE d MMMM yyyy', 'fr').format(_dateRange!.start);
+                            }
+                            _dateController.text = _date;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+
               ElevatedButton(
                 child: Text("Filtrer"),
                 style: ButtonStyle(
@@ -110,7 +160,7 @@ class _FilterPopUpState extends State<FilterPopUp> {
                   fixedSize: MaterialStateProperty.all(Size(width*0.7,40))
                 ),
                 onPressed: () async {
-                  var pubs = pubServices.filterPublications(categories: selectedCategories, type: widget.type, latlng: _location);
+                  var pubs = pubServices.filterPublications(categories: selectedCategories, type: widget.type, latlng: _location, dateRange: _dateRange);
                   Navigator.pop(context,[widget.type,pubs]);
                 },
               ),

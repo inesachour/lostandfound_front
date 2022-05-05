@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:lostandfound/constants/categories.dart';
 import 'package:lostandfound/models/location.dart';
@@ -47,17 +48,16 @@ class PubServices
   }
 
 
-  Future<List<Publication>> filterPublications({required List categories, required String type, required LatLng? latlng }) async{
+  Future<List<Publication>> filterPublications({required List categories, required String type, required LatLng? latlng , required DateTimeRange? dateRange}) async{
 
     Location? l;
-    latlng != null ?l = Location(coordinates: [latlng.latitude.toString(), latlng.longitude.toString()], type: "point") : null;
-    print(l!.toJson().toString());
+    latlng != null ? l = Location(coordinates: [latlng.latitude.toString(), latlng.longitude.toString()], type: "point") : null;
     var body = {
       "categories" : json.encode(categories),
       "type": type,
-      //"longitude" : latlng != null ? latlng.longitude.toString() : '',
-      //"latitude" : latlng != null ? latlng.latitude.toString() : '',
       "location" : l != null ? l.toJson().toString() : '',
+      "firstDate" : dateRange != null ? dateRange.start.toString() : '',
+      "secondDate" : dateRange != null ? dateRange.end.toString() : '',
     };
 
 

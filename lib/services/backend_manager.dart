@@ -8,6 +8,7 @@ import 'package:lostandfound/models/location.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/settings/const.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class BackendManager extends ChangeNotifier{
@@ -26,12 +27,20 @@ Future addPublication({required String title, required String description,requir
         imgs.add(Image(name: "image"+i.toString(), url: base64Encode(element.readAsBytesSync())));
         i++;
       });
+
+      //get current user
+      SharedPreferences sp = await SharedPreferences.getInstance();
+      var idUser= sp.getString("userId");
+      var user = await http.get(Uri.parse("${Const.url}/users/$idUser"));
+
+
+
       var publication = Publication(
         title: title,
         description: description,
         date: date ,
         category: category,
-        owner: owner,
+        owner: User.fromJson(jsonDecode(user.body)),//owner,
         location: l,
         images: imgs,
         type: type,

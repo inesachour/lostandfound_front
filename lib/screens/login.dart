@@ -6,7 +6,7 @@ import 'package:lostandfound/screens/register.dart';
 import 'package:lostandfound/services/auth_services.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/settings/config.dart';
-import 'dart:ui' as ui;
+import 'package:lostandfound/widgets/painter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -220,30 +220,4 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class CurvePainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    Path path = Path();
-    Paint paint = Paint();
-    path.lineTo(0, size.height);
-    path.quadraticBezierTo(
-        size.width * 0.75, size.height * 0.7, size.width, size.height);
-    path.lineTo(size.width, 0);
-    path.close();
-    //paint.color = Colors.blue.shade300;
-    paint.shader = ui.Gradient.linear(
-      Offset(0, 0),
-      Offset(size.width * 0.5, size.height),
-      [
-        Colors.blue.shade600,
-        Colors.blue.shade200,
-      ],
-    );
-    canvas.drawPath(path, paint);
-  }
 
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return oldDelegate != this;
-  }
-}

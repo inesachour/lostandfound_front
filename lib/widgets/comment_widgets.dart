@@ -11,6 +11,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 User? user;
 String? idModified;
 
+
+
 class addComment extends StatelessWidget {
   TextEditingController controller;
   String publication;
@@ -193,163 +195,176 @@ class _CommentCardState extends State<CommentCard> {
                     size: 25,
                   ),
                   onSelected: (val) async {
-                    if (val == 1) {
-                      if (!CommentCard.commentModif!) {
-                        setState(() {
-                          CommentCard.commentModif = true;
-                          idModified = widget.comment.id;
-                          content = Focus(
-                            onFocusChange: (focus) async {
-                              if (!focus) {
-                                var res = await showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                      title: Text('Confirmation'),
-                                      content: Text(
-                                          'Voulez-vous sauvegarder les changements ?'),
-                                      actions: <Widget>[
-                                        ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop(
-                                                false); // dismisses only the dialog and returns false
-                                          },
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                      Colors.red)),
-                                          child: Text('Non'),
-                                        ),
-                                        ElevatedButton(
-                                          onPressed: () async {
-                                            Navigator.of(context).pop(
-                                                true); // dismisses only the dialog and returns true
-                                          },
-                                          child: Text('Oui'),
-                                          style: ButtonStyle(
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                      Colors.green.shade300)),
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                                if (res) {
-                                  if (widget.comment.text.isNotEmpty) {
-                                    await CommentsService.getCommentService
-                                        .updateComment(widget.comment.id!,
-                                            widget.comment.text);
-                                  }
-
-                                  setState(() {
-                                    content = Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(user != null
-                                                ? user!.firstName
-                                                : "User"),
-                                            Text(
-                                              format(widget.comment),
-                                              style:
-                                                  TextStyle(color: Colors.grey),
-                                            )
-                                          ],
-                                        ),
-                                        Text(
-                                          widget.comment.text,
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              overflow: TextOverflow.ellipsis),
-                                        )
-                                      ],
-                                    );
-                                    CommentCard.commentModif = false;
-                                    idModified = null;
-                                  });
-                                }
-                              }
-                            },
-                            child: TextFormField(
-                              autofocus: true,
-                              maxLines: null,
-                              keyboardType: TextInputType.multiline,
-                              initialValue: widget.comment.text,
-                              onChanged: (val) {
-                                setState(() {
-                                  widget.comment.text = val;
-                                });
-                              },
-                              decoration: InputDecoration(
-                                suffixIcon: InkWell(
-                                  child: Icon(Icons.send_rounded),
-                                  onTap: () async {
+                    if(val==1)
+                      {
+                        if (!CommentCard.commentModif!) {
+                          setState(() {
+                            CommentCard.commentModif = true;
+                            idModified = widget.comment.id;
+                            content = Focus(
+                              onFocusChange: (focus) async {
+                                if (!focus) {
+                                  var res = await showDialog(
+                                    barrierDismissible: false,
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        title: Text('Confirmation'),
+                                        content: Text(
+                                            'Voulez-vous sauvegarder les changements ?'),
+                                        actions: <Widget>[
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context)
+                                                  .pop(
+                                                  false); // dismisses only the dialog and returns false
+                                            },
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                MaterialStateProperty
+                                                    .all(Colors.red)),
+                                            child: Text('Non'),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () async {
+                                              Navigator.of(context)
+                                                  .pop(
+                                                  true); // dismisses only the dialog and returns true
+                                            },
+                                            child: Text('Oui'),
+                                            style: ButtonStyle(
+                                                backgroundColor:
+                                                MaterialStateProperty
+                                                    .all(Colors.green
+                                                    .shade300)),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                  if (res) {
                                     if (widget.comment.text.isNotEmpty) {
-                                      await CommentsService.getCommentService
+                                      await CommentsService
+                                          .getCommentService
                                           .updateComment(widget.comment.id!,
-                                              widget.comment.text);
-                                      setState(() {
-                                        content = Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(user != null
-                                                    ? user!.firstName
-                                                    : "User"),
-                                                Text(
-                                                  format(widget.comment),
-                                                  style: TextStyle(
-                                                      color: Colors.grey),
-                                                )
-                                              ],
-                                            ),
-                                            Text(
-                                              widget.comment.text,
-                                              style: TextStyle(
-                                                  color: Colors.grey,
-                                                  overflow:
-                                                      TextOverflow.ellipsis),
-                                            )
-                                          ],
-                                        );
-
-                                        CommentCard.commentModif = false;
-                                      });
+                                          widget.comment.text);
                                     }
-                                  },
+
+                                    setState(() {
+                                      content = Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment
+                                                .spaceBetween,
+                                            children: [
+                                              Text(user != null
+                                                  ? user!.firstName
+                                                  : "User"),
+                                              Text(
+                                                format(widget.comment),
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              )
+                                            ],
+                                          ),
+                                          Text(
+                                            widget.comment.text,
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                overflow:
+                                                TextOverflow.ellipsis),
+                                          )
+                                        ],
+                                      );
+                                      CommentCard.commentModif = false;
+                                      idModified = null;
+                                    });
+                                  }
+                                }
+
+                              },
+                              child: TextFormField(
+                                autofocus: true,
+                                maxLines: null,
+                                keyboardType: TextInputType.multiline,
+                                initialValue: widget.comment.text,
+                                onChanged: (val) {
+                                  setState(() {
+                                    widget.comment.text = val;
+                                  });
+                                },
+                                decoration: InputDecoration(
+                                  suffixIcon: InkWell(
+                                    child: Icon(Icons.send_rounded),
+                                    onTap: () async {
+                                      if (widget.comment.text.isNotEmpty) {
+                                        await CommentsService
+                                            .getCommentService
+                                            .updateComment(
+                                            widget.comment.id!,
+                                            widget.comment.text);
+                                        setState(() {
+                                          content = Column(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                MainAxisAlignment
+                                                    .spaceBetween,
+                                                children: [
+                                                  Text(user != null
+                                                      ? user!.firstName
+                                                      : "User"),
+                                                  Text(
+                                                    format(widget.comment),
+                                                    style: TextStyle(
+                                                        color: Colors.grey),
+                                                  )
+                                                ],
+                                              ),
+                                              Text(
+                                                widget.comment.text,
+                                                style: TextStyle(
+                                                    color: Colors.grey,
+                                                    overflow: TextOverflow
+                                                        .ellipsis),
+                                              )
+                                            ],
+                                          );
+
+                                          CommentCard.commentModif = false;
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  enabledBorder: InputBorder.none,
+                                  focusedBorder: InputBorder.none,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(10.0)),
+                                  ),
+                                  disabledBorder: InputBorder.none,
                                 ),
-                                enabledBorder: InputBorder.none,
-                                focusedBorder: InputBorder.none,
-                                border: OutlineInputBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10.0)),
-                                ),
-                                disabledBorder: InputBorder.none,
                               ),
-                            ),
-                          );
-                        });
+                            );
+                          });
+                        }
                       }
-                    } else if (val == 2) {
-                      var res = await CommentsService.getCommentService
-                          .deleteComment(widget.comment.id!);
-                      widget.onDelete();
-                      if (idModified == widget.comment.id) {
-                        idModified = null;
-                        CommentCard.commentModif = false;
+                    else if(val==2)
+                      {
+                        var res = await CommentsService.getCommentService
+                            .deleteComment(widget.comment.id!);
+                        widget.onDelete();
+                        if(idModified == widget.comment.id)
+                          {
+                              idModified = null;
+                              CommentCard.commentModif = false;
+                          }
                       }
-                    }
                   },
                   itemBuilder: (context) => [
                         PopupMenuItem(

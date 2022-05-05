@@ -7,7 +7,6 @@ import 'package:lostandfound/screens/login.dart';
 import 'package:lostandfound/screens/register.dart';
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/comments_service.dart';
-import 'package:lostandfound/services/pubservices.dart';
 import 'package:provider/provider.dart';
 
 
@@ -17,7 +16,6 @@ void main() {
       providers: [
         ChangeNotifierProvider(create: (context) => CommentsService.getCommentService),
         ChangeNotifierProvider(create: (context) => BackendManager()),
-        ChangeNotifierProvider(create: (context) => PubServices()),
       ],
       child: const MyApp(),
     ),

@@ -30,7 +30,6 @@ class _ConsultpubsState extends State<Consultpubs> {
     super.initState();
     print("consultpubs init state");
   }
-
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -55,12 +54,12 @@ class _ConsultpubsState extends State<Consultpubs> {
               },
             ),
             color: primaryBlue),
-        Positioned(
-          top: MediaQuery.of(context).size.height * 0.1,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Container(
+       Positioned(
+            top: MediaQuery.of(context).size.height * 0.1,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
                   height: MediaQuery.of(context).size.height * 0.88,
                   width: MediaQuery.of(context).size.width,
                   decoration: BoxDecoration(
@@ -70,57 +69,57 @@ class _ConsultpubsState extends State<Consultpubs> {
                         topRight: Radius.circular(20)),
                   ),
                   child: DefaultTabController(
-                      length: 2,
-                      child: NestedScrollView(
-                          headerSliverBuilder: (context, value) {
-                            return [
-                              SliverAppBar(
-                                pinned: true,
-                                backgroundColor: primaryBackground,
-                                shape: ContinuousRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        topLeft: Radius.circular(30),
-                                        topRight: Radius.circular(30))),
-                                toolbarHeight: 0,
-                                bottom: TabBar(
-                                  labelColor: primaryBlue,
-                                  unselectedLabelColor: Colors.grey,
-                                  indicatorColor: primaryBlue,
-                                  tabs: [
-                                    Tab(text: 'Lost'),
-                                    Tab(text: 'Found'),
-                                  ],
-                                ),
-                              )
-                            ];
-                          },
-                          body: TabBarView(
-                            children: [
-                              Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SearchBar(),
-                                      InkWell(
-                                          splashColor: primaryBlue,
-                                          child: Text(
-                                            'Filtrer',
-                                            style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                color: Colors.grey.shade400),
-                                          ),
-                                          onTap: () {}),
+                        length: 2,
+                        child: NestedScrollView(
+                            headerSliverBuilder: (context, value) {
+                              return [
+                                SliverAppBar(
+                                  pinned: true,
+                                  backgroundColor: primaryBackground,
+                                  shape: ContinuousRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(30),
+                                          topRight: Radius.circular(30))),
+                                  toolbarHeight: 0,
+                                  bottom: TabBar(
+                                    labelColor: primaryBlue,
+                                    unselectedLabelColor: Colors.grey,
+                                    indicatorColor: primaryBlue,
+                                    tabs: [
+                                      Tab(text: 'Lost'),
+                                      Tab(text: 'Found'),
                                     ],
                                   ),
-                                  Expanded(
-                                    child: FutureBuilder<List<Publication>>(
+                                )
+                              ];
+                            },
+                            body: TabBarView(
+                              children: [
+                                Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SearchBar(),
+                                        InkWell(
+                                            splashColor: primaryBlue,
+                                            child: Text(
+                                              'Filtrer',
+                                              style: TextStyle(
+                                                  decoration:
+                                                  TextDecoration.underline,
+                                                  color: Colors.grey.shade400),
+                                            ),
+                                            onTap: () {
+                                            }),
+                                      ],
+                                    ),
+                                    FutureBuilder<List<Publication>>(
                                       future: pubsLostStream,
                                       builder: (BuildContext context,
                                           AsyncSnapshot<List<Publication>>
-                                              snapshot) {
+                                          snapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
                                           return Center(
@@ -134,48 +133,47 @@ class _ConsultpubsState extends State<Consultpubs> {
                                           else
                                             _pubs = snapshot.data ?? [];
                                           return SizedBox(
-                                            height: context.height * 0.69,
+                                            height: context.height *0.69,
                                             child: ListView.builder(
                                                 itemCount: _pubs.length,
                                                 itemBuilder: (context, index) {
                                                   Publication publication =
-                                                      _pubs[index];
+                                                  _pubs[index];
                                                   return Pubcard(publication);
                                                 }),
                                           );
                                         }
                                       },
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SearchBar(),
-                                      InkWell(
-                                          splashColor: primaryBlue,
-                                          child: Text(
-                                            'Filtrer',
-                                            style: TextStyle(
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                color: Colors.grey.shade400),
-                                          ),
-                                          onTap: () {}),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: FutureBuilder<List<Publication>>(
+                                  ],
+                                ),
+                                Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SearchBar(),
+                                        InkWell(
+                                            splashColor: primaryBlue,
+                                            child: Text(
+                                              'Filtrer',
+                                              style: TextStyle(
+                                                  decoration:
+                                                  TextDecoration.underline,
+                                                  color: Colors.grey.shade400),
+                                            ),
+                                            onTap: () {
+                                            }),
+                                      ],
+                                    ),
+                                    FutureBuilder<List<Publication>>(
                                       future: pubsFoundStream,
                                       //PubServices.getFoundPub(),
                                       // function where you call your api
                                       builder: (BuildContext context,
                                           AsyncSnapshot<List<Publication>>
-                                              snapshot) {
+                                          snapshot) {
                                         // AsyncSnapshot<Your object type>
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
@@ -195,21 +193,21 @@ class _ConsultpubsState extends State<Consultpubs> {
                                                 itemCount: _pubs.length,
                                                 itemBuilder: (context, index) {
                                                   Publication publication =
-                                                      _pubs[index];
+                                                  _pubs[index];
                                                   return Pubcard(publication);
                                                 }),
                                           );
                                         }
                                       },
                                     ),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ))))
-            ],
-          ),
-        )
+                                  ],
+                                ),
+                              ],
+                            )))
+                )
+              ],
+            ),
+          )
       ],
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 Widget DropDown({required onchanged, validator, required List<String> items}) {
   return DropdownButtonFormField<String>(
     hint: Text("Categorie"),
+
     items: items.map((String value) {
       return DropdownMenuItem<String>(
         value: value,
@@ -86,3 +87,5 @@ InputDecoration buildInputDecoration(IconData icons, String hinttext, String lab
     ),
   );
 }
+
+

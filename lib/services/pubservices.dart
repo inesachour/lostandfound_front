@@ -1,5 +1,11 @@
 // ignore_for_file: curly_braces_in_flow_control_structures, avoid_function_literals_in_foreach_calls
 
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:lostandfound/constants/categories.dart';
+import 'package:lostandfound/models/location.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:http/http.dart' as http;
 import 'package:lostandfound/settings/const.dart';
@@ -41,4 +47,28 @@ class PubServices
     return _foundPublications;
   }
 
+
+  Future<List<Publication>> filterPublications({required List categories, required String type, required LatLng? latlng , required DateTimeRange? dateRange}) async{
+
+    Location? l;
+    latlng != null ? l = Location(coordinates: [latlng.latitude.toString(), latlng.longitude.toString()], type: "point") : null;
+    var body = {
+      "categories" : json.encode(categories),
+      "type": type,
+      "location" : l != null ? l.toJson().toString() : '',
+      "firstDate" : dateRange != null ? dateRange.start.toString() : '',
+      "secondDate" : dateRange != null ? dateRange.end.toString() : '',
+    };
+
+
+    List<Publication> publications = [];
+    try{
+      var response = await http.post(Uri.parse("${Const.url}/publications/filter"),body: body);
+      publications = publicationsFromJson(response.body);
+
+    }catch(e){
+      print(e);
+    }
+    return publications;
+  }
 }

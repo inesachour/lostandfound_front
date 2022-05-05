@@ -19,12 +19,13 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
 
   //Controller
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
-  final TextEditingController _phoneController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+
+  TextEditingController _firstNameController = TextEditingController();
+  TextEditingController _lastNameController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
 
   //show password control
   bool eyeForPassword = true;
@@ -204,7 +205,7 @@ class _RegisterState extends State<Register> {
                           buildInputDecoration(Icons.title, "Nom", "Nom", null),
                       keyboardType: TextInputType.text,
                       obscureText: false,
-                      controller: _nameController,
+                      controller: _lastNameController,
                       validator: validator,
                       maxLines: 1,
                     ),
@@ -216,7 +217,7 @@ class _RegisterState extends State<Register> {
                           buildInputDecoration(Icons.title, "Prénom", "Prénom", null),
                       keyboardType: TextInputType.text,
                       obscureText: false,
-                      controller: _lastNameController,
+                      controller: _firstNameController,
                       validator: validator,
                       maxLines: 1,
                     ),
@@ -297,13 +298,13 @@ class _RegisterState extends State<Register> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          print(_nameController.text);
+                          print(_firstNameController.text);
                           print(_lastNameController.text);
                           print(_phoneController.text);
                           print(_emailController.text);
                           print(_passwordController.text);
                           _registerService.register(
-                            firstName: _nameController.text,
+                            firstName: _firstNameController.text,
                             lastName: _lastNameController.text,
                             phone: _phoneController.text,
                             email: _emailController.text,

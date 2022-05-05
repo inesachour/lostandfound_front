@@ -36,7 +36,6 @@ class RegisterService{
       if(responseBody != null){
         final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
         final SharedPreferences prefs = await _prefs;
-        prefs.setString("email", responseBody["email"]);
         prefs.setString("_id", responseBody["_id"]);
       }
     }

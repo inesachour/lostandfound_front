@@ -5,6 +5,7 @@ import 'package:lostandfound/screens/addpublication.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
 import 'package:lostandfound/screens/login.dart';
 import 'package:lostandfound/screens/register.dart';
+import 'package:lostandfound/screens/userpubs.dart';
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/comments_service.dart';
 import 'package:lostandfound/services/pubservices.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
         "/addpubs": (context) => AddPublicationForm(),
         "/home": (context) => HomeScreen(),
         "/login": (context) => LoginScreen(),
-        "/register": (context) => Register()
+        "/register": (context) => Register(),
+        "/userpubs": (context) => UserPubs()
       },
       theme: ThemeData(
         bottomAppBarColor: Colors.grey.shade200,

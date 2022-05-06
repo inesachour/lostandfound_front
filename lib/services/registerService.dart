@@ -29,10 +29,10 @@ class RegisterService{
         verified: verified,
       );
       var response = await client.post(Uri.parse(url), body: user.toJson());
-      print("khedmet !!");
-      print("this is the response " + response.body.toString());
+      //print("khedmet !!");
+      //print("this is the response " + response.body.toString());
       var responseBody = jsonDecode(response.body);
-      print("this is esmou " + responseBody["firstName"]);
+     // print("this is esmou " + responseBody["firstName"]);
       if(responseBody != null){
         final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
         final SharedPreferences prefs = await _prefs;
@@ -40,7 +40,7 @@ class RegisterService{
       }
     }
     catch (e) {
-      print("fama mochkla f register");
+     // print("fama mochkla f register");
       print(e.toString());
     }
   }
@@ -53,7 +53,7 @@ class RegisterService{
       return responseFromJson(jsonString);
     }
     catch(e){
-      print("mochkla f resend email");
+   //   print("mochkla f resend email");
       print(e.toString());
     }
   }

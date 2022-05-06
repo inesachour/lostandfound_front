@@ -23,71 +23,82 @@ class _UserPubsState extends State<UserPubs> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        CustomPaint(
-          child: SizedBox(
-              width: context.width,
-              height: 100,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Mes publications",
-                    style: TextStyle(fontSize: 20, color: Colors.white),
-                  ),
-                ],
-              )),
-          painter: CurvePainter(),
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(
+          title: Text("Mes publications"),
+          centerTitle: true,
+          backgroundColor: primaryBlue,
+          toolbarHeight: context.height * 0.12,
         ),
-        SizedBox(
-          height: context.height * .04,
+        body: Column(
+          children: [
+            /*CustomPaint(
+              child: SizedBox(
+                  width: context.width,
+                  height: 100,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Mes publications",
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
+                    ],
+                  )),
+              painter: CurvePainter(),
+            ),*/
+            SizedBox(
+              height: context.height * .02,
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              width: MediaQuery.of(context).size.width,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              ),
+              child: FutureBuilder<List<Publication>>(
+                future: pubsStream,
+                //PubServices.getFoundPub(),
+                // function where you call your api
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<Publication>> snapshot) {
+                  // AsyncSnapshot<Your object type>
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: Text('Please wait its loading...'));
+                  } else {
+                    if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else {
+                      _pubs = snapshot.data ?? [];
+                    }
+                    return SizedBox(
+                      height: context.height * 0.7,
+                      child: ListView.builder(
+                          itemCount: _pubs.length,
+                          itemBuilder: (context, index) {
+                            Publication publication = _pubs[index];
+                            return MyPubCard(publication,onDelete: ( val ){
+                              if(val)
+                              {
+                                setState(() {
+                                  pubsStream = PubServices.getMyPubs();
+                                });
+                              }
+                            },);
+                          }),
+                    );
+                  }
+                },
+              ),
+            )
+          ],
         ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.77,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-          ),
-          child: FutureBuilder<List<Publication>>(
-            future: pubsStream,
-            //PubServices.getFoundPub(),
-            // function where you call your api
-            builder: (BuildContext context,
-                AsyncSnapshot<List<Publication>> snapshot) {
-              // AsyncSnapshot<Your object type>
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: Text('Please wait its loading...'));
-              } else {
-                if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
-                } else {
-                  _pubs = snapshot.data ?? [];
-                }
-                return SizedBox(
-                  height: context.height * 0.69,
-                  child: ListView.builder(
-                      itemCount: _pubs.length,
-                      itemBuilder: (context, index) {
-                        Publication publication = _pubs[index];
-                        return MyPubCard(publication,onDelete: ( val ){
-                          if(val)
-                          {
-                            setState(() {
-                              pubsStream = PubServices.getMyPubs();
-                            });
-                          }
-                        },);
-                      }),
-                );
-              }
-            },
-          ),
-        )
-      ],
+      ),
     );
   }
 }

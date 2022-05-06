@@ -41,7 +41,7 @@ class _UpdatePubFieldState extends State<UpdatePubField> {
           child: Text(
             widget._label + " :",
             style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold),
+                color: Colors.black, fontWeight: FontWeight.bold),
           ),
         ),
         Padding(

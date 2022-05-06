@@ -34,14 +34,14 @@ class _VerifyEmailState extends State<VerifyEmail> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset("assets/logo.png"),
             SizedBox(
-              height: 30,
+              height: 15,
             ),
             Text(
                 "Vous avez reçu un email de vérification, veuillez consulter votre boite de réception"),
@@ -97,7 +97,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
                     style: TextStyle(color: Colors.red),
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 15,
                   ),
                   ElevatedButton(
                     child: Text("Renvoyer l'email"),

@@ -88,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       width: context.width * 0.75,
                       height: context.height*0.06,
                       decoration: BoxDecoration(
-                        boxShadow: [
+                        /*boxShadow: [
                           BoxShadow(
                               color: Colors.black26, offset: Offset(0, 4), blurRadius: 5.0)
                         ],
@@ -97,10 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
                           end: Alignment.bottomRight,
                           stops: [0.0, 1.0],
                           colors: [
+                            //Colors.blue.shade600,
+                            primaryBlue,
                             Colors.blue.shade600,
-                            Colors.blue.shade200,
                           ],
-                        ),
+                        ),*/
+                        //color: primaryBlue,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: ElevatedButton(
@@ -170,8 +172,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           minimumSize: MaterialStateProperty.all(Size(context.width*0.75,context.height*0.07)),
                           maximumSize: MaterialStateProperty.all(Size(context.width*0.75,context.height*0.09)),
                           backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                          overlayColor: MaterialStateProperty.all(Colors.blue.shade100),
+                          MaterialStateProperty.all(primaryBlue),
+                          elevation: MaterialStateProperty.all(0),
+                          //overlayColor: MaterialStateProperty.all(Colors.blue.shade100),
                           shadowColor:
                           MaterialStateProperty.all(Colors.transparent),
                         ),

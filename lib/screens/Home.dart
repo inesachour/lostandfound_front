@@ -18,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _currentIndex = 3;
   List _children = [
-    UserPubs(),
+    //UserPubs(),
     UserProfile(),
     Text("Messages Screen "),
     Text("Notifications Screen "),
@@ -53,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       extendBody: true,
       body: SingleChildScrollView(

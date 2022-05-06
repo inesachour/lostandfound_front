@@ -27,7 +27,7 @@ class addComment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: context.height * 0.06,
+      height: context.height * 0.07,
       width: context.width * 0.8,
       margin: EdgeInsets.all(5),
       child: TextFormField(

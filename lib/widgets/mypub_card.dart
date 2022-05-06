@@ -62,7 +62,7 @@ class _MyPubCardState extends State<MyPubCard> {
   Widget build(BuildContext context) {
     return Container(
       width: context.width * 0.9,
-      padding: EdgeInsets.all(8),
+      padding: EdgeInsets.all(10),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -85,7 +85,7 @@ class _MyPubCardState extends State<MyPubCard> {
                         width: MediaQuery.of(context).size.width * 0.9,
                         decoration: BoxDecoration(
                             border:
-                            Border.all(color: Colors.black54, width: 0.3)),
+                            Border.all(color: Colors.black26, width: 0.3)),
                         child: widget._publication.images.isNotEmpty
                             ? Image.memory(
                           Base64Decoder()
@@ -104,7 +104,7 @@ class _MyPubCardState extends State<MyPubCard> {
                             Container(
                               width: MediaQuery.of(context).size.width * 0.9,
                               padding: EdgeInsets.all(5),
-                              color: Colors.black54,
+                              color: Colors.black26,
                               child: Column(
                                 children: [
                                   Row(
@@ -160,7 +160,7 @@ class _MyPubCardState extends State<MyPubCard> {
                                   decoration: BoxDecoration(
                                       color: addCommentToggle
                                           ? Colors.blue.shade300
-                                          : Colors.black54,
+                                          : Colors.black26,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(30))),
                                   child: IconButton(
@@ -182,7 +182,7 @@ class _MyPubCardState extends State<MyPubCard> {
                                     margin:
                                     EdgeInsets.only(right: 10, bottom: 10),
                                     decoration: BoxDecoration(
-                                        color: Colors.black54,
+                                        color: Colors.black26,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(30))),
                                     child: PopupMenuButton(
@@ -222,7 +222,7 @@ class _MyPubCardState extends State<MyPubCard> {
                                                                           crossAxisAlignment: CrossAxisAlignment.start,
                                                                           children: [
                                                                             UpdatePubField(
-                                                                              "Title",
+                                                                              "Titre",
                                                                               widget._publication.title,
                                                                               getContent: (val) {
                                                                                 setState(() {
@@ -272,13 +272,7 @@ class _MyPubCardState extends State<MyPubCard> {
                                                                     )),
                                                               ),
                                                               decoration:
-                                                              BoxDecoration(
-                                                                gradient:
-                                                                LinearGradient(
-                                                                    colors: [
-                                                                      Colors.blue.shade200,
-                                                                      Colors.blue.shade100
-                                                                    ]),
+                                                              BoxDecoration(color:Colors.grey.shade200,
                                                                 borderRadius:
                                                                 BorderRadius.all(Radius.circular(32.0)),
                                                               ),
@@ -302,7 +296,7 @@ class _MyPubCardState extends State<MyPubCard> {
                                   MediaQuery.of(context).size.width * 0.9,
                                   padding: EdgeInsets.symmetric(
                                       vertical: 10, horizontal: 20),
-                                  color: Colors.black54,
+                                  color: Colors.black26,
                                   child: Column(
                                     crossAxisAlignment:
                                     CrossAxisAlignment.start,

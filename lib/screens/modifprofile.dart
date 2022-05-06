@@ -27,7 +27,7 @@ gettingUser() async {
   final SharedPreferences prefs = await _prefs;
   var id = prefs.getString("_id");
   var user = await registerService.findRegistredUser(id!);
-  print(user!.firstName);
+  //print(user!.firstName);
 
   return user;
 }
@@ -264,7 +264,7 @@ class _ModifProfileState extends State<ModifProfile> {
                               var user = await registerService.findRegistredUser(_id!);
 
                               if (_formKey.currentState!.validate()) {
-                                usersService.updateUser(
+                                await usersService.updateUser(
                                   id: _id,
                                   firstName: firstName ?? user!.firstName,
                                   lastName: lastName ?? user!.lastName,
@@ -275,10 +275,11 @@ class _ModifProfileState extends State<ModifProfile> {
                                   role: user.role,
                                   verified: user.verified,
                                 );
-                                Navigator.push(
+                                /*Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => UserProfile()),
-                                );
+                                );*/
+                                Navigator.pop(context,true);
                               }
                             },
                           ),
@@ -303,7 +304,7 @@ class _ModifProfileState extends State<ModifProfile> {
                             onPressed: () {},
                           ),
                           SizedBox(
-                            height : 200,
+                            height : 20,
                           ),
                         ],
                       ),
@@ -378,7 +379,7 @@ class _FieldState extends State<Field> {
         obscureText: widget.type=="password"?show:false,
         keyboardType: widget.type=='email' ? TextInputType.emailAddress:TextInputType.text,
         decoration :InputDecoration(
-          prefixIcon: widget.type=='password'?Icon(Icons.vpn_key_rounded):Icon(Icons.abc,),
+          prefixIcon: widget.type=='password'?Icon(Icons.vpn_key_rounded):Icon(Icons.backpack,),
           suffixIcon: widget.type=='password' ? InkWell(
               splashColor: Colors.transparent,
               onTap: (){

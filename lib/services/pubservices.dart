@@ -101,4 +101,10 @@ class PubServices
         }
     );
   }
+
+  static Future<Publication> getPublicationById(String id) async {
+    var response =  await http.get(Uri.parse("${Const.url}/publications/find/$id"));
+    var publication = Publication.fromJson(json.decode(response.body));
+    return publication;
+  }
 }

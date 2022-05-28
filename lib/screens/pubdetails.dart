@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/services/pubservices.dart';
+import 'package:lostandfound/services/users_service.dart';
+import 'package:lostandfound/settings/colors.dart';
+import 'package:lostandfound/widgets/pub_details_card.dart';
+
 
 class PublicationDetails extends StatefulWidget {
-  PublicationDetails({Key? key, required this.id }) : super(key: key);
+  PublicationDetails({Key? key, required this.publication }) : super(key: key);
 
-  String id;
+  Publication publication;
 
   @override
   _PublicationDetailsState createState() => _PublicationDetailsState();
@@ -13,13 +17,9 @@ class PublicationDetails extends StatefulWidget {
 
 class _PublicationDetailsState extends State<PublicationDetails> {
 
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
 
     return Scaffold(
       body: Stack(
@@ -27,12 +27,12 @@ class _PublicationDetailsState extends State<PublicationDetails> {
           Column(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.25,
+                height: MediaQuery.of(context).size.height * 0.3,
                 color: Colors.red,
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.75,
-                color: Colors.blue,
+                height: MediaQuery.of(context).size.height * 0.7,
+                color: Colors.white,
               ),
             ],
           ),
@@ -42,12 +42,11 @@ class _PublicationDetailsState extends State<PublicationDetails> {
             child: Icon(Icons.arrow_back),
           ),
           Positioned(
-            top: MediaQuery.of(context).size.height * 0.2,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20)
-              ),
-            ),
+            height: MediaQuery.of(context).size.height * 0.76,
+            width: MediaQuery.of(context).size.width*0.8,
+            top: MediaQuery.of(context).size.height * 0.22,
+            left: MediaQuery.of(context).size.width*0.1,
+            child: PublicationDetailsCard(publication: widget.publication),
           ),
         ],
       ),

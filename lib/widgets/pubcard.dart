@@ -61,7 +61,7 @@ class _PubcardState extends State<Pubcard> {
         String id = widget._publication.id!;
         Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PublicationDetails(id: id))
+            MaterialPageRoute(builder: (context) => PublicationDetails(publication: widget._publication))
         );
       },
       child: Container(

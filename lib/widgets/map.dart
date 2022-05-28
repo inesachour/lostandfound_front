@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart' as gc;
 import 'package:flutter_map/plugin_api.dart';
 import 'package:geocode/geocode.dart';
+
 import 'package:latlong2/latlong.dart';
 
 
@@ -38,14 +40,22 @@ class _MapScreenState extends State<MapScreen> {
               onTap: (p,latlng) async {
                 if(widget.select){
                   try{
-                    location = await geoCode.reverseGeocoding(latitude: latlng.latitude, longitude: latlng.longitude);
+
+                    //location = await geoCode.reverseGeocoding(latitude: latlng.latitude, longitude: latlng.longitude);
+                    final coordinates = new gc.Coordinates(latlng.latitude, latlng.longitude);
+                    var c = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
+                    //print(c.first.adminArea);
+                   // print(c.first.subAdminArea);
+
                     print("ok");
-                    locationString = "${location.countryName ?? ""} ${location.city ?? ""} ${location.region ?? ""}";
+                   // locationString = "${location.countryName ?? ""} ${location.city ?? ""} ${location.region ?? ""}";
+                    locationString = "${c.first.adminArea ?? ""} ${c.first.subAdminArea ?? ""}";
                     setState(() {
                       point = latlng;
                     });
                   }
                   catch(Exception){
+                    print(Exception);
                     showDialog(context: context, builder: (context){return AlertDialog(title: Text("Une erreur s'est produite. Réessayez encore."),alignment: Alignment.bottomCenter,);});
                   }
                 }

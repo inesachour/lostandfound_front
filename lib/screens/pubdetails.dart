@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/services/pubservices.dart';
@@ -19,62 +20,74 @@ class PublicationDetails extends StatefulWidget {
 
 class _PublicationDetailsState extends State<PublicationDetails> {
 
-  /*
-  Image.memory(
-                                  Base64Decoder()
-                                      .convert(widget._publication.images[0].url),
-                                  fit: BoxFit.cover,
-                                  //image: NetworkImage(widget._publication.images[0].url),
-                                )
-                              : Image.asset('assets/logo.png'),
-  */
 
   @override
   Widget build(BuildContext context){
 
-    List images= [];
+    List images = [];
+    List<Widget> imageIndactor = [];
+    int currentIndex= 0;
 
     widget.publication.images.forEach((e) {
       images.add(Base64Decoder().convert(e.url));
     });
 
+
     return Scaffold(
       body: Stack(
+        alignment: Alignment.center,
         children: [
           Column(
             children: [
               Container(
                 height: MediaQuery.of(context).size.height * 0.3,
-                color: Colors.red,
+                color: lightGrey,
                 child: images.length >0 ? PageView.builder(
                     itemCount: images.length,
                     pageSnapping: true,
                     itemBuilder: (context,index){
                       return Image.memory(
-                          images[index],
-                          fit: BoxFit.fitWidth
+                        images[index],
+                        fit: BoxFit.fitWidth,
                       );
                     }) : Image.asset(
                     'assets/logo.png',
                     fit: BoxFit.fitWidth
-                ) ,
+                )
+
               ),
               Container(
                 height: MediaQuery.of(context).size.height * 0.7,
-                color: Colors.white,
+                color: lightGrey,
               ),
             ],
           ),
 
           Positioned(
             top: 25,
-            child: Icon(Icons.arrow_back),
+            left: 0,
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back, color: Colors.white,
+              ),
+              onPressed: (){
+                Navigator.pop(context);
+              },
+            ),
           ),
+
+          Positioned(
+              top: MediaQuery.of(context).size.height * 0.22,
+              child: Row(
+                children: imageIndactor
+              )
+          ),
+
           Positioned(
             height: MediaQuery.of(context).size.height * 0.76,
-            width: MediaQuery.of(context).size.width*0.8,
-            top: MediaQuery.of(context).size.height * 0.22,
-            left: MediaQuery.of(context).size.width*0.1,
+            width: MediaQuery.of(context).size.width*0.9,
+            top: MediaQuery.of(context).size.height * 0.25,
+            left: MediaQuery.of(context).size.width*0.05,
             child: PublicationDetailsCard(publication: widget.publication),
           ),
         ],
@@ -82,3 +95,16 @@ class _PublicationDetailsState extends State<PublicationDetails> {
     );
   }
 }
+/*
+
+imageIndactor.add(
+Container(
+width: 10.0,
+height: 10.0,
+margin: EdgeInsets.all(3),
+decoration: new BoxDecoration(
+color: primaryGrey,
+shape: BoxShape.circle,
+),
+)
+);*/

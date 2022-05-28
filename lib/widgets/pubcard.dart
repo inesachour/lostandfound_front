@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:geocode/geocode.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/screens/pubdetails.dart';
 import 'package:lostandfound/services/comments_service.dart';
@@ -38,7 +38,7 @@ class _PubcardState extends State<Pubcard> {
   @override
   void initState() {
     super.initState();
-    GeoCode geoCode = GeoCode();
+    /*GeoCode geoCode = GeoCode();
     geoCode
         .reverseGeocoding(
             latitude: double.parse(widget._publication.location.coordinates[0]),
@@ -51,6 +51,18 @@ class _PubcardState extends State<Pubcard> {
           _adminArea = value.region; //[0].adminArea.toString();
         });
       }
+    });*/
+
+    final coordinates = new Coordinates(
+        double.parse(widget._publication.location.coordinates[0]),
+        double.parse(widget._publication.location.coordinates[1])
+    );
+    Geocoder.local.findAddressesFromCoordinates(coordinates).then((c) {
+      setState(() {
+        _locality = c.first.subAdminArea ?? "";
+        _adminArea = c.first.adminArea ?? "";
+      });
+
     });
   }
 
@@ -108,7 +120,7 @@ class _PubcardState extends State<Pubcard> {
                                     height: context.height * 0.01,
                                   ),
                                   Text(
-                                    _locality ?? "",
+                                    _locality != null && _locality != "" ? _locality! + ", " : "",
                                     style: TextStyle(
                                         //fontSize: context.width * 0.035,
                                         color: Colors.white),
@@ -116,7 +128,7 @@ class _PubcardState extends State<Pubcard> {
                                   Expanded(
                                     child: Text(
                                       _adminArea != null
-                                          ? ", " + _adminArea! + "  "
+                                          ? " " + _adminArea! + "  "
                                           : "",
                                       style: TextStyle(
                                           //fontSize: context.width * 0.035,

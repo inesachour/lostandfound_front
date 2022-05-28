@@ -30,9 +30,9 @@ class _UserProfileState extends State<UserProfile> {
   //the user future
   var _userFuture = gettingUser();
 
+
   @override
   Widget build(BuildContext context) {
-
     return Column(
         children: [
           FutureBuilder(

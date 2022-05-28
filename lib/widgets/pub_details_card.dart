@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:geocode/geocode.dart';
+//import 'package:geocode/geocode.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/settings/colors.dart';
@@ -32,7 +32,7 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
           borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
           color: Colors.white,
           border: Border.all(
-            color: primaryGrey
+            color: darkGrey
           ),
       ),
       child: Column(
@@ -45,7 +45,7 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
             children: [
 
               IconButton(
-                  icon: Icon(Icons.message, color: primaryGrey,),
+                  icon: Icon(Icons.message, color: darkGrey,),
                   onPressed: (){
 
                   }
@@ -54,7 +54,7 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
               Column(
                 children: [
                   CircleAvatar(
-                    backgroundColor: primaryGrey,
+                    backgroundColor: darkGrey,
                     radius: MediaQuery.of(context).size.width * 0.05,
                     child: widget.publication.owner.photo == ""
                         ? Icon(Icons.account_circle_rounded,
@@ -70,19 +70,19 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
                   ),
                   Text(
                     widget.publication.owner.firstName+ " "+ widget.publication.owner.lastName,
-                    style: TextStyle(color: primaryGrey),
+                    style: TextStyle(color: darkGrey),
                   ),
                 ],
               ),
               IconButton(
-                  icon: Icon(Icons.mail, color: primaryGrey),
+                  icon: Icon(Icons.mail, color: darkGrey),
                   onPressed: (){
 
                   }
               ),
             ],
           ),
-          Divider(color: Colors.black,indent: 5,endIndent: 5,),
+          Divider(color: darkGrey,indent: 5,endIndent: 5,),
 
 
           Expanded(
@@ -125,7 +125,7 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
                   ),
                 ),
 
-                Divider(color: Colors.black,indent: 5,endIndent: 5,),
+                Divider(color: darkGrey,indent: 5,endIndent: 5,),
 
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 15),
@@ -140,7 +140,7 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
                   ),
                 ),
 
-                Divider(color: Colors.black,indent: 5,endIndent: 5,),
+                Divider(color: darkGrey,indent: 5,endIndent: 5,),
                 Column(
                   children: [
                     Padding(
@@ -158,7 +158,7 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
                     SizedBox(height: 10,),
 
                     Container(
-                        width: MediaQuery.of(context).size.width*0.8,
+                        width: MediaQuery.of(context).size.width*0.9,
                         height: MediaQuery.of(context).size.height*0.4,
 
                         child: MapScreen(select: false,lat: lat, long:long, latCenter: lat, longCenter: long,)

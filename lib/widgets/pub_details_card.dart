@@ -18,20 +18,18 @@ class PublicationDetailsCard extends StatefulWidget {
 
 class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
 
-  String? _locality;
-  String? _adminArea;
-
 
 
   @override
   Widget build(BuildContext context) {
 
+    double lat = double.parse(widget.publication.location.coordinates[0]);
+    double long = double.parse(widget.publication.location.coordinates[1]);
 
     return Container(
-     // height: MediaQuery.of(context).size.height * 0.76,
-     // width: MediaQuery.of(context).size.width*0.8,
+
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
           color: Colors.white,
           border: Border.all(
             color: primaryGrey
@@ -145,17 +143,28 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
                 Divider(color: Colors.black,indent: 5,endIndent: 5,),
                 Column(
                   children: [
-                    Row(
-                      children: [
-                        Icon(Icons.location_on, color: primaryBlue,),
-                        Text(_locality?? ""),
-                        MapScreen(),
-                      ],
-                    )
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, ),
+                      child: Row(
+                        children: [
+                          Icon(Icons.location_on, color: primaryBlue,),
+                          SizedBox(width: 10,),
+                          Text( "fix"),
+
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(height: 10,),
+
+                    Container(
+                        width: MediaQuery.of(context).size.width*0.8,
+                        height: MediaQuery.of(context).size.height*0.4,
+
+                        child: MapScreen(select: false,lat: lat, long:long, latCenter: lat, longCenter: long,)
+                    ),
                   ],
                 ),
-
-
               ],
             ),
           ),

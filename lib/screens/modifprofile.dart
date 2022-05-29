@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/registerUserModel.dart';
+import 'package:lostandfound/screens/register.dart';
+import 'package:lostandfound/services/auth_services.dart';
 import 'package:lostandfound/services/image_picker.dart';
 import 'package:lostandfound/services/registerService.dart';
 import 'package:lostandfound/services/users_service.dart';
@@ -301,7 +303,18 @@ class _ModifProfileState extends State<ModifProfile> {
                               fixedSize: MaterialStateProperty.all(
                                   Size(width * 0.9, 50)),
                             ),
-                            onPressed: () {},
+                            onPressed: () async {
+                              final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+                              final SharedPreferences prefs = await _prefs;
+                              var _id = prefs.getString("_id");
+                              var result = await usersService.deleteUser(id: _id) as bool;
+                              if(result == true){
+                                Auth.Logout().then((value) {
+                                  Navigator.of(context)
+                                      .pushNamedAndRemoveUntil("/", (route) => false);
+                                });
+                              }
+                            },
                           ),
                           SizedBox(
                             height : 20,

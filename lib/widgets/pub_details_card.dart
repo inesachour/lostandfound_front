@@ -1,9 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart';
+import 'package:http/http.dart';
 //import 'package:geocode/geocode.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/models/user.dart';
+import 'package:lostandfound/models/userProf.dart';
+import 'package:lostandfound/screens/modifprofile.dart';
+import 'package:lostandfound/services/users_service.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/widgets/map.dart';
 
@@ -18,16 +23,40 @@ class PublicationDetailsCard extends StatefulWidget {
 
 class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
 
+  UserProfile? user;
+  String location= "";
+  @override
+  void initState() {
+    super.initState();
+    final coordinates = new Coordinates(
+        double.parse(widget.publication.location.coordinates[0]),
+        double.parse(widget.publication.location.coordinates[1])
+    );
+    Geocoder.local.findAddressesFromCoordinates(coordinates).then((c) {
+      setState(() {
+        location = "${c.first.adminArea ?? ""} ${c.first.subAdminArea ?? ""}";
+      });
+    });
+  }
 
 
   @override
   Widget build(BuildContext context) {
 
+    UsersService.findUserProfile(userId: widget.publication.owner.id!).then((value) {
+      if(user==null){
+        setState(() {
+          user=value;
+        });
+      }
+
+    }
+    );
+
     double lat = double.parse(widget.publication.location.coordinates[0]);
     double long = double.parse(widget.publication.location.coordinates[1]);
 
     return Container(
-
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
           color: Colors.white,
@@ -47,7 +76,6 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
               IconButton(
                   icon: Icon(Icons.message, color: darkGrey,),
                   onPressed: (){
-
                   }
               ),
 
@@ -56,12 +84,12 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
                   CircleAvatar(
                     backgroundColor: darkGrey,
                     radius: MediaQuery.of(context).size.width * 0.05,
-                    child: widget.publication.owner.photo == ""
+                    child: user == null || user?.photo == null
                         ? Icon(Icons.account_circle_rounded,
-                        size: 40, color: primaryBackground)
+                        color: primaryBackground)
                         : ClipOval(
                       child: Image.memory(
-                        Base64Decoder().convert(widget.publication.owner.photo),
+                        Base64Decoder().convert(user!.photo!.url),
                         width: 80,
                         height: 80,
                         fit: BoxFit.cover,
@@ -136,6 +164,7 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
                       Text("Description :", style: TextStyle(color: primaryBlue),),
                       SizedBox(height: 10,),
                       Text(widget.publication.description),
+                      SizedBox(height: 10,),
                     ],
                   ),
                 ),
@@ -149,7 +178,7 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
                         children: [
                           Icon(Icons.location_on, color: primaryBlue,),
                           SizedBox(width: 10,),
-                          Text( "fix"),
+                          Text( location ),
 
                         ],
                       ),
@@ -175,4 +204,6 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
     );
   }
 }
+
+
 

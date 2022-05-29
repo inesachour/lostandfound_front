@@ -62,7 +62,6 @@ class _PubcardState extends State<Pubcard> {
         _locality = c.first.subAdminArea ?? "";
         _adminArea = c.first.adminArea ?? "";
       });
-
     });
   }
 
@@ -191,14 +190,16 @@ class _PubcardState extends State<Pubcard> {
                               ),
                             ),
                             SizedBox(
-                              height: MediaQuery.of(context).size.width * 0.03,
+                              height: MediaQuery.of(context).size.width * 0.01,
                             ),
                             Text(
-                              widget._publication.owner.firstName,
+                              widget._publication.owner.firstName + "\n" + widget._publication.owner.lastName,
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 14,
-                                  color: Colors.grey),
+                                  color: Colors.grey,
+                              ),
                             ),
                           ],
                         ),

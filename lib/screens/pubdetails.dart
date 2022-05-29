@@ -6,6 +6,7 @@ import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/services/pubservices.dart';
 import 'package:lostandfound/services/users_service.dart';
 import 'package:lostandfound/settings/colors.dart';
+import 'package:lostandfound/settings/const.dart';
 import 'package:lostandfound/widgets/pub_details_card.dart';
 
 
@@ -26,7 +27,7 @@ class _PublicationDetailsState extends State<PublicationDetails> {
 
     List images = [];
     List<Widget> imageIndactor = [];
-    int currentIndex= 0;
+    PageController pagesController = PageController(viewportFraction: 0.9);
 
     widget.publication.images.forEach((e) {
       images.add(Base64Decoder().convert(e.url));
@@ -34,6 +35,7 @@ class _PublicationDetailsState extends State<PublicationDetails> {
 
 
     return Scaffold(
+      appBar: AppBar(),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -45,36 +47,43 @@ class _PublicationDetailsState extends State<PublicationDetails> {
                 child: images.length >0 ? PageView.builder(
                     itemCount: images.length,
                     pageSnapping: true,
+                    controller: pagesController,
                     itemBuilder: (context,index){
-                      return Image.memory(
-                        images[index],
-                        fit: BoxFit.fitWidth,
+                      return Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.memory(
+                            images[index],
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
                       );
                     }) : Image.asset(
                     'assets/logo.png',
                     fit: BoxFit.fitWidth
-                )
+                ),
 
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.7,
+                height: MediaQuery.of(context).size.height * 0.55,
                 color: lightGrey,
               ),
             ],
           ),
 
-          Positioned(
+         /* Positioned(
             top: 25,
             left: 0,
             child: IconButton(
               icon: Icon(
-                Icons.arrow_back, color: Colors.white,
+                Icons.arrow_back, color: primaryBlue,
               ),
               onPressed: (){
                 Navigator.pop(context);
               },
             ),
-          ),
+          ),*/
 
           Positioned(
               top: MediaQuery.of(context).size.height * 0.22,

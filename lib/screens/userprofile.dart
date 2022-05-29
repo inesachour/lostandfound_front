@@ -209,32 +209,6 @@ class _UserProfileState extends State<UserProfile> {
                               ),
                             ],
                           ),
-                          // ElevatedButton(
-                          //   child: Text(
-                          //     "Modifier vos informations",
-                          //     style:
-                          //         TextStyle(color: primaryBlue, fontSize: 15),
-                          //   ),
-                          //   style: ButtonStyle(
-                          //     backgroundColor: MaterialStateProperty.all(
-                          //       Colors.white,
-                          //     ),
-                          //     shape: MaterialStateProperty.all(
-                          //         RoundedRectangleBorder(
-                          //             borderRadius:
-                          //                 BorderRadius.circular(20))),
-                          //     fixedSize: MaterialStateProperty.all(
-                          //         Size(width * 0.9, 50)),
-                          //   ),
-                          //   onPressed: () {
-                          //     /***********modification screen*********/
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) => ModifProfile()),
-                          //     );
-                          //   },
-                          // ),
                         ],
                       ),
                     ),

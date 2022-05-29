@@ -24,18 +24,28 @@ class UsersService{
   deleteUser({required id}) async {
     var client = http.Client();
     try {
-      String url = Const.url+'/users/delete/'+ id;
+      String url = Const.url + '/users/delete/' + id;
       var result = await client.delete(Uri.parse(url));
-      if(result.statusCode == 200)
-      {
+      if (result.statusCode == 200) {
         return true;
       }
     }
     catch (e) {
       print(e.toString());
     }
-    return false;
   }
+  static Future<UserProfile?> findUserProfile({required String userId}) async {
+    var client = http.Client();
+    try {
+      String url = Const.url+'/users/'+ userId;
+      var result = await client.get(Uri.parse(url));
+      return UserProfile.fromJson(json.decode(result.body));
+
+    }
+    catch (e) {
+      print(e.toString());
+    }
+}
 
   updateUser({required id, String? firstName, String? lastName, String? phone, File? photo,  String? email ,  String? password, required String role, required bool verified}) async {
     var client = http.Client();

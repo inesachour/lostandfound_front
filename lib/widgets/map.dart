@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_geocoder/geocoder.dart' as gc;
 import 'package:flutter_map/plugin_api.dart';
 import 'package:geocode/geocode.dart';
+
 import 'package:latlong2/latlong.dart';
 
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+  MapScreen({Key? key, this.select= true, this.lat=50, this.long=50, this.latCenter= 34.4394, this.longCenter=9.490272}) : super(key: key);
+
+  bool select;
+  double lat;
+  double long;
+  double latCenter;
+  double longCenter;
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -15,8 +23,8 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
 
-  LatLng center = LatLng(34.4394, 9.490272);
-  late LatLng point = LatLng(50, 50);
+  late LatLng center = LatLng(widget.latCenter, widget.longCenter);
+  late LatLng point = LatLng(widget.lat, widget.long);
   Address location = Address(city: "",region: "",countryName: "");
   String locationString = "";
   GeoCode geoCode = GeoCode();
@@ -30,15 +38,26 @@ class _MapScreenState extends State<MapScreen> {
           options: MapOptions(
               interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
               onTap: (p,latlng) async {
-                try{
-                  location = await geoCode.reverseGeocoding(latitude: latlng.latitude, longitude: latlng.longitude);
-                  locationString = "${location.countryName ?? ""} ${location.city ?? ""} ${location.region ?? ""}";
-                  setState(() {
-                    point = latlng;
-                  });
-                }
-                catch(Exception){
-                  showDialog(context: context, builder: (context){return AlertDialog(title: Text("Une erreur s'est produite. Réessayez encore."),alignment: Alignment.bottomCenter,);});
+                if(widget.select){
+                  try{
+
+                    //location = await geoCode.reverseGeocoding(latitude: latlng.latitude, longitude: latlng.longitude);
+                    final coordinates = new gc.Coordinates(latlng.latitude, latlng.longitude);
+                    var c = await gc.Geocoder.local.findAddressesFromCoordinates(coordinates);
+                    //print(c.first.adminArea);
+                   // print(c.first.subAdminArea);
+
+                    print("ok");
+                   // locationString = "${location.countryName ?? ""} ${location.city ?? ""} ${location.region ?? ""}";
+                    locationString = "${c.first.adminArea ?? ""} ${c.first.subAdminArea ?? ""}";
+                    setState(() {
+                      point = latlng;
+                    });
+                  }
+                  catch(Exception){
+                    print(Exception);
+                    showDialog(context: context, builder: (context){return AlertDialog(title: Text("Une erreur s'est produite. Réessayez encore."),alignment: Alignment.bottomCenter,);});
+                  }
                 }
 
               },
@@ -70,7 +89,7 @@ class _MapScreenState extends State<MapScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Card(
+                widget.select ? Card(
                   child: Padding(
                     padding: EdgeInsets.all(16),
                     child: Text(
@@ -78,8 +97,8 @@ class _MapScreenState extends State<MapScreen> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                   ),
-                ),
-                Card(
+                ): SizedBox(),
+                widget.select ? Card(
                     child: TextButton.icon(
                       onPressed: (){
                         Navigator.pop(context,[locationString,point]);
@@ -87,7 +106,7 @@ class _MapScreenState extends State<MapScreen> {
                       icon: Icon(Icons.location_on),
                       label: Text("Confirmer"),
                     )
-                ),
+                ) : SizedBox(),
               ],
             ),
           ),

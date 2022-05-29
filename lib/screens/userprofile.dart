@@ -10,14 +10,7 @@ var user;
 var registerService = RegisterService();
 bool isSwitched = false;
 
-gettingUser() async {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-  final SharedPreferences prefs = await _prefs;
-  var id = prefs.getString("_id");
-  var user = await registerService.findRegistredUser(id!);
-  //print(user!.firstName);
-  return user;
-}
+
 
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
@@ -28,7 +21,9 @@ class UserProfile extends StatefulWidget {
 
 class _UserProfileState extends State<UserProfile> {
   //the user future
+
   var _userFuture = gettingUser();
+
 
   @override
   Widget build(BuildContext context) {
@@ -265,4 +260,13 @@ Widget UserInfo(String label, double size, Color color) {
       fontSize: size,
     ),
   );
+}
+
+gettingUser() async {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  final SharedPreferences prefs = await _prefs;
+  var id = prefs.getString("_id");
+  var user = await registerService.findRegistredUser(id!);
+  print(user!.firstName);
+  return user;
 }

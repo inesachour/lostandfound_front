@@ -52,7 +52,7 @@ class _FilterPopUpState extends State<FilterPopUp> {
           }
       );
       setState(() {
-        if(loc){
+        if(loc.length > 0){
           _filterLocationController.text = loc[0];
           _location = loc[1];
         }

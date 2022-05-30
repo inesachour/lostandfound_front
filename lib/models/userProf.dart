@@ -15,6 +15,7 @@ class UserProfile {
     required this.verified,
   });
 
+  String? id;
   String? firstName;
   String? lastName;
   String? phone;
@@ -45,5 +46,14 @@ class UserProfile {
     "password": password,
     "role" : role,
     "verified" : verified.toString(),
+  };
+
+  Map<String, dynamic> toJsonWithId() => {
+    "\"_id\"": "\""+id!+"\"",
+    "\"firstName\"": "\""+firstName!+"\"",
+    "\"lastName\"": "\""+lastName!+"\"",
+    "\"phone\"": "\""+phone!+"\"",
+    "\"email\"": "\""+email!+"\"",
+    "\"photo\"" : "\""+ (photo != null ? (photo!.toJson()).toString() : "")+"\""
   };
 }

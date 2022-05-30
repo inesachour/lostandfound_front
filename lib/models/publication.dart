@@ -3,6 +3,8 @@ import 'package:lostandfound/models/location.dart';
 import 'package:lostandfound/models/user.dart';
 import 'dart:convert';
 
+import 'package:lostandfound/models/userProf.dart';
+
 Publication publicationFromJson(String str) => Publication.fromJson(json.decode(str));
 
 List<Publication> publicationsFromJson(String str) => List<Publication>.from(json.decode(str).map((x) => Publication.fromJson(x)));
@@ -52,16 +54,20 @@ class Publication {
     );
 
   }
-  Map<String, dynamic> toJson() => {
-    "title": title,
-    "description": description,
-    "type": type,
-    "date": date,
-    "tempsCreation":tempsCreation,
-    "category": category,
-    "location": location.toJson().toString(),
-    "images": List<dynamic>.from(images.map((x) => x.toJson())).toString(),
-    "owner" : owner.toJsonWithId().toString(),
-    "status":status
-  };
+  Map<String, dynamic> toJson() {
+    print("ok to json");
+    return {
+      "title": title,
+      "description": description,
+      "type": type,
+      "date": date,
+      "tempsCreation":tempsCreation,
+      "category": category,
+      "location": location.toJson().toString(),
+      "images": List<dynamic>.from(images.map((x) => x.toJson())).toString(),
+      "owner" : owner.toJsonWithId().toString(),
+      "status":status
+    };
+
+  }
 }

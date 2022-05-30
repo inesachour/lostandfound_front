@@ -298,11 +298,6 @@ class _RegisterState extends State<Register> {
                       ),
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          print(_firstNameController.text);
-                          print(_lastNameController.text);
-                          print(_phoneController.text);
-                          print(_emailController.text);
-                          print(_passwordController.text);
                           _registerService.register(
                             firstName: _firstNameController.text,
                             lastName: _lastNameController.text,

@@ -7,6 +7,7 @@ import 'package:lostandfound/models/image.dart';
 import 'package:lostandfound/models/location.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/models/user.dart';
+import 'package:lostandfound/models/userProf.dart';
 import 'package:lostandfound/settings/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,13 +28,10 @@ class BackendManager extends ChangeNotifier{
         imgs.add(Image(name: "image"+i.toString(), url: base64Encode(element.readAsBytesSync())));
         i++;
       });
-
       //get current user
       SharedPreferences sp = await SharedPreferences.getInstance();
       var idUser= sp.getString("userId");
       var user = await http.get(Uri.parse("${Const.url}/users/$idUser"));
-
-
 
       var publication = Publication(
         title: title,
@@ -48,7 +46,9 @@ class BackendManager extends ChangeNotifier{
         tempsCreation: DateTime.now().toString(),
 
       );
+
       var result = await client.post(Uri.parse(url), body: publication.toJson());
+
       if(result.statusCode==201)
         notifyListeners();
     }

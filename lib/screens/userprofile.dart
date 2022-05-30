@@ -252,8 +252,8 @@ gettingUser() async {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final SharedPreferences prefs = await _prefs;
   var id = prefs.getString("userId");
-  print(id);
-  var user = await registerService.findRegistredUser(id!);
+  print(id!);
+  var user = await registerService.findRegistredUser(id);
   print(user!.firstName);
   return user;
 }

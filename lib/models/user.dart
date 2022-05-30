@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:lostandfound/models/image.dart';
+
 List<User> userFromJson(String str) => List<User>.from(json.decode(str).map((x) => User.fromJson(x)));
 
 String userToJson(List<User> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
@@ -22,14 +24,18 @@ class User {
   String photo;
 
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
-      id: json["_id"],
-      firstName: json["firstName"],
-      lastName:json["lastName"],
-      phone: json["phone"],
-      email: json["email"],
-      photo: json["photo"]
-  );
+  factory User.fromJson(Map<String, dynamic> json) {
+    print("ok");
+    return User(
+        id: json["_id"],
+        firstName: json["firstName"],
+        lastName:json["lastName"],
+        phone: json["phone"],
+        email: json["email"],
+        photo: "",
+        //photo: (imageFromJson(json["photo"])).toJson().toString(),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "\"firstName\"": "\""+firstName+"\"",

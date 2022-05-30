@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:lostandfound/models/image.dart';
 import 'package:lostandfound/models/registerUserModel.dart';
-import 'package:lostandfound/models/userProf.dart';
 import 'package:lostandfound/settings/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -30,6 +29,7 @@ class RegisterService{
         verified: verified,
       );
       var response = await client.post(Uri.parse(url), body: user.toJson());
+      print(response.body);
       var responseBody = jsonDecode(response.body);
       print("this is esmou " + responseBody["firstName"]);
       if(responseBody != null){
@@ -65,7 +65,6 @@ class RegisterService{
       print(response.body);
       var jsonString = response.body;
       return registerUserFromJson(jsonString);
-      //return userProfileFromJson(jsonString);
     }
     catch (e) {
       print(e.toString());

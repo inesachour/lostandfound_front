@@ -25,11 +25,12 @@ class RegisterUser {
   bool verified;
 
   factory RegisterUser.fromJson(Map<String, dynamic> json) {
+    print(json["photo"]);
     return RegisterUser(
       firstName: json["firstName"]?? "",
       lastName: json["lastName"]?? "",
       phone: json["phone"]?? "",
-      photo: json["photo"] == "" ? null : Image.fromJson(json["photo"]),
+      photo: json["photo"] == null ? null : Image.fromJson(json["photo"]),
       email: json["email"]?? "",
       password: json["password"]??"",
       role: json["role"]??"",

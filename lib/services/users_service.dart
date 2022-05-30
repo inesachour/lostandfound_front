@@ -73,7 +73,7 @@ class UsersService{
       if(responseBody != null){
         final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
         final SharedPreferences prefs = await _prefs;
-        prefs.setString("_id", responseBody["_id"]);
+        prefs.setString("userId", responseBody["_id"]);
       }
     }
     catch (e) {

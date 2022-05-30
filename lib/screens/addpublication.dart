@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:lostandfound/constants/categories.dart';
 import 'package:lostandfound/models/user.dart';
+import 'package:lostandfound/models/userProf.dart';
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/image_picker.dart';
 import 'package:lostandfound/settings/colors.dart';
@@ -272,7 +273,7 @@ class _AddPublicationFormState extends State<AddPublicationForm> {
                             date: _date.toString(), category: _category,
                             latlng: _location,
                             images: _photos,
-                            owner: User(firstName: "firstName", lastName: "lastName", phone: "phone", email: "email", photo: "photo"),
+                            owner: User(firstName: "firstName", lastName: "lastName", phone: "phone", email: "email", photo : ""),
                             type: _type,
                         );
                         //Navigator.pop(context);

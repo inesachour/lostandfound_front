@@ -65,8 +65,8 @@ class UsersService{
         role: role,
         verified: verified,
       );
+      print("ok");
       var response = await client.patch(Uri.parse(url), body: user.toJson());
-      print("khedmet !!");
       print("hedhyyyyy response " + response.body.toString());
       var responseBody = jsonDecode(response.body);
       print("this is esmou " + responseBody["firstName"]);
@@ -77,7 +77,6 @@ class UsersService{
       }
     }
     catch (e) {
-      print("fama mochkla f update");
       print(e.toString());
     }
   }

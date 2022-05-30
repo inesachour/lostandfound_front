@@ -30,7 +30,7 @@ class UserProfile {
       firstName: json["firstName"]?? "",
       lastName: json["lastName"]?? "",
       phone: json["phone"]?? "",
-      photo: json["photo"] == "" ? null : Image.fromJson(json["photo"]),
+      photo: json["photo"] == null ? null : Image.fromJson(json["photo"]),
       email: json["email"]?? "",
       password: json["password"]??"",
       role: json["role"]??"",
@@ -41,7 +41,7 @@ class UserProfile {
     "firstName": firstName,
     "lastName": lastName,
     "phone": phone,
-    "photo": photo != null ? (photo!.toJson()).toString() : "" ,
+    "photo": photo != null ? (photo!.toJson()).toString() : null ,
     "email" : email,
     "password": password,
     "role" : role,
@@ -54,6 +54,6 @@ class UserProfile {
     "\"lastName\"": "\""+lastName!+"\"",
     "\"phone\"": "\""+phone!+"\"",
     "\"email\"": "\""+email!+"\"",
-    "\"photo\"" : "\""+ (photo != null ? (photo!.toJson()).toString() : "")+"\""
+    "\"photo\"" : "\""+ (photo != null ? (photo!.toJson()).toString() : null.toString())+"\""
   };
 }

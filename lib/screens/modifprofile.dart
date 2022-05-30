@@ -29,7 +29,6 @@ gettingUser() async {
   final SharedPreferences prefs = await _prefs;
   var id = prefs.getString("userId");
   var user = await registerService.findRegistredUser(id!);
-  //print(user!.firstName);
 
   return user;
 }
@@ -263,6 +262,7 @@ class _ModifProfileState extends State<ModifProfile> {
                               final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
                               final SharedPreferences prefs = await _prefs;
                               var _id = prefs.getString("userId");
+                              print(_id);
                               var user = await registerService.findRegistredUser(_id!);
 
                               if (_formKey.currentState!.validate()) {
@@ -377,7 +377,11 @@ class _FieldState extends State<Field> {
           ]
       ),
       child: TextFormField(
-        validator: widget.validator,
+        validator: (value){
+          if(value != null && value.isEmpty)
+            return "Veuillez saisir votre mot de passe";
+
+          },
         onChanged: (value){
           widget.getContent!(value);
         },

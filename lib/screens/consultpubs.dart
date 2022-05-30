@@ -173,7 +173,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                       ConnectionState.waiting) {
                                     return Center(
                                         child:
-                                            Text('Please wait its loading...'));
+                                            Text('chargement des données...'));
                                   } else {
                                     if (snapshot.hasError)
                                       return Center(
@@ -244,7 +244,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                       ConnectionState.waiting) {
                                     return Center(
                                         child:
-                                            Text('Please wait its loading...'));
+                                            Text('chargement des données...'));
                                   } else {
                                     if (snapshot.hasError)
                                       return Center(

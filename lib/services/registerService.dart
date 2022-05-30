@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:lostandfound/models/image.dart';
 import 'package:lostandfound/models/registerUserModel.dart';
+import 'package:lostandfound/models/userProf.dart';
 import 'package:lostandfound/settings/const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,8 +62,10 @@ class RegisterService{
     try {
       String url = Const.url+'/users/${id}';
       var response = await client.get(Uri.parse(url));
+      print(response.body);
       var jsonString = response.body;
       return registerUserFromJson(jsonString);
+      //return userProfileFromJson(jsonString);
     }
     catch (e) {
       print(e.toString());

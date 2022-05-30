@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
 import 'package:lostandfound/screens/userpubs.dart';
 import 'package:lostandfound/screens/userprofile.dart';
+import 'package:lostandfound/settings/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Color getColor(int index) {
     if(_currentIndex==index)
     {
-      return Colors.blue.shade200;
+      return primaryBlue;
     }
     return Colors.grey.shade600;
 
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButton: _keyboardIsVisible() ? SizedBox() : FloatingActionButton(
-        backgroundColor: Colors.blue.shade200,
+        backgroundColor: primaryBlue,
         onPressed: () {
           Navigator.of(context).pushNamed("/addpubs");
         },

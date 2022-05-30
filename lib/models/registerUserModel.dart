@@ -29,7 +29,7 @@ class RegisterUser {
       firstName: json["firstName"]?? "",
       lastName: json["lastName"]?? "",
       phone: json["phone"]?? "",
-      photo: json["photo"] == "" ? null : imageFromJson(json["photo"]),
+      photo: json["photo"] == "" ? null : Image.fromJson(json["photo"]),
       email: json["email"]?? "",
       password: json["password"]??"",
       role: json["role"]??"",

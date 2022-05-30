@@ -29,133 +29,113 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
 
     return Column(
-        children: [
-          FutureBuilder(
-            future: _userFuture,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                user = snapshot.data as RegisterUser?;
-                var username = user!.firstName.toUpperCase() +
-                    " " +
-                    user!.lastName.toUpperCase();
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //TODO upper part ui fix
-                    Container(
+      children: [
+        FutureBuilder(
+          future: _userFuture,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              user = snapshot.data as RegisterUser?;
+              var username = user!.firstName.toUpperCase() +
+                  " " +
+                  user!.lastName.toUpperCase();
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //TODO upper part ui fix
+                  Container(
 
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.28,
-                      margin: const EdgeInsets.only(bottom: 20),
-                      color: Colors.transparent,
-                      child: Stack(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(20),
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.only(bottom: 60),
-                            color: primaryBlue,
-                            //height: MediaQuery.of(context).size.height * 0.23,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.only(bottom: 40),
-                                child: UserInfo(username, 24, Colors.white),
-                              ),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height * 0.28,
+                    margin: const EdgeInsets.only(bottom: 20),
+                    color: Colors.transparent,
+                    child: Stack(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(0),
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.only(bottom: 60),
+                          color: primaryBlue,
+                          //height: MediaQuery.of(context).size.height * 0.23,
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.only(bottom: 40),
+                              child: UserInfo(username, 23, Colors.white),
                             ),
                           ),
-                          Positioned(
-                            top: 10,
-                              right: 10,
-                              child: IconButton(
-                                icon: const Icon(Icons.edit),
-                                tooltip: 'Modifier votre profile',
-                                onPressed: () async {
-                                  /***********modification screen*********/
-                                  await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ModifProfile()),
-                                  ).then((value) {
-                                    setState(() {
-                                      _userFuture = gettingUser();
-                                    });
-                                  });
-                                },
-                              ),
-                          ),
-                          Positioned(
-                            left: MediaQuery.of(context).size.width * 0.35,
-                            top: MediaQuery.of(context).size.height * 0.11,
-                            child: CircleAvatar(
-                              backgroundColor: primaryGrey,
-                              radius: MediaQuery.of(context).size.width * 0.15,
-                              child: user!.photo == null
-                                  ? Icon(Icons.account_circle_rounded,
-                                      size: 70, color: primaryBackground)
-                                  : ClipOval(
-                                      child: Image.memory(
-                                        Base64Decoder()
-                                            .convert(user!.photo.url),
-                                        width: 200,
-                                        height: 200,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(vertical: 5, horizontal: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          UserInfo("Email", 20, primaryGrey),
-                          UserInfo(user!.email, 25, Colors.black),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          UserInfo("Téléphone", 20, primaryGrey),
-                          UserInfo(user!.phone, 25, Colors.black),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Divider(
-                            thickness: 0.7,
-                            color: primaryGrey,
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          InkWell(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  "Mes publications",
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                  ),
-                                ),
-                                Icon(Icons.keyboard_arrow_right,
-                                    color: primaryBlue),
-                              ],
-                            ),
-                            onTap: (){
-                              Navigator.pushNamed(context, '/userpubs');
+                        ),
+                        Positioned(
+                          top: 10,
+                          right: 10,
+                          child: IconButton(
+                            icon: const Icon(Icons.edit, color: Colors.white,),
+                            tooltip: 'Modifier votre profile',
+                            onPressed: () async {
+                              /***********modification screen*********/
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ModifProfile()),
+                              ).then((value) {
+                                setState(() {
+                                  _userFuture = gettingUser();
+                                });
+                              });
                             },
                           ),
-                          SizedBox(
-                            height: 15,
+                        ),
+                        Positioned(
+                          left: MediaQuery.of(context).size.width * 0.35,
+                          top: MediaQuery.of(context).size.height * 0.1,
+                          child: CircleAvatar(
+                            backgroundColor: primaryGrey,
+                            radius: MediaQuery.of(context).size.width * 0.15,
+                            child: user!.photo == null
+                                ? Icon(Icons.account_circle_rounded,
+                                size: 70, color: primaryBackground)
+                                : ClipOval(
+                              child: Image.memory(
+                                Base64Decoder()
+                                    .convert(user!.photo.url),
+                                width: 200,
+                                height: 200,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
                           ),
-                          Row(
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                    EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        UserInfo("Email", 20, primaryGrey),
+                        UserInfo(user!.email, 25, Colors.black),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        UserInfo("Téléphone", 20, primaryGrey),
+                        UserInfo(user!.phone, 25, Colors.black),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Divider(
+                          thickness: 0.7,
+                          color: primaryGrey,
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Mes commentaires",
+                                "Mes publications",
                                 style: TextStyle(
                                   fontSize: 22,
                                 ),
@@ -164,65 +144,97 @@ class _UserProfileState extends State<UserProfile> {
                                   color: primaryBlue),
                             ],
                           ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Divider(
-                            thickness: 0.7,
-                            color: primaryGrey,
-                          ),
-                          SizedBox(
-                            height: 15,
-                          ),
-                          //switch for activating notifications
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Expanded(
-                                child: Icon(
-                                    Icons.notification_important_outlined),
+                          onTap: (){
+                            Navigator.pushNamed(context, '/userpubs');
+                          },
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+
+                        Divider(
+                          thickness: 0.7,
+                          color: primaryGrey,
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        //switch for activating notifications
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Icon(
+                                Icons.notification_important_outlined,
                               ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Expanded(
-                                child: Text(
-                                  "Notifications",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                flex: 10,
-                              ),
-                              Expanded(
-                                child: Switch(
-                                  value: isSwitched,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isSwitched = value;
-                                     // print(isSwitched);
-                                    });
-                                  },
-                                  activeTrackColor: Colors.lightBlueAccent,
-                                  activeColor: primaryBlue,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Expanded(
+                              child: Text(
+                                "Notifications",
+                                style: TextStyle(
+                                  fontSize: 20,
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
+                              flex: 10,
+                            ),
+                            Expanded(
+                              child: Switch(
+                                value: isSwitched,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isSwitched = value;
+                                    // print(isSwitched);
+                                  });
+                                },
+                                activeTrackColor: Colors.lightBlueAccent,
+                                activeColor: primaryBlue,
+                              ),
+                            ),
+                          ],
+                        ),
+                        // ElevatedButton(
+                        //   child: Text(
+                        //     "Modifier vos informations",
+                        //     style:
+                        //         TextStyle(color: primaryBlue, fontSize: 15),
+                        //   ),
+                        //   style: ButtonStyle(
+                        //     backgroundColor: MaterialStateProperty.all(
+                        //       Colors.white,
+                        //     ),
+                        //     shape: MaterialStateProperty.all(
+                        //         RoundedRectangleBorder(
+                        //             borderRadius:
+                        //                 BorderRadius.circular(20))),
+                        //     fixedSize: MaterialStateProperty.all(
+                        //         Size(width * 0.9, 50)),
+                        //   ),
+                        //   onPressed: () {
+                        //     /***********modification screen*********/
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //           builder: (context) => ModifProfile()),
+                        //     );
+                        //   },
+                        // ),
+                      ],
                     ),
-                  ],
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-          ),
-        ],
-      );
+                  ),
+                ],
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          },
+        ),
+      ],
+    );
   }
 }
 
@@ -239,7 +251,8 @@ Widget UserInfo(String label, double size, Color color) {
 gettingUser() async {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final SharedPreferences prefs = await _prefs;
-  var id = prefs.getString("_id");
+  var id = prefs.getString("userId");
+  print(id);
   var user = await registerService.findRegistredUser(id!);
   print(user!.firstName);
   return user;

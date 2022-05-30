@@ -33,9 +33,12 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
         double.parse(widget.publication.location.coordinates[1])
     );
     Geocoder.local.findAddressesFromCoordinates(coordinates).then((c) {
-      setState(() {
-        location = "${c.first.adminArea ?? ""} ${c.first.subAdminArea ?? ""}";
-      });
+      if(mounted){
+        setState(() {
+          location = "${c.first.adminArea ?? ""} ${c.first.subAdminArea ?? ""}";
+        });
+      }
+
     });
   }
 
@@ -45,9 +48,12 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
 
     UsersService.findUserProfile(userId: widget.publication.owner.id!).then((value) {
       if(user==null){
-        setState(() {
-          user=value;
-        });
+        if(mounted){
+          setState(() {
+            user=value;
+          });
+        }
+
       }
 
     }

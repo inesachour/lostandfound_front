@@ -14,14 +14,13 @@ class Auth {
         "password" : pwd
       }
     );
-    print("bodyyyyy "+response.body.toString());
     var bodyRes=jsonDecode(response.body);
     if(bodyRes["status"]==null) {
       final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
       prefs.setStringList(
-          'tokenInfo', [bodyRes["token"],
-        bodyRes["expiresIn"].toString(), ]);
+          'tokenInfo', [bodyRes["token"], bodyRes["expiresIn"].toString()]
+      );
       print(bodyRes["userId"].toString());
       prefs.setString("userId", bodyRes["userId"].toString());
       return true;

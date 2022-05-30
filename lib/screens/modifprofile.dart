@@ -27,7 +27,7 @@ var password;
 gettingUser() async {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final SharedPreferences prefs = await _prefs;
-  var id = prefs.getString("_id");
+  var id = prefs.getString("userId");
   var user = await registerService.findRegistredUser(id!);
   //print(user!.firstName);
 
@@ -262,7 +262,7 @@ class _ModifProfileState extends State<ModifProfile> {
                             onPressed: () async {
                               final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
                               final SharedPreferences prefs = await _prefs;
-                              var _id = prefs.getString("_id");
+                              var _id = prefs.getString("userId");
                               var user = await registerService.findRegistredUser(_id!);
 
                               if (_formKey.currentState!.validate()) {

@@ -250,7 +250,7 @@ class _UserProfileState extends State<UserProfile> {
                                   Color(0xffFCC201),
                                 ]
                               ),
-                              borderRadius: BorderRadius.circular(20)
+                              borderRadius: BorderRadius.circular(20),
                             ),
                           ),
                         ),

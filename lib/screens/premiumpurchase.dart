@@ -13,10 +13,9 @@ class PremiumPurchase extends StatefulWidget {
 class _PremiumPurchaseState extends State<PremiumPurchase> {
   int chosen = -1;
   List colors = [lightGrey,lightGrey,lightGrey];
+    final List<List<dynamic>> abonnements = [["Mentuelle","2DT/mois"],["Semi-Annuelle","10DT/6mois"],["Annuelle","18DT/an"]];
   @override
   Widget build(BuildContext context) {
-
-
 
     return Scaffold(
 
@@ -67,12 +66,14 @@ class _PremiumPurchaseState extends State<PremiumPurchase> {
                                 crossAxisCount: 3,
                               ),
                               itemBuilder: (contex,index){
+                                print(abonnements[index]);
                                 return InkWell(
-                                  child: PurchaseCard("Mentuelle", "2dt/mois", MediaQuery.of(context).size.width*0.25, colors[index]),
+                                  child: PurchaseCard(abonnements[index][0], abonnements[index][1], MediaQuery.of(context).size.width*0.25, colors[index]),
                                   onTap: (){
                                     setState(() {
                                       if(chosen == -1){
                                         colors[index]= Color(0xffEEB609);
+                                        //colors[index] = Colors.blue.shade400;
                                         chosen = index;
                                       }
                                       else if (chosen == index){
@@ -95,15 +96,15 @@ class _PremiumPurchaseState extends State<PremiumPurchase> {
                             borderRadius: BorderRadius.circular(50),
                             color: chosen!=-1 ? Color(0xffEEB609) : lightGrey,
                             border: Border.all(color: primaryGrey),
-
                           ),
 
                           child: ElevatedButton(
                             onPressed: (){},
-                            child: Text("Payement", style: TextStyle(color: chosen!=-1 ? Colors.white : primaryGrey),),
+                            child: Text("Paiement", style: TextStyle(color: chosen!=-1 ? Colors.white : primaryGrey),),
                             style: ButtonStyle(
                               elevation: MaterialStateProperty.all(0),
-                              backgroundColor: MaterialStateProperty.all(Colors.transparent)
+                              backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                              shadowColor:MaterialStateProperty.all(Colors.transparent)
                             ),
                           ),
                         ),
@@ -116,9 +117,11 @@ class _PremiumPurchaseState extends State<PremiumPurchase> {
           ),
           Positioned(
               top: MediaQuery.of(context).size.height * 0.1,
-              left: MediaQuery.of(context).size.width * 0.2,
-              child: Column(
+              left: MediaQuery.of(context).size.width * 0.125,
+              child: Row(
                 children: [
+                  Icon(Icons.star, color : Color(0xffEEB609),size: 35,),
+                  SizedBox(width: MediaQuery.of(context).size.width * 0.02,),
                   Text(
                     "Devenir Premium",
                     style: TextStyle(
@@ -147,7 +150,7 @@ class _PremiumPurchaseState extends State<PremiumPurchase> {
 Widget Title(String text){
   return Row(
     children: [
-      Icon(Icons.check_box_outlined, color: primaryBlue,),
+      Icon(Icons.check_box_outlined, color: Color(0xffEEB609),),
       SizedBox(width: 8,),
       Text(
         text,

@@ -6,11 +6,13 @@ import 'package:lostandfound/models/userProf.dart';
 import 'package:lostandfound/settings/colors.dart';
 
 class MessageCard extends StatefulWidget {
-  MessageCard({Key? key, required this.user, required this.lastMessage,required this.date})
+  MessageCard({Key? key, required this.user, required this.lastMessage,required this.date,required this.getState})
       : super(key: key);
   UserProfile user;
   String lastMessage;
   String date;
+
+  void Function(bool) getState;
 
   @override
   _MessageCardState createState() => _MessageCardState();
@@ -29,7 +31,11 @@ class _MessageCardState extends State<MessageCard> {
               id: widget.user.id,
               email: '',
               phone: '',
-            ));
+            )).then((value) {
+              setState(() {
+                widget.getState(true);
+              });
+        });
       },
       child: Container(
         decoration: BoxDecoration(

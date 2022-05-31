@@ -104,6 +104,14 @@ class _MessagesScreenState extends State<MessagesScreen> {
                         itemCount: messages.length,
                         itemBuilder: (context, index) {
                           return MessageCard(
+                            getState: (value){
+                              if(value)
+                                {
+                                  setState(() {
+                                    socket.emit("try",myID);
+                                  });
+                                }
+                            },
                             lastMessage: messages[index]["lastMsg"]["message"],
                             date: messages[index]["lastMsg"]["time"],
                             user: UserProfile(

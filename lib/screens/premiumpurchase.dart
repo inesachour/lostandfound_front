@@ -31,7 +31,7 @@ class _PremiumPurchaseState extends State<PremiumPurchase> {
               ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -40,22 +40,22 @@ class _PremiumPurchaseState extends State<PremiumPurchase> {
                         padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 30),
                         child: Description("Vos publications auront plus de visibilité donc vous aurez plus de chance de trouvez votre objet perdu ou le propriétaire de l'objet trouvé."),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(height: 8,),
                       Title("Recevoir des notifcations"),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 30),
                         child: Description("Vos recevez des notifications pour les publicat ions portants sur des objets qui ressemblent à celui que vous cherchez."),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(height: 8,),
                       Title("Eliminer les publicités"),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 30),
                         child: Description("Vous n'aurez plus de publicités dans l'applicat ion Lost And Found."),
                       ),
-                      SizedBox(height: 10,),
+                      SizedBox(height: 5,),
 
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 20,left: 10,right: 10),
+                        padding: const EdgeInsets.only(left: 5,right: 5),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height*0.2,
@@ -72,7 +72,7 @@ class _PremiumPurchaseState extends State<PremiumPurchase> {
                                   onTap: (){
                                     setState(() {
                                       if(chosen == -1){
-                                        colors[index]= Color(0xffEEB609);
+                                        colors[index]= Colors.white;//Color(0xffEEB609);
                                         //colors[index] = Colors.blue.shade400;
                                         chosen = index;
                                       }
@@ -168,21 +168,30 @@ Widget Description(String text){
 }
 
 Widget PurchaseCard(String title,String price, double width, color){
-  return Container(
-    width: width,
-    height: width*1.2,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(5),
-      border: Border.all(color: primaryGrey),
-      color: color,
-    ),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(title, style: TextStyle(fontSize: 14, color: color == lightGrey ? Colors.black : Colors.white)),
-        SizedBox(height: 20),
-        Text(price, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: color == lightGrey ? Colors.black : Colors.white),),
-      ],
-    ),
+  return Stack(
+    children: [
+      Container(
+        width: width,
+        height: width*1.2,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          border: Border.all(color: primaryGrey),
+          color: color,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(title, style: TextStyle(fontSize: 14, color: Colors.black ,),textAlign: TextAlign.center,),
+            SizedBox(height: 15),
+            Text(price, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color:Colors.black),textAlign: TextAlign.center),
+          ],
+        ),
+      ),
+      color == Colors.white ? Positioned(
+          top: 0,
+          right: 0,
+          child: Icon(Icons.verified, color: Color(0xffEEB609),)
+      ): SizedBox(),
+    ],
   );
 }

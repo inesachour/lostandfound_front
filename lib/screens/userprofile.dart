@@ -245,9 +245,19 @@ class _UserProfileState extends State<UserProfile> {
                                 colors: [
                                   //Color(0xffB78628),
                                   //Color(0xffC69320),
-                                  Color(0xffDBA514),
+                                  /*Color(0xffDBA514),
                                   Color(0xffEEB609),
-                                  Color(0xffFCC201),
+                                  Color(0xffFCC201),*/
+                                  /*Color(0xff67D3F3),
+                                  Color(0xff5CB4F3),
+                                  Color(0xff0177D9),
+                                  Color(0xff01298B)*/
+                                  Color(0xff1254a7),
+                                  Color(0xff1862b6),
+                                  Color(0xff10A2D4),
+                                  Color(0xff11a6bf),
+
+
                                 ]
                               ),
                               borderRadius: BorderRadius.circular(20),

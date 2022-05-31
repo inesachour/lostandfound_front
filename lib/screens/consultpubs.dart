@@ -180,7 +180,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                           child:
                                               Text('Error: ${snapshot.error}'));
                                     else
-                                      _pubs = snapshot.data ?? [];
+                                      _pubs = snapshot.data != null ? snapshot.data!.reversed.toList() : [];
                                     return Container(
                                       height: context.height * 0.69,
                                       child: ListView.builder(
@@ -251,7 +251,7 @@ class _ConsultpubsState extends State<Consultpubs> {
                                           child:
                                               Text('Error: ${snapshot.error}'));
                                     else
-                                      _pubs = snapshot.data ?? [];
+                                      _pubs = snapshot.data != null ? snapshot.data!.reversed.toList() : [];
                                     return Container(
                                       height: context.height * 0.69,
                                       child: ListView.builder(

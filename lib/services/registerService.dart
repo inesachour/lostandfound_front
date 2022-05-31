@@ -28,6 +28,7 @@ class RegisterService{
         role: role,
         verified: verified,
       );
+      print(user.toJson());
       var response = await client.post(Uri.parse(url), body: user.toJson());
       print(response.body);
       var responseBody = jsonDecode(response.body);

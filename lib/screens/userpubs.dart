@@ -74,7 +74,7 @@ class _UserPubsState extends State<UserPubs> {
                     if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else {
-                      _pubs = snapshot.data ?? [];
+                      _pubs = snapshot.data != null ? snapshot.data!.reversed.toList() : [];
                     }
                     return SizedBox(
                       height: context.height * 0.7,

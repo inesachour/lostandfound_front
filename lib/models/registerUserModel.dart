@@ -41,7 +41,7 @@ class RegisterUser {
     "firstName": firstName,
     "lastName": lastName,
     "phone": phone,
-    "photo": photo != null ? (photo!.toJson()).toString() : "" ,
+    "photo": photo != null ? (photo!.toJson()).toString() : "{}" ,
     "email" : email,
     "password": password,
     "role" : role,

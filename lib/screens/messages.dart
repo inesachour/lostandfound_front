@@ -4,6 +4,7 @@ import 'package:lostandfound/models/userProf.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/widgets/message_card.dart';
 
+
 class MessagesScreen extends StatefulWidget {
   const MessagesScreen({Key? key}) : super(key: key);
 
@@ -35,7 +36,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                       child: Center(
                           child: Text(
                             "Messages",
-                            style: TextStyle(fontSize: 24),
+                            style: TextStyle(fontSize: 24,color: Colors.white),
                           )
                       ),
                     ),
@@ -43,7 +44,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 Positioned(
                   right: 20,
                   top: MediaQuery.of(context).size.height*0.039,
-                  child: Icon(Icons.add, size: 35,),
+                  child: Icon(Icons.add, size: 35,color: Colors.white,),
                 )
               ]
             ),

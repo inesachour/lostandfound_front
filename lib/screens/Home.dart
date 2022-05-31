@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Colors.white,
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
           shape: CircularNotchedRectangle(),
           notchMargin: 10,
@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
               IconButton(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
-                padding: EdgeInsets.only(right: 30.0),
+                padding: EdgeInsets.only(right: 10.0),
                 icon: Icon(Icons.messenger,color: getColor(1),),
                 onPressed: () {
                   setState(() {
@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
               ),*/
-              IconButton(
+             /* IconButton(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 padding: EdgeInsets.only(left: 30.0),
@@ -126,11 +126,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     _currentIndex = 2;
                   });
                 },
-              ),
+              ),*/
               IconButton(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
-                padding: EdgeInsets.only(right: 10.0),
+                padding: EdgeInsets.only(right: 100),
                 icon: Icon(Icons.vrpano_sharp,color: getColor(3),),
                 onPressed: () {
                   setState(() {

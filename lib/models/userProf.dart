@@ -5,6 +5,7 @@ UserProfile userProfileFromJson(String str) => UserProfile.fromJson(json.decode(
 String userProfileToJson(UserProfile data) => json.encode(data.toJson());
 class UserProfile {
   UserProfile({
+    this.id,
     this.firstName,
     this.lastName,
     this.phone,

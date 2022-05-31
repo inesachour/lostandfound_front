@@ -41,7 +41,7 @@ class UserProfile {
     "firstName": firstName,
     "lastName": lastName,
     "phone": phone,
-    "photo": photo != null ? (photo!.toJson()).toString() : null ,
+    "photo": photo != null ? (photo!.toJson()).toString() : "{}" ,
     "email" : email,
     "password": password,
     "role" : role,

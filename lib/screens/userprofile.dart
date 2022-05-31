@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/registerUserModel.dart';
 import 'package:lostandfound/screens/modifprofile.dart';
-import 'package:lostandfound/screens/premium_purchase.dart';
+import 'package:lostandfound/screens/premiumpurchase.dart';
 import 'package:lostandfound/services/registerService.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -222,7 +222,7 @@ class _UserProfileState extends State<UserProfile> {
                         //     );
                         //   },
                         // ),
-                        Padding(
+                        /*Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                           child: Container(
                             child: ElevatedButton(
@@ -251,15 +251,18 @@ class _UserProfileState extends State<UserProfile> {
                               borderRadius: BorderRadius.circular(20)
                             ),
                           ),
-                        ),
+                        ),*/
                       ],
                     ),
                   ),
                 ],
               );
             } else {
-              return Center(
-                child: CircularProgressIndicator(),
+              return Container(
+                height: MediaQuery.of(context).size.height,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               );
             }
           },

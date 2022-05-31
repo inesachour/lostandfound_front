@@ -69,7 +69,7 @@ class _UserPubsState extends State<UserPubs> {
                     AsyncSnapshot<List<Publication>> snapshot) {
                   // AsyncSnapshot<Your object type>
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: Text('Please wait its loading...'));
+                    return Center(child: Text('Chargement des données...'));
                   } else {
                     if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));

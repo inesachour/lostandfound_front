@@ -62,7 +62,7 @@ class RegisterService{
     try {
       String url = Const.url+'/users/${id}';
       var response = await client.get(Uri.parse(url));
-      print(response.body);
+      //print(response.body);
       var jsonString = response.body;
       return registerUserFromJson(jsonString);
     }

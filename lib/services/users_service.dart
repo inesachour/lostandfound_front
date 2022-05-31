@@ -48,6 +48,7 @@ class UsersService{
 }
 
   updateUser({required id, String? firstName, String? lastName, String? phone, File? photo,  String? email ,  String? password, required String role, required bool verified}) async {
+    print(id+ " aman e5dmi");
     var client = http.Client();
     try {
       String url = Const.url+'/users/update/${id}';
@@ -65,7 +66,6 @@ class UsersService{
         role: role,
         verified: verified,
       );
-      print("ok");
       var response = await client.patch(Uri.parse(url), body: user.toJson());
       print("hedhyyyyy response " + response.body.toString());
       var responseBody = jsonDecode(response.body);

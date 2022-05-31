@@ -91,12 +91,13 @@ class _ModifProfileState extends State<ModifProfile> {
   //photo
   ImagePickerService _imagePickerService = ImagePickerService();
   File? _photo;
+  late Future<dynamic> _userFuture = gettingUser();
+
 
   @override
   Widget build(BuildContext context) {
 
     //the user future
-    late Future<dynamic> _userFuture = gettingUser();
 
     //Size
     double width = MediaQuery.of(context).size.width;

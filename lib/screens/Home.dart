@@ -17,12 +17,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 3;
+  int _currentIndex = 1; //kenet 3
   List _children = [
     //UserPubs(),
     UserProfile(),
-    Text("Messages Screen "),
-    Text("Notifications Screen "),
+    //Text("Messages Screen "),
+    //Text("Notifications Screen "),
     Consultpubs(),
   ];
   void onTabTapped(int index) {
@@ -93,7 +93,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
               ),
-              IconButton(
+              /*IconButton(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 padding: EdgeInsets.only(right: 30.0),
@@ -114,15 +114,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     _currentIndex = 2;
                   });
                 },
-              ),
+              ),*/
               IconButton(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 padding: EdgeInsets.only(right: 10.0),
-                icon: Icon(Icons.vrpano_sharp,color: getColor(3),),
+                icon: Icon(Icons.vrpano_sharp,color: getColor(1),),
                 onPressed: () {
                   setState(() {
-                    _currentIndex = 3;
+                    _currentIndex = 1;
                   });
                 },
               )

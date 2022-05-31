@@ -186,7 +186,8 @@ class _UserProfileState extends State<UserProfile> {
                                 value: isSwitched,
                                 onChanged: (value) {
                                   setState(() {
-                                    isSwitched = value;
+                                    //isSwitched = value;
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => PremiumPurchase()));
                                     // print(isSwitched);
                                   });
                                 },
@@ -222,11 +223,12 @@ class _UserProfileState extends State<UserProfile> {
                         //     );
                         //   },
                         // ),
-                        /*Padding(
+                        Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
                           child: Container(
-                            child: ElevatedButton(
-                              child: Text("Premimum"),
+                            child: ElevatedButton.icon(
+                              icon: Icon(Icons.star ),
+                              label: Text("Premimum", style: TextStyle(fontSize: 16),),
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(Colors.transparent),
                                 shadowColor: MaterialStateProperty.all(Colors.transparent),
@@ -251,7 +253,7 @@ class _UserProfileState extends State<UserProfile> {
                               borderRadius: BorderRadius.circular(20)
                             ),
                           ),
-                        ),*/
+                        ),
                       ],
                     ),
                   ),

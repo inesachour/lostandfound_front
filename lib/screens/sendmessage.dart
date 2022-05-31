@@ -4,6 +4,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/chat_message.dart';
 import 'package:lostandfound/models/user.dart';
+import 'package:lostandfound/models/userProf.dart';
+import 'package:lostandfound/services/users_service.dart';
+import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/settings/const.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +27,7 @@ class _SendMessageState extends State<SendMessage> {
   var _controller = TextEditingController();
   late String myID;
   late List messages = [];
+  UserProfile? user;
   IO.Socket socket = IO.io(Const.url,
       IO.OptionBuilder()
       .setTransports(['websocket'])
@@ -119,10 +123,49 @@ class _SendMessageState extends State<SendMessage> {
   @override
   Widget build(BuildContext context)
   {
+    UsersService.findUserProfile(userId: widget.user.id!).then((value) {
+      if(user==null){
+        if(mounted){
+          setState(() {
+            user=value;
+          });
+        }
+
+      }
+    }
+    );
+
     return SafeArea(
         child: Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade200,
+        backgroundColor: primaryBlue,
+        title:
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: darkGrey,
+                radius: MediaQuery.of(context).size.width * 0.05,
+                child: user == null || user?.photo == null
+                    ? Icon(Icons.account_circle_rounded,
+                    color: primaryBackground)
+                    : ClipOval(
+                  child: Image.memory(
+                    Base64Decoder().convert(user!.photo!.url),
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              SizedBox(width: 10,),
+              Text(
+                //widget.publication.owner.firstName+ " "+ widget.publication.owner.lastName,
+                user != null && user!.firstName != null ? user!.firstName! + " " + user!.lastName! : "",
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+        centerTitle: true,
       ),
       body: SizedBox(
         height: MediaQuery.of(context).size.height,

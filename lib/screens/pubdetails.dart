@@ -35,6 +35,7 @@ class _PublicationDetailsState extends State<PublicationDetails> {
 
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: Stack(
         alignment: Alignment.center,

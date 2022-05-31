@@ -7,7 +7,9 @@ import 'package:http/http.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/models/userProf.dart';
+import 'package:lostandfound/screens/addpublication.dart';
 import 'package:lostandfound/screens/modifprofile.dart';
+import 'package:lostandfound/screens/sendmessage.dart';
 import 'package:lostandfound/services/users_service.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/widgets/map.dart';
@@ -76,6 +78,7 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
               IconButton(
                   icon: Icon(Icons.message, color: darkGrey,),
                   onPressed: (){
+                    Navigator.of(context).pushNamed("/sendMessage",arguments: widget.publication.owner);
                   }
               ),
 
@@ -96,6 +99,7 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
                       ),
                     ),
                   ),
+                  SizedBox(height: 10,),
                   Text(
                     widget.publication.owner.firstName+ " "+ widget.publication.owner.lastName,
                     style: TextStyle(color: darkGrey),

@@ -307,7 +307,7 @@ class _ModifProfileState extends State<ModifProfile> {
                             onPressed: () async {
                               final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
                               final SharedPreferences prefs = await _prefs;
-                              var _id = prefs.getString("_id");
+                              var _id = prefs.getString("userId");
                               var result = await usersService.deleteUser(id: _id) as bool;
                               if(result == true){
                                 Auth.Logout().then((value) {

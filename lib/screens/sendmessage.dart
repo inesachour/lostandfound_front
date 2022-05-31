@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_const_constructors, avoid_print
 
-import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/chat_message.dart';
 import 'package:lostandfound/models/user.dart';
@@ -79,14 +77,15 @@ class _SendMessageState extends State<SendMessage> {
   }
 
   _sendMessage() {
-    socket.emit('chat', {
+      socket.emit('chat', {
       "message": _controller.text,
       "sender": myID,
       "recipient": widget.user.id,
       "time":
           "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}"
     });
-    if (!disposed) {
+
+    if (!disposed && myID != widget.user.id) {
       setState(() {
         messages.add(ChatMessage(
             messageContent: _controller.text, messageType: "sender"));

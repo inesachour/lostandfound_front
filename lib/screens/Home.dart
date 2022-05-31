@@ -5,6 +5,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
+import 'package:lostandfound/screens/messages.dart';
 import 'package:lostandfound/screens/userpubs.dart';
 import 'package:lostandfound/screens/userprofile.dart';
 import 'package:lostandfound/settings/colors.dart';
@@ -17,12 +18,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 1; //kenet 3
+  int _currentIndex = 3;
   List _children = [
     //UserPubs(),
     UserProfile(),
-    //Text("Messages Screen "),
-    //Text("Notifications Screen "),
+    MessagesScreen(),
+    Text("Notifications Screen "),
     Consultpubs(),
   ];
   void onTabTapped(int index) {
@@ -93,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
                 },
               ),
-              /*IconButton(
+              IconButton(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
                 padding: EdgeInsets.only(right: 30.0),
@@ -103,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _currentIndex = 1;
                   });
                 },
-              ),
+              ),/*
               IconButton(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
@@ -118,11 +119,22 @@ class _HomeScreenState extends State<HomeScreen> {
               IconButton(
                 highlightColor: Colors.transparent,
                 splashColor: Colors.transparent,
-                padding: EdgeInsets.only(right: 10.0),
-                icon: Icon(Icons.vrpano_sharp,color: getColor(1),),
+                padding: EdgeInsets.only(left: 30.0),
+                icon: Icon(Icons.notifications,color: Colors.transparent,),
                 onPressed: () {
                   setState(() {
-                    _currentIndex = 1;
+                    _currentIndex = 2;
+                  });
+                },
+              ),
+              IconButton(
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                padding: EdgeInsets.only(right: 10.0),
+                icon: Icon(Icons.vrpano_sharp,color: getColor(3),),
+                onPressed: () {
+                  setState(() {
+                    _currentIndex = 3;
                   });
                 },
               )

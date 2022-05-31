@@ -31,7 +31,7 @@ class _PremiumPurchaseState extends State<PremiumPurchase> {
               ),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 30,vertical: MediaQuery.of(context).size.height*0.02),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -87,7 +87,7 @@ class _PremiumPurchaseState extends State<PremiumPurchase> {
                           ),
                         ),
                       ),
-
+                      SizedBox(height: MediaQuery.of(context).size.height*0.02,),
                       Center(
                         child: Container(
                           width: MediaQuery.of(context).size.width*0.8,

@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_geocoder/geocoder.dart';
 import 'package:lostandfound/models/publication.dart';
+import 'package:lostandfound/models/userProf.dart';
 import 'package:lostandfound/screens/pubdetails.dart';
 import 'package:lostandfound/services/comments_service.dart';
 import 'package:lostandfound/services/pubservices.dart';
+import 'package:lostandfound/services/users_service.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:lostandfound/settings/config.dart';
 import 'package:lostandfound/widgets/comment_widgets.dart';
@@ -17,11 +19,13 @@ class Pubcard extends StatefulWidget {
 
   Publication _publication;
 
+
   @override
   State<Pubcard> createState() => _PubcardState();
 }
 
 class _PubcardState extends State<Pubcard> {
+  UserProfile? user;
   bool disposed = false;
   String? _locality;
   String? _adminArea;
@@ -63,10 +67,23 @@ class _PubcardState extends State<Pubcard> {
         _adminArea = c.first.adminArea ?? "";
       });
     });
+
   }
 
   @override
   Widget build(BuildContext context) {
+
+    UsersService.findUserProfile(userId: widget._publication.owner.id!).then((value) {
+      if(user==null){
+        if(mounted){
+          setState(() {
+            user=value;
+          });
+        }
+      }
+    }
+    );
+
     return InkWell(
       onTap: (){
         String id = widget._publication.id!;
@@ -193,7 +210,8 @@ class _PubcardState extends State<Pubcard> {
                               height: MediaQuery.of(context).size.width * 0.01,
                             ),
                             Text(
-                              widget._publication.owner.firstName + "\n" + widget._publication.owner.lastName,
+                              //widget._publication.owner.firstName + "\n" + widget._publication.owner.lastName,
+                              user != null && user!.firstName != null ? user!.firstName! + "\n" + user!.lastName! : "",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,

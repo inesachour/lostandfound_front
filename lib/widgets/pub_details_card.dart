@@ -57,7 +57,6 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
         }
 
       }
-
     }
     );
 
@@ -107,7 +106,8 @@ class _PublicationDetailsCardState extends State<PublicationDetailsCard> {
                   ),
                   SizedBox(height: 10,),
                   Text(
-                    widget.publication.owner.firstName+ " "+ widget.publication.owner.lastName,
+                    //widget.publication.owner.firstName+ " "+ widget.publication.owner.lastName,
+                    user != null && user!.firstName != null ? user!.firstName! + " " + user!.lastName! : "",
                     style: TextStyle(color: darkGrey),
                   ),
                 ],

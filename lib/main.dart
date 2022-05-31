@@ -1,10 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields
 import 'package:flutter/material.dart';
+import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/screens/Home.dart';
 import 'package:lostandfound/screens/addpublication.dart';
 import 'package:lostandfound/screens/consultpubs.dart';
 import 'package:lostandfound/screens/login.dart';
 import 'package:lostandfound/screens/register.dart';
+import 'package:lostandfound/screens/sendmessage.dart';
 import 'package:lostandfound/screens/userpubs.dart';
 import 'package:lostandfound/services/backend_manager.dart';
 import 'package:lostandfound/services/comments_service.dart';
@@ -13,6 +15,7 @@ import 'package:provider/provider.dart';
 
 
 void main() {
+
   runApp(
     MultiProvider(
       providers: [
@@ -38,7 +41,8 @@ class MyApp extends StatelessWidget {
         "/home": (context) => HomeScreen(),
         "/login": (context) => LoginScreen(),
         "/register": (context) => Register(),
-        "/userpubs": (context) => UserPubs()
+        "/userpubs": (context) => UserPubs(),
+        "/sendMessage": (context) => SendMessage(user:ModalRoute.of(context)?.settings.arguments as User),
       },
       theme: ThemeData(
         bottomAppBarColor: Colors.grey.shade200,

@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:lostandfound/models/chat_message.dart';
 import 'package:lostandfound/models/user.dart';
 import 'package:lostandfound/models/userProf.dart';
@@ -85,16 +86,9 @@ class _SendMessageState extends State<SendMessage> {
       "message": _controller.text,
       "sender": myID,
       "recipient": widget.user.id,
-      "time":
-          "${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}"
+      "time":DateFormat('yyyy-MM-dd').format(DateTime.now())
     });
 
-    if (!disposed && myID != widget.user.id) {
-      setState(() {
-        messages.add(ChatMessage(
-            messageContent: _controller.text, messageType: "sender"));
-      });
-    }
     _controller.clear();
   }
 

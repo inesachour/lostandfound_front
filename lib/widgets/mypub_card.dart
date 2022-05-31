@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:geocode/geocode.dart';
+import 'package:flutter_geocoder/geocoder.dart';
 import 'package:lostandfound/models/publication.dart';
 import 'package:lostandfound/services/comments_service.dart';
 import 'package:lostandfound/services/pubservices.dart';
@@ -42,7 +42,7 @@ class _MyPubCardState extends State<MyPubCard> {
   @override
   void initState() {
     super.initState();
-    GeoCode geoCode = GeoCode();
+    /*GeoCode geoCode = GeoCode();
     geoCode
         .reverseGeocoding(
         latitude: double.parse(widget._publication.location.coordinates[0]),
@@ -55,6 +55,19 @@ class _MyPubCardState extends State<MyPubCard> {
           _adminArea = value.region; //[0].adminArea.toString();
         });
       }
+    });*/
+    final coordinates = new Coordinates(
+        double.parse(widget._publication.location.coordinates[0]),
+        double.parse(widget._publication.location.coordinates[1])
+    );
+    Geocoder.local.findAddressesFromCoordinates(coordinates).then((c) {
+      if(mounted){
+        setState(() {
+          _locality = "${c.first.adminArea ?? ""} ${c.first.subAdminArea ?? ""}";
+          //_adminArea = c.first.adminArea;
+        });
+      }
+
     });
   }
 
@@ -123,7 +136,7 @@ class _MyPubCardState extends State<MyPubCard> {
                                           //fontSize: context.width * 0.035,
                                             color: Colors.white),
                                       ),
-                                      Expanded(
+                                      /*Expanded(
                                         child: Text(
                                           _adminArea != null
                                               ? ", " + _adminArea! + "  "
@@ -134,7 +147,7 @@ class _MyPubCardState extends State<MyPubCard> {
                                               fontWeight: FontWeight.bold,
                                               overflow: TextOverflow.ellipsis),
                                         ),
-                                      ),
+                                      ),*/
                                     ],
                                   ),
                                   Row(

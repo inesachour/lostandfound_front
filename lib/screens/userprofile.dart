@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lostandfound/models/registerUserModel.dart';
 import 'package:lostandfound/screens/modifprofile.dart';
+import 'package:lostandfound/screens/premiumpurchase.dart';
 import 'package:lostandfound/services/registerService.dart';
 import 'package:lostandfound/settings/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -221,14 +222,47 @@ class _UserProfileState extends State<UserProfile> {
                         //     );
                         //   },
                         // ),
+                        /*Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                          child: Container(
+                            child: ElevatedButton(
+                              child: Text("Premimum"),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                                shadowColor: MaterialStateProperty.all(Colors.transparent),
+                                elevation: MaterialStateProperty.all(0)
+                              ),
+                              onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => PremiumPurchase()));
+                              },
+                            ),
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height*0.07,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                colors: [
+                                  //Color(0xffB78628),
+                                  //Color(0xffC69320),
+                                  Color(0xffDBA514),
+                                  Color(0xffEEB609),
+                                  Color(0xffFCC201),
+                                ]
+                              ),
+                              borderRadius: BorderRadius.circular(20)
+                            ),
+                          ),
+                        ),*/
                       ],
                     ),
                   ),
                 ],
               );
             } else {
-              return Center(
-                child: CircularProgressIndicator(),
+              return Container(
+                height: MediaQuery.of(context).size.height,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
               );
             }
           },

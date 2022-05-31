@@ -48,6 +48,7 @@ class UsersService{
 }
 
   updateUser({required id, String? firstName, String? lastName, String? phone, File? photo,  String? email ,  String? password, required String role, required bool verified}) async {
+    print(id+ " aman e5dmi");
     var client = http.Client();
     try {
       String url = Const.url+'/users/update/${id}';
@@ -66,7 +67,6 @@ class UsersService{
         verified: verified,
       );
       var response = await client.patch(Uri.parse(url), body: user.toJson());
-      print("khedmet !!");
       print("hedhyyyyy response " + response.body.toString());
       var responseBody = jsonDecode(response.body);
       print("this is esmou " + responseBody["firstName"]);
@@ -77,7 +77,6 @@ class UsersService{
       }
     }
     catch (e) {
-      print("fama mochkla f update");
       print(e.toString());
     }
   }

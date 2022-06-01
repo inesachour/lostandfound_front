@@ -194,16 +194,18 @@ class _PubcardState extends State<Pubcard> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CircleAvatar(
-                              backgroundColor: Colors.grey,
-                              radius: 22,
-                              child: CircleAvatar(
-                                child: Icon(
-                                  Icons.person,
-                                  size: 40,
-                                  color: Colors.white,
+                              backgroundColor: darkGrey,
+                              radius: MediaQuery.of(context).size.width * 0.05,
+                              child: user == null || user?.photo == null
+                                  ? Icon(Icons.account_circle_rounded,
+                                  color: primaryBackground)
+                                  : ClipOval(
+                                child: Image.memory(
+                                  Base64Decoder().convert(user!.photo!.url),
+                                  width: 80,
+                                  height: 80,
+                                  fit: BoxFit.cover,
                                 ),
-                                backgroundColor: Colors.transparent,
-                                radius: 28,
                               ),
                             ),
                             SizedBox(

@@ -280,7 +280,9 @@ class _PubcardState extends State<Pubcard> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                               ))),
-                          onPressed: () {}),
+                          onPressed: () {
+                            Navigator.of(context).pushNamed("/sendMessage",arguments:  widget._publication.owner);
+                          }),
                       ElevatedButton(
                           child: Container(
                             width: context.width * 0.3,

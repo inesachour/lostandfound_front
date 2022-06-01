@@ -124,149 +124,151 @@ class _ConsultpubsState extends State<Consultpubs> {
                       },
                       body: TabBarView(
                         children: [
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  SearchBar(),
+                          SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SearchBar(),
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                            splashColor: primaryBlue,
+                                            child: Text(
+                                              'Filtrer',
+                                              style: TextStyle(
+                                                  decoration:
+                                                  TextDecoration.underline,
+                                                  color: Colors.grey.shade400),
+                                            ),
+                                            onTap: () {
+                                              _show("Lost");
+                                            }),
 
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                          splashColor: primaryBlue,
-                                          child: Text(
-                                            'Filtrer',
-                                            style: TextStyle(
-                                                decoration:
-                                                TextDecoration.underline,
-                                                color: Colors.grey.shade400),
-                                          ),
-                                          onTap: () {
-                                            _show("Lost");
-                                          }),
-
-                                      filterActivatedLost ? IconButton(
-                                        icon: Icon(Icons.cancel_rounded),
-                                        color: Colors.red,
-                                        onPressed: (){
-                                          setState(() {
-                                            pubsStreamLost = PubServices.getLostPub();
-                                            filterActivatedLost = false;
-                                          });
-                                        },
-                                      ) : SizedBox(),
-                                    ],
-                                  ),
-
-                                ],
-                              ),
-                              FutureBuilder<List<Publication>>(
-                                future: pubsStreamLost,//PubServices.getLostPub(),
-                                // function where you call your api
-                                builder: (BuildContext context,
-                                    AsyncSnapshot<List<Publication>> snapshot) {
-                                  // AsyncSnapshot<Your object type>
-                                  // AsyncSnapshot<Your object type>
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                        child:
-                                            Text('chargement des données...'));
-                                  } else {
-                                    if (snapshot.hasError)
+                                        filterActivatedLost ? IconButton(
+                                          icon: Icon(Icons.cancel_rounded),
+                                          color: Colors.red,
+                                          onPressed: (){
+                                            setState(() {
+                                              pubsStreamLost = PubServices.getLostPub();
+                                              filterActivatedLost = false;
+                                            });
+                                          },
+                                        ) : SizedBox(),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                FutureBuilder<List<Publication>>(
+                                  future: pubsStreamLost,//PubServices.getLostPub(),
+                                  // function where you call your api
+                                  builder: (BuildContext context,
+                                      AsyncSnapshot<List<Publication>> snapshot) {
+                                    // AsyncSnapshot<Your object type>
+                                    // AsyncSnapshot<Your object type>
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
                                       return Center(
                                           child:
-                                              Text('Error: ${snapshot.error}'));
-                                    else
-                                      _pubs = snapshot.data != null ? snapshot.data!.reversed.toList() : [];
-                                    return Container(
-                                      height: context.height * 0.69,
-                                      child: ListView.builder(
-                                          itemCount: _pubs.length,
-                                          itemBuilder: (context, index) {
-                                            Publication publication =
-                                                _pubs[index];
-                                            return Pubcard(publication);
-                                          }),
-                                    );
-                                  }
-                                },
-                              ),
-                            ],
+                                              Text('chargement des données...'));
+                                    } else {
+                                      if (snapshot.hasError)
+                                        return Center(
+                                            child:
+                                                Text('Error: ${snapshot.error}'));
+                                      else
+                                        _pubs = snapshot.data != null ? snapshot.data!.reversed.toList() : [];
+                                      return Container(
+                                        height: context.height * 0.69,
+                                        child: ListView.builder(
+                                            itemCount: _pubs.length,
+                                            itemBuilder: (context, index) {
+                                              Publication publication =
+                                                  _pubs[index];
+                                              return Pubcard(publication);
+                                            }),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                          Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  SearchBar(),
+                          SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    SearchBar(),
 
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                          splashColor: primaryBlue,
-                                          child: Text(
-                                            'Filtrer',
-                                            style: TextStyle(
-                                                decoration:
-                                                TextDecoration.underline,
-                                                color: Colors.grey.shade400),
-                                          ),
-                                          onTap: () {
-                                            _show("Found");
+                                    Row(
+                                      children: [
+                                        InkWell(
+                                            splashColor: primaryBlue,
+                                            child: Text(
+                                              'Filtrer',
+                                              style: TextStyle(
+                                                  decoration:
+                                                  TextDecoration.underline,
+                                                  color: Colors.grey.shade400),
+                                            ),
+                                            onTap: () {
+                                              _show("Found");
 
-                                          }),
+                                            }),
 
-                                      filterActivatedFound ? IconButton(
-                                        icon: Icon(Icons.cancel_rounded),
-                                        color: Colors.red,
-                                        onPressed: (){
-                                          setState(() {
-                                            pubsStreamFound = PubServices.getFoundPub();
-                                            filterActivatedFound = false;
-                                          });
-                                        },
-                                      ): SizedBox(),
-                                    ],
-                                  ),
+                                        filterActivatedFound ? IconButton(
+                                          icon: Icon(Icons.cancel_rounded),
+                                          color: Colors.red,
+                                          onPressed: (){
+                                            setState(() {
+                                              pubsStreamFound = PubServices.getFoundPub();
+                                              filterActivatedFound = false;
+                                            });
+                                          },
+                                        ): SizedBox(),
+                                      ],
+                                    ),
 
-                                ],
-                              ),
-                              FutureBuilder<List<Publication>>(
-                                future: pubsStreamFound,//PubServices.getFoundPub(),
-                                // function where you call your api
-                                builder: (BuildContext context, AsyncSnapshot<List<Publication>> snapshot) {
-                                  // AsyncSnapshot<Your object type>
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return Center(
-                                        child:
-                                            Text('chargement des données...'));
-                                  } else {
-                                    if (snapshot.hasError)
+                                  ],
+                                ),
+                                FutureBuilder<List<Publication>>(
+                                  future: pubsStreamFound,//PubServices.getFoundPub(),
+                                  // function where you call your api
+                                  builder: (BuildContext context, AsyncSnapshot<List<Publication>> snapshot) {
+                                    // AsyncSnapshot<Your object type>
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.waiting) {
                                       return Center(
                                           child:
-                                              Text('Error: ${snapshot.error}'));
-                                    else
-                                      _pubs = snapshot.data != null ? snapshot.data!.reversed.toList() : [];
-                                    return Container(
-                                      height: context.height * 0.69,
-                                      child: ListView.builder(
-                                          itemCount: _pubs.length,
-                                          itemBuilder: (context, index) {
-                                            Publication publication =
-                                                _pubs[index];
-                                            return Pubcard(publication);
-                                          }),
-                                    );
-                                  }
-                                },
-                              ),
-                            ],
-                          ),
+                                              Text('chargement des données...'));
+                                    } else {
+                                      if (snapshot.hasError)
+                                        return Center(
+                                            child:
+                                                Text('Error: ${snapshot.error}'));
+                                      else
+                                        _pubs = snapshot.data != null ? snapshot.data!.reversed.toList() : [];
+                                      return Container(
+                                        height: context.height * 0.69,
+                                        child: ListView.builder(
+                                            itemCount: _pubs.length,
+                                            itemBuilder: (context, index) {
+                                              Publication publication =
+                                                  _pubs[index];
+                                              return Pubcard(publication);
+                                            }),
+                                      );
+                                    }
+                                  },
+                                ),
+                              ],
+                            ),
+                          ), 
                         ],
                       ),
                     ),

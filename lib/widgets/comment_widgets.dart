@@ -120,6 +120,7 @@ class _CommentCardState extends State<CommentCard> {
 
   @override
   void initState() {
+    getUser(widget.comment.commentOwner);
     // TODO: implement initState
     super.initState();
     content = Column(
@@ -128,7 +129,7 @@ class _CommentCardState extends State<CommentCard> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(user != null ? user!.firstName : "User"),
+            Text(user != null ? user!.firstName+" "+user!.lastName : "User"),
             Text(
               format(widget.comment),
               style: TextStyle(color: Colors.grey),
@@ -150,7 +151,7 @@ class _CommentCardState extends State<CommentCard> {
 
   @override
   Widget build(BuildContext context) {
-    getUser(widget.comment.commentOwner);
+
     return Container(
       margin: EdgeInsets.symmetric(vertical: 5),
       child: Row(
@@ -387,7 +388,8 @@ class _CommentCardState extends State<CommentCard> {
   }
 
   Future getUser(String commentOwner) async {
-    user = await UsersService.findUser(userId: commentOwner);
+      user = await UsersService.findUser(userId: commentOwner);
+      print(user);
   }
 
   Future<bool> checkUserOwner(String commentOwner) async {

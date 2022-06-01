@@ -10,10 +10,10 @@ import '../models/userProf.dart';
 class UsersService{
 
   static Future<User?> findUser({required String userId}) async {
-    var client = http.Client();
+    //var client = http.Client();
     try {
       String url = Const.url+'/users/'+ userId;
-      var result = await client.get(Uri.parse(url));
+      var result = await http.get(Uri.parse(url));
       return User.fromJson(json.decode(result.body));
     }
     catch (e) {
